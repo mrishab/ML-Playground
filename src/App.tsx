@@ -1,7 +1,7 @@
-import { BrowserRouter as Router } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import "./index.css";
 import { Toaster } from "sonner";
+import { AppShell } from "./AppShell";
 
 function App() {
   return (
@@ -10,10 +10,8 @@ function App() {
       defaultTheme="dark"
       storageKey="comp-381-ui-theme"
     >
-      <Router>
-        <div>Hello world</div>
+        <AppShell />
         <Toaster richColors position="top-right" />
-      </Router>
     </ThemeProvider>
   );
 }

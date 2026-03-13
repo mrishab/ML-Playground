@@ -12,10 +12,14 @@ export default defineConfig({
     VitePWA({
       registerType: "autoUpdate",
       includeAssets: ["favicon.ico", "apple-touch-icon.png", "masked-icon.svg"],
+      workbox: {
+        maximumFileSizeToCacheInBytes: 10 * 1024 * 1024, // 10 MB
+      },
       manifest: {
-        name: "COMP 381 - Final Project",
-        short_name: "COMP 381",
-        description: "Final Project",
+        name: "COMP 381 - ML Playground",
+        short_name: "ML Playground",
+        description:
+          "Machine Learning Playground - Train and compare ML models in browser",
         theme_color: "#3b82f6",
         background_color: "#ffffff",
         display: "standalone",

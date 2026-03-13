@@ -108,8 +108,6 @@
       sans-serif;
     height: 100vh;
     height: 100dvh;
-    -webkit-overflow-scrolling: touch;
-    overflow: hidden;
   }
 
   /* Allow text selection for inputs */
