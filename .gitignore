@@ -1,0 +1,65 @@
+### Build and Package Files ###
+**/build/
+dist/
+dist-ssr/
+node_modules/
+*.local
+
+### IDE and Editor Files ###
+# VS Code
+!.vscode/extensions.json
+
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# STS
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# Vim
+*.swp
+*.swo
+*~
+
+# Other IDE files
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+### Logs and Debug Files ###
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+### Environment and Configuration ###
+.env
+
+### OS Generated Files ###
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
