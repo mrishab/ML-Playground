@@ -33,10 +33,12 @@ const navItems: NavItem[] = [
       {
         title: "Select Dataset",
         icon: FileSpreadsheet,
+        url: "/data/select",
       },
       {
         title: "Transform",
         icon: Shuffle,
+        url: "/data/transform",
       },
     ],
   },
@@ -46,10 +48,12 @@ const navItems: NavItem[] = [
     items: [
       {
         title: "Explore",
+        url: "/pretrain/explore",
       },
       {
         title: "Visualize",
         icon: BarChart3,
+        url: "/pretrain/visualize",
       },
     ],
   },
@@ -60,21 +64,22 @@ const navItems: NavItem[] = [
       {
         title: "Linear Regression",
         icon: TrendingUp,
+        url: "/train/linear",
       },
       {
         title: "KNN",
         icon: Users,
-        url: "#/train/knn",
+        url: "/train/knn",
       },
       {
         title: "LDA",
         icon: Layers,
-        url: "#/train/lda",
+        url: "/train/lda",
       },
       {
         title: "Logistic Regression",
         icon: Binary,
-        url: "#/train/logistic",
+        url: "/train/logistic",
       },
     ],
   },
