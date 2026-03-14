@@ -11,6 +11,8 @@ import { useDatasetStore } from "@/stores/dataset";
 import { DatasetSelect } from "@/components/DatasetSelect";
 import { DatasetOverview } from "@/components/DatasetOverview";
 import { AnalyzeTable } from "@/components/AnalyzeTable";
+import { PageHeader } from "@/components/PageHeader";
+import { NoDatasetAlert } from "@/components/NoDatasetAlert";
 import { DataTable, SortableHeader } from "@/components/ui/data-table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -57,15 +59,11 @@ export function SelectDatasetPage() {
 
   return (
     <div className="flex flex-1 flex-col gap-4 p-4">
-      <div className="flex items-center gap-3">
-        <FileSpreadsheet className="h-8 w-8 text-primary" />
-        <div>
-          <h1 className="text-2xl font-semibold">Select Dataset</h1>
-          <p className="text-sm text-muted-foreground">
-            Choose a dataset from the available CSV files
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        icon={<FileSpreadsheet className="h-8 w-8 text-primary" />}
+        title="Select Dataset"
+        subtitle="Choose a dataset from the available CSV files"
+      />
 
       <div className="w-full max-w-xs">
         <DatasetSelect />
@@ -110,11 +108,11 @@ export function SelectDatasetPage() {
       )}
 
       {!selectedDataset && !loading && (
-        <div className="flex flex-1 items-center justify-center rounded-xl border border-dashed border-border bg-muted/30">
-          <p className="text-muted-foreground">
-            Select a dataset to view its contents
-          </p>
-        </div>
+        <NoDatasetAlert
+          title="No dataset selected"
+          description="Select a dataset above to view its contents."
+          showLink={false}
+        />
       )}
     </div>
   );
