@@ -1,9 +1,8 @@
-import type { ColumnDef } from "@tanstack/react-table";
 import type { ColumnStats } from "@/types/dataset";
 import { useDatasetStore } from "@/stores/dataset";
 import { extractNumber, formatNumber } from "@/lib/number";
 import { DataFrame } from "danfojs";
-import { SortableHeader } from "@/components/ui/data-table";
+import type { DataTableColumnDef } from "@/components/ui/data-table";
 
 function computeColumnStats(df: DataFrame): ColumnStats[] {
   const [rowCount] = df.shape as [number, number];
@@ -38,129 +37,97 @@ function computeColumnStats(df: DataFrame): ColumnStats[] {
   return columns;
 }
 
-function createColumns(): ColumnDef<ColumnStats>[] {
+function createColumns(): DataTableColumnDef<ColumnStats>[] {
   return [
     {
       id: "column",
+      header: { id: "column", title: "Column" },
       accessorKey: "column",
-      header: ({ column }) => <SortableHeader column={column} title="Column" />,
-      cell: ({ row }) => (
-        <span className="font-medium">{row.getValue("column")}</span>
+      cell: ({ getValue }) => (
+        <span className="font-medium">{String(getValue() ?? "")}</span>
       ),
     },
     {
       id: "dtype",
+      header: { id: "dtype", title: "Type" },
       accessorKey: "dtype",
-      header: ({ column }) => <SortableHeader column={column} title="Type" />,
-      cell: ({ row }) => (
+      cell: ({ getValue }) => (
         <span className="rounded bg-muted px-2 py-0.5 text-xs">
-          {row.getValue("dtype")}
+          {String(getValue() ?? "")}
         </span>
       ),
     },
     {
       id: "count",
+      header: { id: "count", title: "Count", className: "text-right" },
       accessorKey: "count",
-      header: ({ column }) => (
-        <div className="text-right">
-          <SortableHeader column={column} title="Count" />
-        </div>
-      ),
-      cell: ({ row }) => (
-        <div className="text-right">{row.getValue("count")}</div>
+      cell: ({ getValue }) => (
+        <div className="text-right">{String(getValue() ?? "")}</div>
       ),
     },
     {
       id: "missing",
+      header: { id: "missing", title: "Missing", className: "text-right" },
       accessorKey: "missing",
-      header: ({ column }) => (
-        <div className="text-right">
-          <SortableHeader column={column} title="Missing" />
-        </div>
-      ),
-      cell: ({ row }) => (
-        <div className="text-right">{row.getValue("missing")}</div>
+      cell: ({ getValue }) => (
+        <div className="text-right">{String(getValue() ?? "")}</div>
       ),
     },
     {
       id: "unique",
+      header: { id: "unique", title: "Unique", className: "text-right" },
       accessorKey: "unique",
-      header: ({ column }) => (
-        <div className="text-right">
-          <SortableHeader column={column} title="Unique" />
-        </div>
-      ),
-      cell: ({ row }) => (
-        <div className="text-right">{row.getValue("unique")}</div>
+      cell: ({ getValue }) => (
+        <div className="text-right">{String(getValue() ?? "")}</div>
       ),
     },
     {
       id: "mean",
+      header: { id: "mean", title: "Mean", className: "text-right" },
       accessorKey: "mean",
-      header: ({ column }) => (
+      cell: ({ getValue }) => (
         <div className="text-right">
-          <SortableHeader column={column} title="Mean" />
-        </div>
-      ),
-      cell: ({ row }) => (
-        <div className="text-right">
-          {formatNumber(row.getValue<number | undefined>("mean"))}
+          {formatNumber(getValue<number | undefined>())}
         </div>
       ),
     },
     {
       id: "std",
+      header: { id: "std", title: "Std", className: "text-right" },
       accessorKey: "std",
-      header: ({ column }) => (
+      cell: ({ getValue }) => (
         <div className="text-right">
-          <SortableHeader column={column} title="Std" />
-        </div>
-      ),
-      cell: ({ row }) => (
-        <div className="text-right">
-          {formatNumber(row.getValue<number | undefined>("std"))}
+          {formatNumber(getValue<number | undefined>())}
         </div>
       ),
     },
     {
       id: "min",
+      header: { id: "min", title: "Min", className: "text-right" },
       accessorKey: "min",
-      header: ({ column }) => (
+      cell: ({ getValue }) => (
         <div className="text-right">
-          <SortableHeader column={column} title="Min" />
-        </div>
-      ),
-      cell: ({ row }) => (
-        <div className="text-right">
-          {formatNumber(row.getValue<number | undefined>("min"))}
+          {formatNumber(getValue<number | undefined>())}
         </div>
       ),
     },
     {
       id: "median",
+      header: { id: "median", title: "Median", className: "text-right" },
       accessorKey: "median",
-      header: ({ column }) => (
+      cell: ({ getValue }) => (
         <div className="text-right">
-          <SortableHeader column={column} title="Median" />
-        </div>
-      ),
-      cell: ({ row }) => (
-        <div className="text-right">
-          {formatNumber(row.getValue<number | undefined>("median"))}
+          {formatNumber(getValue<number | undefined>())}
         </div>
       ),
     },
     {
       id: "max",
+      header: { id: "max", title: "Max", className: "text-right" },
       accessorKey: "max",
-      header: ({ column }) => (
+      cell: ({ getValue }) => (
         <div className="text-right">
-          <SortableHeader column={column} title="Max" />
-        </div>
-      ),
-      cell: ({ row }) => (
-        <div className="text-right">
-          {formatNumber(row.getValue<number | undefined>("max"))}
+          {formatNumber(getValue<number | undefined>())}
         </div>
       ),
     },

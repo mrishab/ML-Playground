@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import type {
   ColumnDef,
+  ColumnDefTemplate,
   ColumnFiltersState,
+  HeaderContext,
   SortingState,
   VisibilityState,
 } from "@tanstack/react-table";
@@ -34,27 +36,91 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
+interface DataTableProps<TData> {
+  columns: DataTableColumnDef<TData>[];
   data: TData[];
   filterColumn?: string;
   filterPlaceholder?: string;
 }
 
-export function DataTable<TData, TValue>({
+type DataTableColumnMeta = {
+  title?: string;
+};
+
+export type DataTableHeaderConfig = {
+  id: string;
+  title: string;
+  className?: string;
+  sortable?: boolean;
+};
+
+type DistributiveOmit<T, K extends PropertyKey> = T extends unknown
+  ? Omit<T, K>
+  : never;
+
+export type DataTableColumnDef<TData> = DistributiveOmit<
+  ColumnDef<TData, unknown>,
+  "header"
+> & {
+  header?:
+    | string
+    | ColumnDefTemplate<HeaderContext<TData, unknown>>
+    | DataTableHeaderConfig;
+};
+
+function isHeaderConfig(header: unknown): header is DataTableHeaderConfig {
+  return (
+    typeof header === "object" &&
+    header !== null &&
+    "id" in header &&
+    "title" in header
+  );
+}
+
+export function DataTable<TData>({
   columns,
   data,
   filterColumn,
   filterPlaceholder = "Filter...",
-}: DataTableProps<TData, TValue>) {
+}: DataTableProps<TData>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
 
+  const normalizedColumns = useMemo<ColumnDef<TData, unknown>[]>(() => {
+    return columns.map((columnDef) => {
+      const header = columnDef.header;
+      if (!isHeaderConfig(header)) {
+        return columnDef as ColumnDef<TData, unknown>;
+      }
+
+      const sortable = header.sortable ?? columnDef.enableSorting ?? true;
+
+      return {
+        ...columnDef,
+        id: columnDef.id ?? header.id,
+        enableSorting: columnDef.enableSorting ?? sortable,
+        meta: {
+          ...(columnDef.meta as Record<string, unknown> | undefined),
+          title: header.title,
+        },
+        header: ({ column }) => (
+          <div className={header.className}>
+            {sortable ? (
+              <SortableHeader column={column} title={header.title} />
+            ) : (
+              <span>{header.title}</span>
+            )}
+          </div>
+        ),
+      };
+    });
+  }, [columns]);
+
   const table = useReactTable({
     data,
-    columns,
+    columns: normalizedColumns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
@@ -97,6 +163,10 @@ export function DataTable<TData, TValue>({
               .getAllColumns()
               .filter((column) => column.getCanHide())
               .map((column) => {
+                const columnMeta = column.columnDef.meta as
+                  | DataTableColumnMeta
+                  | undefined;
+
                 return (
                   <DropdownMenuCheckboxItem
                     key={column.id}
@@ -106,7 +176,7 @@ export function DataTable<TData, TValue>({
                       column.toggleVisibility(!!value)
                     }
                   >
-                    {column.id}
+                    {columnMeta?.title ?? column.id}
                   </DropdownMenuCheckboxItem>
                 );
               })}
@@ -153,7 +223,7 @@ export function DataTable<TData, TValue>({
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length}
+                  colSpan={normalizedColumns.length}
                   className="h-24 text-center"
                 >
                   No results.

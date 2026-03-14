@@ -5,7 +5,6 @@ import {
   Table as TableIcon,
   BarChart3,
 } from "lucide-react";
-import type { ColumnDef } from "@tanstack/react-table";
 import { useDatasetLoader } from "@/hooks/useDatasetLoader";
 import { useDatasetStore } from "@/stores/dataset";
 import { DatasetSelect } from "@/components/DatasetSelect";
@@ -13,7 +12,7 @@ import { DatasetOverview } from "@/components/DatasetOverview";
 import { AnalyzeTable } from "@/components/AnalyzeTable";
 import { PageHeader } from "@/components/PageHeader";
 import { NoDatasetAlert } from "@/components/NoDatasetAlert";
-import { DataTable, SortableHeader } from "@/components/ui/data-table";
+import { DataTable, type DataTableColumnDef } from "@/components/ui/data-table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 type RowData = Record<string, unknown>;
@@ -36,20 +35,16 @@ export function SelectDatasetPage() {
     });
   }, [df]);
 
-  const columns = useMemo<ColumnDef<RowData>[]>(() => {
+  const columns = useMemo<DataTableColumnDef<RowData>[]>(() => {
     if (!df) return [];
     return df.columns.map((rawHeader: string, index: number) => {
       const header = String(rawHeader ?? "");
+      const title = header.trim().length > 0 ? header : `Column ${index + 1}`;
 
       return {
         id: `column_${index + 1}`,
-        accessorFn: (row) => row[header],
-        header: ({ column }) => (
-          <SortableHeader
-            column={column}
-            title={header.trim().length > 0 ? header : `Column ${index + 1}`}
-          />
-        ),
+        header: { id: `column_${index + 1}`, title },
+        accessorFn: (row: RowData) => row[header],
         cell: ({ getValue }) => (
           <div className="whitespace-nowrap">{String(getValue() ?? "")}</div>
         ),
