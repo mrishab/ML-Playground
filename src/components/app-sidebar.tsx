@@ -2,155 +2,83 @@
 
 import * as React from "react";
 import {
-  BookOpen,
-  Bot,
-  Command,
-  Frame,
-  LifeBuoy,
-  Map,
-  PieChart,
-  Send,
-  Settings2,
-  SquareTerminal,
+  Database,
+  FileSpreadsheet,
+  Shuffle,
+  Search,
+  BarChart3,
+  Brain,
+  TrendingUp,
+  Users,
+  Layers,
+  Binary,
 } from "lucide-react";
 
-import { NavMain } from "@/components/nav-main";
-import { NavProjects } from "@/components/nav-projects";
-import { NavSecondary } from "@/components/nav-secondary";
-import { NavUser } from "@/components/nav-user";
+import { NavMain, type NavItem } from "@/components/nav-main";
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
+const navItems: NavItem[] = [
+  {
+    title: "Data Ingestion",
+    icon: Database,
+    isActive: true,
+    items: [
+      {
+        title: "Select Dataset",
+        icon: FileSpreadsheet,
+      },
+      {
+        title: "Transform",
+        icon: Shuffle,
+      },
+    ],
   },
-  navMain: [
-    {
-      title: "Playground",
-      url: "#",
-      icon: SquareTerminal,
-      isActive: true,
-      items: [
-        {
-          title: "History",
-          url: "#",
-        },
-        {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Models",
-      url: "#",
-      icon: Bot,
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
-    },
-  ],
-  navSecondary: [
-    {
-      title: "Support",
-      url: "#",
-      icon: LifeBuoy,
-    },
-    {
-      title: "Feedback",
-      url: "#",
-      icon: Send,
-    },
-  ],
-  projects: [
-    {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
-    },
-  ],
-};
+  {
+    title: "Pretraining",
+    icon: Search,
+    items: [
+      {
+        title: "Explore",
+      },
+      {
+        title: "Visualize",
+        icon: BarChart3,
+      },
+    ],
+  },
+  {
+    title: "Training",
+    icon: Brain,
+    items: [
+      {
+        title: "Linear Regression",
+        icon: TrendingUp,
+      },
+      {
+        title: "KNN",
+        icon: Users,
+        url: "#/train/knn",
+      },
+      {
+        title: "LDA",
+        icon: Layers,
+        url: "#/train/lda",
+      },
+      {
+        title: "Logistic Regression",
+        icon: Binary,
+        url: "#/train/logistic",
+      },
+    ],
+  },
+];
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
@@ -164,11 +92,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarMenuButton size="lg" asChild>
               <a href="#">
                 <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                  <Command className="size-4" />
+                  <Brain className="size-4" />
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">Acme Inc</span>
-                  <span className="truncate text-xs">Enterprise</span>
+                  <span className="truncate font-semibold">ML Pipeline</span>
+                  <span className="truncate text-xs">COMP 381</span>
                 </div>
               </a>
             </SidebarMenuButton>
@@ -176,13 +104,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
+        <NavMain items={navItems} label="Workflow" />
       </SidebarContent>
-      <SidebarFooter>
-        <NavUser user={data.user} />
-      </SidebarFooter>
     </Sidebar>
   );
 }

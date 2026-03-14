@@ -36,10 +36,6 @@ export function SiteHeader() {
                 COMP 381 Final Project - Machine Learning Playground
               </BreadcrumbLink>
             </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-            </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
       </div>
