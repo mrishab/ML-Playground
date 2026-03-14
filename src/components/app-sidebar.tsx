@@ -45,6 +45,7 @@ const navItems: NavItem[] = [
   {
     title: "Pretraining",
     icon: Search,
+    isActive: true,
     items: [
       {
         title: "Explore",
@@ -60,6 +61,7 @@ const navItems: NavItem[] = [
   {
     title: "Training",
     icon: Brain,
+    isActive: true,
     items: [
       {
         title: "Linear Regression",
