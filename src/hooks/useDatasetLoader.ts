@@ -28,6 +28,7 @@ export function useDatasetLoader() {
         const result = Papa.parse<CSVRow>(response.data, {
           header: true,
           skipEmptyLines: true,
+          dynamicTyping: true,
           transformHeader: (header) => header.trim(),
         });
 
