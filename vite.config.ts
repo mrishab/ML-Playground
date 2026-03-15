@@ -50,6 +50,15 @@ export default defineConfig({
   },
   build: {
     target: "ES2020",
+    chunkSizeWarningLimit: 15000,
+    rollupOptions: {
+      onwarn(warning, warn) {
+        if (warning.code === "INVALID_ANNOTATION") {
+          return;
+        }
+        warn(warning);
+      },
+    },
   },
   esbuild: {
     target: "ES2020",
