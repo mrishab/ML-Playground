@@ -24,7 +24,8 @@ export function useDatasetLoader() {
       setError(null);
 
       try {
-        const response = await axios.get<string>(`/datasets/${dataset.file}`);
+        const url = `${import.meta.env.BASE_URL}datasets/${dataset.file}`;
+        const response = await axios.get<string>(url);
         const result = Papa.parse<CSVRow>(response.data, {
           header: true,
           skipEmptyLines: true,
