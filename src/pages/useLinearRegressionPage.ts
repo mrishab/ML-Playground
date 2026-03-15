@@ -79,49 +79,28 @@ export function useLinearRegressionPage() {
     setMetrics(null);
 
     try {
-      console.log("[LinearRegression] Initializing scikitjs backend...");
       await initScikitjs();
-      console.log("[LinearRegression] Backend initialized");
 
       // Extract training data as 2D array
-      console.log("[LinearRegression] Extracting training data...");
       const XTrainData = xTrain.values as number[][];
       const yTrainData = yTrain.column(targetColumn).values as number[];
-      console.log(
-        `[LinearRegression] Training data: ${XTrainData.length} rows, ${XTrainData[0]?.length ?? 0} features`,
-      );
 
       // Extract test data
-      console.log("[LinearRegression] Extracting test data...");
       const XTestData = xTest.values as number[][];
       const yTestData = yTest.column(targetColumn).values as number[];
-      console.log(`[LinearRegression] Test data: ${XTestData.length} rows`);
 
       // Create and train model
-      console.log("[LinearRegression] Creating model...");
       const model = new sk.LinearRegression({ fitIntercept: true });
-      console.log("[LinearRegression] Fitting model...");
       await model.fit(XTrainData, yTrainData);
-      console.log("[LinearRegression] Model fitted");
 
       // Make predictions on test set
-      console.log("[LinearRegression] Making predictions...");
       const predictionsResult = await model.predict(XTestData);
       const predictions = Array.isArray(predictionsResult)
         ? (predictionsResult as number[])
         : (predictionsResult.arraySync() as number[]);
-      console.log(
-        `[LinearRegression] Predictions complete: ${predictions.length} values`,
-      );
 
       // Calculate metrics
-      console.log("[LinearRegression] Calculating metrics...");
       const calculatedMetrics = calculateMetrics(predictions, yTestData);
-      console.log("[LinearRegression] Training complete", {
-        mse: calculatedMetrics.mse,
-        rse: calculatedMetrics.rse,
-        rSquared: calculatedMetrics.rSquared,
-      });
       setMetrics(calculatedMetrics);
       setTrainingState("complete");
     } catch (err) {
