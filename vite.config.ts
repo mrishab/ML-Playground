@@ -5,7 +5,8 @@ import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
 
 // https://vite.dev/config/
-export default defineConfig({
+export default defineConfig(() => ({
+  base: "/COMP381_FinalProject/",
   plugins: [
     react(),
     tailwindcss(),
@@ -63,4 +64,4 @@ export default defineConfig({
   esbuild: {
     target: "ES2020",
   },
-});
+}));

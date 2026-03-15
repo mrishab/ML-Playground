@@ -13,6 +13,8 @@ import {
   LogisticRegressionPage,
 } from "./pages";
 
+const basename = import.meta.env.BASE_URL;
+
 function App() {
   return (
     <ThemeProvider
@@ -20,7 +22,7 @@ function App() {
       defaultTheme="dark"
       storageKey="comp-381-ui-theme"
     >
-      <BrowserRouter>
+      <BrowserRouter basename={basename}>
         <Routes>
           <Route element={<AppShell />}>
             <Route index element={<Navigate to="/data/select" replace />} />
