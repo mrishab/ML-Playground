@@ -5,13 +5,15 @@ import { Card, CardContent } from "@/components/ui/card";
 type NoDatasetAlertProps = {
   title?: string;
   description?: string;
-  showLink?: boolean;
+  linkTo?: string;
+  linkText?: string;
 };
 
 export function NoDatasetAlert({
   title = "No dataset loaded",
   description = "Please select a dataset first to continue.",
-  showLink = true,
+  linkTo = "/data/select",
+  linkText = "Select a dataset",
 }: NoDatasetAlertProps) {
   return (
     <Card className="border-amber-500/30 bg-amber-500/5">
@@ -20,15 +22,10 @@ export function NoDatasetAlert({
         <div>
           <p className="font-medium">{title}</p>
           <p className="text-sm text-muted-foreground">
-            {description}
-            {showLink && (
-              <>
-                {" "}
-                <Link to="/data/select" className="text-primary underline">
-                  Select a dataset
-                </Link>
-              </>
-            )}
+            {description}{" "}
+            <Link to={linkTo} className="text-primary underline">
+              {linkText}
+            </Link>
           </p>
         </div>
       </CardContent>

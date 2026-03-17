@@ -34,8 +34,9 @@ export function LinearRegressionPage() {
         />
         <NoDatasetAlert
           title="No split data available"
-          description="Please configure and split your data in the Explore page first."
-          showLink={false}
+          description="Please configure and split your data first."
+          linkTo="/pretrain/explore"
+          linkText="Go to Explore page"
         />
       </div>
     );
