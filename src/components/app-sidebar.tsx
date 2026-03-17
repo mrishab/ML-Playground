@@ -26,7 +26,7 @@ import {
 
 const navItems: NavItem[] = [
   {
-    title: "Data Ingestion",
+    title: "1. Data Ingestion",
     icon: Database,
     isActive: true,
     items: [
@@ -43,7 +43,7 @@ const navItems: NavItem[] = [
     ],
   },
   {
-    title: "Pretraining",
+    title: "2. Pretraining",
     icon: Search,
     isActive: true,
     items: [
@@ -59,7 +59,7 @@ const navItems: NavItem[] = [
     ],
   },
   {
-    title: "Training",
+    title: "3. Training",
     icon: Brain,
     isActive: true,
     items: [
