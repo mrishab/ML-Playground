@@ -1,9 +1,8 @@
-import { useState, useCallback, useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { useMLConfigStore } from "@/stores/mlConfig";
+import { useTrainingResultsStore } from "@/stores/trainingResults";
 import { initScikitjs, sk } from "@/lib/scikitjs";
 import { calculateClassificationMetrics } from "@/lib/classificationMetrics";
-import type { ClassificationMetrics } from "@/types/classification";
-import type { TrainingState } from "@/types/classification";
 
 export function useLogisticRegressionPage() {
   const xTrain = useMLConfigStore((state) => state.xTrain);
@@ -13,9 +12,20 @@ export function useLogisticRegressionPage() {
   const targetColumn = useMLConfigStore((state) => state.targetColumn);
   const isSplit = useMLConfigStore((state) => state.isSplit);
 
-  const [trainingState, setTrainingState] = useState<TrainingState>("idle");
-  const [metrics, setMetrics] = useState<ClassificationMetrics | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const trainingState = useTrainingResultsStore(
+    (s) => s.logisticRegression.trainingState,
+  );
+  const metrics = useTrainingResultsStore((s) => s.logisticRegression.metrics);
+  const error = useTrainingResultsStore((s) => s.logisticRegression.error);
+
+  const setTrainingState = useTrainingResultsStore(
+    (s) => s.setLogisticRegressionState,
+  );
+  const setMetrics = useTrainingResultsStore(
+    (s) => s.setLogisticRegressionMetrics,
+  );
+  const setError = useTrainingResultsStore((s) => s.setLogisticRegressionError);
+  const resetStore = useTrainingResultsStore((s) => s.resetLogisticRegression);
 
   const featureNames = useMemo(() => {
     if (!xTrain) return [];
@@ -109,13 +119,21 @@ export function useLogisticRegressionPage() {
       setError(err instanceof Error ? err.message : "Training failed");
       setTrainingState("error");
     }
-  }, [canTrain, xTrain, xTest, yTrain, yTest, targetColumn]);
+  }, [
+    canTrain,
+    xTrain,
+    xTest,
+    yTrain,
+    yTest,
+    targetColumn,
+    setTrainingState,
+    setError,
+    setMetrics,
+  ]);
 
   const reset = useCallback(() => {
-    setTrainingState("idle");
-    setMetrics(null);
-    setError(null);
-  }, []);
+    resetStore();
+  }, [resetStore]);
 
   return {
     trainingState,

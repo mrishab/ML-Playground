@@ -1,5 +1,3 @@
-export type TrainingState = "idle" | "training" | "complete" | "error";
-
 /** Per-class precision, recall, F1, and support */
 export type PerClassMetrics = {
   label: string;

@@ -1,9 +1,8 @@
-import { useState, useCallback, useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { useMLConfigStore } from "@/stores/mlConfig";
+import { useTrainingResultsStore } from "@/stores/trainingResults";
 import { fitLDA, predictLDA, predictProbaLDA } from "@/lib/lda";
 import { calculateClassificationMetrics } from "@/lib/classificationMetrics";
-import type { ClassificationMetrics } from "@/types/classification";
-import type { TrainingState } from "@/types/classification";
 
 export function useLDAPage() {
   const xTrain = useMLConfigStore((state) => state.xTrain);
@@ -13,9 +12,14 @@ export function useLDAPage() {
   const targetColumn = useMLConfigStore((state) => state.targetColumn);
   const isSplit = useMLConfigStore((state) => state.isSplit);
 
-  const [trainingState, setTrainingState] = useState<TrainingState>("idle");
-  const [metrics, setMetrics] = useState<ClassificationMetrics | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const trainingState = useTrainingResultsStore((s) => s.lda.trainingState);
+  const metrics = useTrainingResultsStore((s) => s.lda.metrics);
+  const error = useTrainingResultsStore((s) => s.lda.error);
+
+  const setTrainingState = useTrainingResultsStore((s) => s.setLDAState);
+  const setMetrics = useTrainingResultsStore((s) => s.setLDAMetrics);
+  const setError = useTrainingResultsStore((s) => s.setLDAError);
+  const resetStore = useTrainingResultsStore((s) => s.resetLDA);
 
   const featureNames = useMemo(() => {
     if (!xTrain) return [];
@@ -75,13 +79,21 @@ export function useLDAPage() {
       setError(err instanceof Error ? err.message : "Training failed");
       setTrainingState("error");
     }
-  }, [canTrain, xTrain, xTest, yTrain, yTest, targetColumn]);
+  }, [
+    canTrain,
+    xTrain,
+    xTest,
+    yTrain,
+    yTest,
+    targetColumn,
+    setTrainingState,
+    setError,
+    setMetrics,
+  ]);
 
   const reset = useCallback(() => {
-    setTrainingState("idle");
-    setMetrics(null);
-    setError(null);
-  }, []);
+    resetStore();
+  }, [resetStore]);
 
   return {
     // State

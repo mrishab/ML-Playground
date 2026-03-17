@@ -1,7 +1,8 @@
-import { useState, useCallback, useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { useMLConfigStore } from "@/stores/mlConfig";
+import { useTrainingResultsStore } from "@/stores/trainingResults";
 import { initScikitjs, sk } from "@/lib/scikitjs";
-import type { RegressionMetrics, TrainingState } from "@/types/regression";
+import type { RegressionMetrics } from "@/types/regression";
 
 function calculateMetrics(
   predictions: number[],
@@ -55,9 +56,19 @@ export function useLinearRegressionPage() {
   const targetColumn = useMLConfigStore((state) => state.targetColumn);
   const isSplit = useMLConfigStore((state) => state.isSplit);
 
-  const [trainingState, setTrainingState] = useState<TrainingState>("idle");
-  const [metrics, setMetrics] = useState<RegressionMetrics | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const trainingState = useTrainingResultsStore(
+    (s) => s.linearRegression.trainingState,
+  );
+  const metrics = useTrainingResultsStore((s) => s.linearRegression.metrics);
+  const error = useTrainingResultsStore((s) => s.linearRegression.error);
+  const setTrainingState = useTrainingResultsStore(
+    (s) => s.setLinearRegressionState,
+  );
+  const setMetrics = useTrainingResultsStore(
+    (s) => s.setLinearRegressionMetrics,
+  );
+  const setError = useTrainingResultsStore((s) => s.setLinearRegressionError);
+  const resetStore = useTrainingResultsStore((s) => s.resetLinearRegression);
 
   const featureNames = useMemo(() => {
     if (!xTrain) return [];
@@ -108,13 +119,21 @@ export function useLinearRegressionPage() {
       setError(err instanceof Error ? err.message : "Training failed");
       setTrainingState("error");
     }
-  }, [canTrain, xTrain, xTest, yTrain, yTest, targetColumn]);
+  }, [
+    canTrain,
+    xTrain,
+    xTest,
+    yTrain,
+    yTest,
+    targetColumn,
+    setTrainingState,
+    setError,
+    setMetrics,
+  ]);
 
   const reset = useCallback(() => {
-    setTrainingState("idle");
-    setMetrics(null);
-    setError(null);
-  }, []);
+    resetStore();
+  }, [resetStore]);
 
   return {
     // State

@@ -16,5 +16,3 @@ export type RegressionMetrics = {
   predictions: number[];
   actuals: number[];
 };
-
-export type TrainingState = "idle" | "training" | "complete" | "error";

@@ -1,11 +1,9 @@
-import { useState, useCallback, useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { useMLConfigStore } from "@/stores/mlConfig";
+import { useTrainingResultsStore } from "@/stores/trainingResults";
 import { initScikitjs, sk } from "@/lib/scikitjs";
 import { calculateClassificationMetrics } from "@/lib/classificationMetrics";
-import type { ClassificationMetrics } from "@/types/classification";
-import type { TrainingState } from "@/types/classification";
 
-const DEFAULT_K = 5;
 const MIN_K = 1;
 const MAX_K = 50;
 
@@ -17,10 +15,16 @@ export function useKNNPage() {
   const targetColumn = useMLConfigStore((state) => state.targetColumn);
   const isSplit = useMLConfigStore((state) => state.isSplit);
 
-  const [k, setK] = useState(DEFAULT_K);
-  const [trainingState, setTrainingState] = useState<TrainingState>("idle");
-  const [metrics, setMetrics] = useState<ClassificationMetrics | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const trainingState = useTrainingResultsStore((s) => s.knn.trainingState);
+  const metrics = useTrainingResultsStore((s) => s.knn.metrics);
+  const error = useTrainingResultsStore((s) => s.knn.error);
+  const k = useTrainingResultsStore((s) => s.knn.k);
+
+  const setTrainingState = useTrainingResultsStore((s) => s.setKNNState);
+  const setMetrics = useTrainingResultsStore((s) => s.setKNNMetrics);
+  const setError = useTrainingResultsStore((s) => s.setKNNError);
+  const setKStore = useTrainingResultsStore((s) => s.setKNNK);
+  const resetStore = useTrainingResultsStore((s) => s.resetKNN);
 
   const featureNames = useMemo(() => {
     if (!xTrain) return [];
@@ -41,9 +45,9 @@ export function useKNNPage() {
   const handleSetK = useCallback(
     (value: number) => {
       const clamped = Math.max(MIN_K, Math.min(effectiveMaxK, value));
-      setK(clamped);
+      setKStore(clamped);
     },
-    [effectiveMaxK],
+    [effectiveMaxK, setKStore],
   );
 
   const runTraining = useCallback(async () => {
@@ -110,13 +114,22 @@ export function useKNNPage() {
       setError(err instanceof Error ? err.message : "Training failed");
       setTrainingState("error");
     }
-  }, [canTrain, xTrain, xTest, yTrain, yTest, targetColumn, k]);
+  }, [
+    canTrain,
+    xTrain,
+    xTest,
+    yTrain,
+    yTest,
+    targetColumn,
+    k,
+    setTrainingState,
+    setError,
+    setMetrics,
+  ]);
 
   const reset = useCallback(() => {
-    setTrainingState("idle");
-    setMetrics(null);
-    setError(null);
-  }, []);
+    resetStore();
+  }, [resetStore]);
 
   return {
     // State
