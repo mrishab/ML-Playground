@@ -7,9 +7,9 @@ import {
 } from "lucide-react";
 import { useDatasetLoader } from "@/hooks/useDatasetLoader";
 import { useDatasetStore } from "@/stores/dataset";
-import { DatasetSelect } from "@/components/DatasetSelect";
-import { DatasetOverview } from "@/components/DatasetOverview";
-import { AnalyzeTable } from "@/components/AnalyzeTable";
+import { DatasetSelect } from "./DatasetSelect";
+import { DatasetOverview } from "./DatasetOverview";
+import { AnalyzeTable } from "./AnalyzeTable";
 import { PageHeader } from "@/components/PageHeader";
 import { NoDatasetAlert } from "@/components/NoDatasetAlert";
 import { DataTable, type DataTableColumnDef } from "@/components/ui/data-table";

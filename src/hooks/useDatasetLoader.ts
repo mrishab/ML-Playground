@@ -3,7 +3,7 @@ import axios from "axios";
 import Papa from "papaparse";
 import { DataFrame } from "danfojs";
 import { useDatasetStore } from "@/stores/dataset";
-import { DATASETS } from "@/components/useDatasetSelect";
+import { DATASETS } from "@/components/data-ingestion/select-dataset/useDatasetSelect";
 
 type CSVRow = Record<string, string>;
 

@@ -2,16 +2,14 @@ import { ThemeProvider } from "next-themes";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "./index.css";
 import { AppShell } from "./AppShell";
-import {
-  SelectDatasetPage,
-  TransformPage,
-  ExplorePage,
-  VisualizePage,
-  LinearRegressionPage,
-  KNNPage,
-  LDAPage,
-  LogisticRegressionPage,
-} from "./pages";
+import { SelectDatasetPage } from "@/components/data-ingestion/select-dataset/SelectDatasetPage";
+import { TransformPage } from "@/components/data-ingestion/transform/TransformPage";
+import { ExplorePage } from "@/components/pretraining/explore/ExplorePage";
+import { VisualizePage } from "@/components/pretraining/visualize/VisualizePage";
+import { LinearRegressionPage } from "@/components/training/linear-regression/LinearRegressionPage";
+import { KNNPage } from "@/components/training/knn/KNNPage";
+import { LDAPage } from "@/components/training/lda/LDAPage";
+import { LogisticRegressionPage } from "@/components/training/logistic-regression/LogisticRegressionPage";
 
 const basename = import.meta.env.BASE_URL;
 

@@ -19,8 +19,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { DataTable, SortableHeader } from "@/components/ui/data-table";
-import { FeatureSelector } from "@/components/FeatureSelector";
-import { SplitResults } from "@/components/SplitResults";
+import { FeatureSelector } from "./FeatureSelector";
+import { SplitResults } from "./SplitResults";
 import { NoDatasetAlert } from "@/components/NoDatasetAlert";
 import { PageHeader } from "@/components/PageHeader";
 import { useExplorePage } from "./useExplorePage";

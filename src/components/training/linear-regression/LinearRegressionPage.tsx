@@ -3,12 +3,12 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PageHeader } from "@/components/PageHeader";
 import { NoDatasetAlert } from "@/components/NoDatasetAlert";
-import { ModelConfig } from "@/components/ModelConfig";
-import { MetricsSummary } from "@/components/MetricsSummary";
-import { PredictionsTable } from "@/components/PredictionsTable";
-import { MSEBreakdown } from "@/components/MSEBreakdown";
-import { RSEBreakdown } from "@/components/RSEBreakdown";
-import { RSquaredBreakdown } from "@/components/RSquaredBreakdown";
+import { ModelConfig } from "./ModelConfig";
+import { MetricsSummary } from "./MetricsSummary";
+import { PredictionsTable } from "./PredictionsTable";
+import { MSEBreakdown } from "./MSEBreakdown";
+import { RSEBreakdown } from "./RSEBreakdown";
+import { RSquaredBreakdown } from "./RSquaredBreakdown";
 import { useLinearRegressionPage } from "./useLinearRegressionPage";
 
 export function LinearRegressionPage() {

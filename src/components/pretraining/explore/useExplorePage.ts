@@ -4,7 +4,7 @@ import type { DataFrame } from "danfojs";
 import { useDatasetStore } from "@/stores/dataset";
 import { useMLConfigStore, type SelectedFeature } from "@/stores/mlConfig";
 import { loadDatasetConfig } from "@/lib/datasetConfig";
-import { DATASETS } from "@/components/useDatasetSelect";
+import { DATASETS } from "@/components/data-ingestion/select-dataset/useDatasetSelect";
 
 // Fisher-Yates shuffle
 function shuffleArray<T>(array: T[]): T[] {

@@ -2,9 +2,9 @@ import { BarChart3 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { PageHeader } from "@/components/PageHeader";
 import { NoDatasetAlert } from "@/components/NoDatasetAlert";
-import { FeatureTabs } from "@/components/FeatureTabs";
-import { ScatterPlot } from "@/components/ScatterPlot";
-import { useFeatureTabs } from "@/components/useFeatureTabs";
+import { FeatureTabs } from "./FeatureTabs";
+import { ScatterPlot } from "./ScatterPlot";
+import { useFeatureTabs } from "./useFeatureTabs";
 import { useVisualizePage } from "./useVisualizePage";
 
 export function VisualizePage() {
