@@ -76,7 +76,7 @@ export function useExplorePage() {
 
   const columns = useMemo(() => {
     if (!df) return [];
-    return df.columns as string[];
+    return (df.columns as string[]).filter((col) => col !== "");
   }, [df]);
 
   const numericColumns = useMemo(() => {
