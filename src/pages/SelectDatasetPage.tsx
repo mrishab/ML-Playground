@@ -106,7 +106,6 @@ export function SelectDatasetPage() {
         <NoDatasetAlert
           title="No dataset selected"
           description="Select a dataset above to view its contents."
-          showLink={false}
         />
       )}
     </div>

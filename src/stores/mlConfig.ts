@@ -3,6 +3,12 @@ import type { DataFrame } from "danfojs";
 
 export type TransformationType = "none" | "polynomial" | "interaction";
 
+export type ProblemType =
+  | "regression"
+  | "classification"
+  | "clustering"
+  | "dimensionality_reduction";
+
 export type SelectedFeature = {
   id: string;
   column: string;
@@ -13,6 +19,7 @@ export type SelectedFeature = {
 
 type MLConfigState = {
   // Configuration
+  problemType: ProblemType;
   shuffle: boolean;
   testSplitPercent: number;
   targetColumn: string;
@@ -29,6 +36,7 @@ type MLConfigState = {
 };
 
 type MLConfigActions = {
+  setProblemType: (problemType: ProblemType) => void;
   setShuffle: (shuffle: boolean) => void;
   setTestSplitPercent: (percent: number) => void;
   setTargetColumn: (column: string) => void;
@@ -40,6 +48,7 @@ type MLConfigActions = {
     options?: { polynomialDegree?: number; interactionWith?: string },
   ) => void;
   clearFeatures: () => void;
+  setFeatures: (features: SelectedFeature[]) => void;
   setSplitData: (data: {
     xTrain: DataFrame;
     xTest: DataFrame;
@@ -51,6 +60,7 @@ type MLConfigActions = {
 };
 
 const initialState: MLConfigState = {
+  problemType: "regression",
   shuffle: true,
   testSplitPercent: 20,
   targetColumn: "",
@@ -72,6 +82,8 @@ const generateFeatureId = () => {
 export const useMLConfigStore = create<MLConfigState & MLConfigActions>()(
   (set) => ({
     ...initialState,
+
+    setProblemType: (problemType) => set({ problemType, isSplit: false }),
 
     setShuffle: (shuffle) => set({ shuffle, isSplit: false }),
 
@@ -116,6 +128,9 @@ export const useMLConfigStore = create<MLConfigState & MLConfigActions>()(
       })),
 
     clearFeatures: () => set({ selectedFeatures: [], isSplit: false }),
+
+    setFeatures: (features) =>
+      set({ selectedFeatures: features, isSplit: false }),
 
     setSplitData: (data) =>
       set({

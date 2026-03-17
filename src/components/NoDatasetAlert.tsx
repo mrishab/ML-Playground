@@ -12,7 +12,7 @@ type NoDatasetAlertProps = {
 export function NoDatasetAlert({
   title = "No dataset loaded",
   description = "Please select a dataset first to continue.",
-  linkTo = "/data/select",
+  linkTo,
   linkText = "Select a dataset",
 }: NoDatasetAlertProps) {
   return (
@@ -22,10 +22,15 @@ export function NoDatasetAlert({
         <div>
           <p className="font-medium">{title}</p>
           <p className="text-sm text-muted-foreground">
-            {description}{" "}
-            <Link to={linkTo} className="text-primary underline">
-              {linkText}
-            </Link>
+            {description}
+            {linkTo && (
+              <>
+                {" "}
+                <Link to={linkTo} className="text-primary underline">
+                  {linkText}
+                </Link>
+              </>
+            )}
           </p>
         </div>
       </CardContent>

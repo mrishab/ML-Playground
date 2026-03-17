@@ -1,5 +1,10 @@
 import { useMemo } from "react";
-import { Search, AlertCircle, Shuffle as ShuffleIcon } from "lucide-react";
+import {
+  Search,
+  AlertCircle,
+  Shuffle as ShuffleIcon,
+  Download,
+} from "lucide-react";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -19,13 +24,23 @@ import { SplitResults } from "@/components/SplitResults";
 import { NoDatasetAlert } from "@/components/NoDatasetAlert";
 import { PageHeader } from "@/components/PageHeader";
 import { useExplorePage } from "./useExplorePage";
+import type { ProblemType } from "@/stores/mlConfig";
+
+const PROBLEM_TYPES: { value: ProblemType; label: string }[] = [
+  { value: "regression", label: "Regression" },
+  { value: "classification", label: "Classification" },
+  { value: "clustering", label: "Clustering" },
+  { value: "dimensionality_reduction", label: "Dimensionality Reduction" },
+];
 
 export function ExplorePage() {
   const {
     df,
     selectedDataset,
+    columns,
     numericColumns,
     availableInteractionColumns,
+    problemType,
     shuffle,
     testSplitPercent,
     targetColumn,
@@ -34,6 +49,8 @@ export function ExplorePage() {
     canSplit,
     previewData,
     previewColumns,
+    isLoadingConfig,
+    setProblemType,
     setShuffle,
     setTestSplitPercent,
     setTargetColumn,
@@ -42,6 +59,7 @@ export function ExplorePage() {
     updateFeatureTransformation,
     clearFeatures,
     performSplit,
+    loadDefaultConfig,
   } = useExplorePage();
 
   // Build table columns dynamically from previewColumns
@@ -66,7 +84,10 @@ export function ExplorePage() {
           title="Explore"
           subtitle="Configure ML parameters and create train/test split"
         />
-        <NoDatasetAlert description="Please select a dataset first to configure ML parameters." />
+        <NoDatasetAlert
+          description="Please select a dataset first to configure ML parameters."
+          linkTo="/data/select"
+        />
       </div>
     );
   }
@@ -86,10 +107,39 @@ export function ExplorePage() {
         <div className="space-y-4">
           {/* Data Split Settings */}
           <Card>
-            <CardHeader className="pb-3">
+            <CardHeader className="flex flex-row items-center justify-between pb-3">
               <CardTitle className="text-base">Data Split Settings</CardTitle>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={loadDefaultConfig}
+                disabled={isLoadingConfig}
+              >
+                <Download className="mr-2 h-4 w-4" />
+                {isLoadingConfig ? "Loading..." : "Load Default"}
+              </Button>
             </CardHeader>
             <CardContent className="space-y-6">
+              {/* Problem Type */}
+              <div className="space-y-2">
+                <Label>Problem Type</Label>
+                <Select
+                  value={problemType}
+                  onValueChange={(v) => setProblemType(v as ProblemType)}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select problem type..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {PROBLEM_TYPES.map((pt) => (
+                      <SelectItem key={pt.value} value={pt.value}>
+                        {pt.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
               {/* Shuffle Toggle */}
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
@@ -135,7 +185,7 @@ export function ExplorePage() {
                     <SelectValue placeholder="Select target column..." />
                   </SelectTrigger>
                   <SelectContent>
-                    {numericColumns.map((col) => (
+                    {columns.map((col) => (
                       <SelectItem key={col} value={col}>
                         {col}
                       </SelectItem>

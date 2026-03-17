@@ -1,0 +1,257 @@
+{
+  "Boston.csv": {
+    "ml_config": {
+      "problem_type": "regression",
+      "target_variable": "medv",
+      "features": {
+        "regular_terms": [
+          "crim",
+          "zn",
+          "indus",
+          "chas",
+          "nox",
+          "rm",
+          "age",
+          "dis",
+          "rad",
+          "tax",
+          "ptratio",
+          "black",
+          "lstat"
+        ],
+        "interaction_terms": [
+          {
+            "term_1": "rm",
+            "term_2": "lstat"
+          }
+        ],
+        "polynomial_terms": [
+          {
+            "term": "lstat",
+            "degree": 2
+          }
+        ]
+      },
+      "candidate_models": ["Linear Regression", "KNN (K nearest neighbours)"]
+    }
+  },
+  "College.csv": {
+    "ml_config": {
+      "problem_type": "classification",
+      "target_variable": "Private",
+      "features": {
+        "regular_terms": [
+          "Outstate",
+          "F.Undergrad",
+          "Enroll",
+          "S.F.Ratio",
+          "perc.alumni",
+          "Accept",
+          "Apps",
+          "Expend"
+        ],
+        "interaction_terms": [
+          {
+            "term_1": "Apps",
+            "term_2": "Accept"
+          },
+          {
+            "term_1": "F.Undergrad",
+            "term_2": "Enroll"
+          }
+        ],
+        "polynomial_terms": [
+          {
+            "term": "Outstate",
+            "degree": 2
+          },
+          {
+            "term": "Expend",
+            "degree": 2
+          }
+        ]
+      },
+      "candidate_models": [
+        "Logistic Regression",
+        "Linear Discriminant Analysis",
+        "KNN"
+      ]
+    }
+  },
+  "heart.csv": {
+    "ml_config": {
+      "problem_type": "classification",
+      "target_variable": "AHD",
+      "features": {
+        "regular_terms": [
+          "Ca",
+          "MaxHR",
+          "Oldpeak",
+          "ChestPain",
+          "ExAng",
+          "Thal",
+          "Age",
+          "Sex",
+          "Slope"
+        ],
+        "interaction_terms": [
+          {
+            "term_1": "Age",
+            "term_2": "MaxHR"
+          },
+          {
+            "term_1": "Sex",
+            "term_2": "Chol"
+          }
+        ],
+        "polynomial_terms": [
+          {
+            "term": "Age",
+            "degree": 2
+          },
+          {
+            "term": "Oldpeak",
+            "degree": 2
+          }
+        ]
+      },
+      "candidate_models": [
+        "Logistic Regression",
+        "K-Nearest Neighbors (KNN)",
+        "Linear Discriminant Analysis (LDA)"
+      ]
+    }
+  },
+  "movies.csv": {
+    "ml_config": {
+      "problem_type": "regression",
+      "target_variable": "revenue",
+      "features": {
+        "regular_terms": ["rt_score", "imdb_rating", "length", "year"],
+        "interaction_terms": [
+          {
+            "term_1": "rt_score",
+            "term_2": "imdb_rating"
+          }
+        ],
+        "polynomial_terms": [
+          {
+            "term": "rt_score",
+            "degree": 2
+          },
+          {
+            "term": "length",
+            "degree": 2
+          }
+        ]
+      },
+      "candidate_models": ["Linear Regression", "KNN"]
+    }
+  },
+  "mtcars.csv": {
+    "ml_config": {
+      "problem_type": "regression",
+      "target_variable": "mpg",
+      "features": {
+        "regular_terms": [
+          "wt",
+          "cyl",
+          "disp",
+          "hp",
+          "drat",
+          "vs",
+          "am",
+          "carb"
+        ],
+        "interaction_terms": [
+          {
+            "term_1": "wt",
+            "term_2": "hp"
+          },
+          {
+            "term_1": "wt",
+            "term_2": "am"
+          }
+        ],
+        "polynomial_terms": [
+          {
+            "term": "wt",
+            "degree": 2
+          },
+          {
+            "term": "hp",
+            "degree": 2
+          }
+        ]
+      },
+      "candidate_models": ["Linear Regression", "KNN (K nearest neighbours)"]
+    }
+  },
+  "Smarket.csv": {
+    "ml_config": {
+      "problem_type": "classification",
+      "target_variable": "Direction",
+      "features": {
+        "regular_terms": ["Lag1", "Lag2", "Lag3", "Lag4", "Lag5", "Volume"],
+        "interaction_terms": [
+          {
+            "term_1": "Lag1",
+            "term_2": "Volume"
+          },
+          {
+            "term_1": "Lag2",
+            "term_2": "Volume"
+          }
+        ],
+        "polynomial_terms": [
+          {
+            "term": "Volume",
+            "degree": 2
+          }
+        ]
+      },
+      "candidate_models": [
+        "Logistic Regression",
+        "Linear Discriminant Analysis",
+        "K-Nearest Neighbors",
+        "Random Forest"
+      ]
+    }
+  },
+  "swiss-census.csv": {
+    "ml_config": {
+      "problem_type": "regression",
+      "target_variable": "Fertility",
+      "features": {
+        "regular_terms": [
+          "Agriculture",
+          "Examination",
+          "Education",
+          "Catholic",
+          "Infant.Mortality"
+        ],
+        "interaction_terms": [
+          {
+            "term_1": "Education",
+            "term_2": "Examination"
+          },
+          {
+            "term_1": "Education",
+            "term_2": "Catholic"
+          }
+        ],
+        "polynomial_terms": [
+          {
+            "term": "Education",
+            "degree": 2
+          },
+          {
+            "term": "Catholic",
+            "degree": 2
+          }
+        ]
+      },
+      "candidate_models": ["Linear Regression", "KNN"]
+    }
+  }
+}

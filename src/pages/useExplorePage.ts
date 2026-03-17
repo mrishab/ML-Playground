@@ -1,8 +1,10 @@
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import * as dfd from "danfojs";
 import type { DataFrame } from "danfojs";
 import { useDatasetStore } from "@/stores/dataset";
 import { useMLConfigStore, type SelectedFeature } from "@/stores/mlConfig";
+import { loadDatasetConfig } from "@/lib/datasetConfig";
+import { DATASETS } from "@/components/useDatasetSelect";
 
 // Fisher-Yates shuffle
 function shuffleArray<T>(array: T[]): T[] {
@@ -48,6 +50,7 @@ function applyTransformation(
 export function useExplorePage() {
   const { df, selectedDataset } = useDatasetStore();
   const {
+    problemType,
     shuffle,
     testSplitPercent,
     targetColumn,
@@ -57,6 +60,7 @@ export function useExplorePage() {
     yTrain,
     yTest,
     isSplit,
+    setProblemType,
     setShuffle,
     setTestSplitPercent,
     setTargetColumn,
@@ -64,8 +68,11 @@ export function useExplorePage() {
     removeFeature,
     updateFeatureTransformation,
     clearFeatures,
+    setFeatures,
     setSplitData,
   } = useMLConfigStore();
+
+  const [isLoadingConfig, setIsLoadingConfig] = useState(false);
 
   const columns = useMemo(() => {
     if (!df) return [];
@@ -211,6 +218,26 @@ export function useExplorePage() {
     return Object.keys(previewData[0]);
   }, [previewData]);
 
+  const loadDefaultConfig = useCallback(async () => {
+    if (!selectedDataset) return;
+
+    // Find the dataset file name from DATASETS
+    const dataset = DATASETS.find((d) => d.name === selectedDataset);
+    if (!dataset) return;
+
+    setIsLoadingConfig(true);
+    try {
+      const config = await loadDatasetConfig(dataset.file);
+      if (config) {
+        setProblemType(config.problemType);
+        setTargetColumn(config.targetColumn);
+        setFeatures(config.features);
+      }
+    } finally {
+      setIsLoadingConfig(false);
+    }
+  }, [selectedDataset, setProblemType, setTargetColumn, setFeatures]);
+
   return {
     // Data state
     df,
@@ -220,6 +247,7 @@ export function useExplorePage() {
     availableInteractionColumns,
 
     // Config state
+    problemType,
     shuffle,
     testSplitPercent,
     targetColumn,
@@ -238,7 +266,11 @@ export function useExplorePage() {
     previewData,
     previewColumns,
 
+    // Loading state
+    isLoadingConfig,
+
     // Actions
+    setProblemType,
     setShuffle,
     setTestSplitPercent,
     setTargetColumn,
@@ -247,5 +279,6 @@ export function useExplorePage() {
     updateFeatureTransformation,
     clearFeatures,
     performSplit,
+    loadDefaultConfig,
   };
 }
