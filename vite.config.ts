@@ -6,7 +6,7 @@ import { VitePWA } from "vite-plugin-pwa";
 
 // https://vite.dev/config/
 export default defineConfig(() => ({
-  base: "/COMP381_FinalProject/",
+  base: "/ML-Playground/",
   plugins: [
     react(),
     tailwindcss(),
@@ -17,7 +17,7 @@ export default defineConfig(() => ({
         maximumFileSizeToCacheInBytes: 15 * 1024 * 1024, // 15 MB
       },
       manifest: {
-        name: "COMP 381 - ML Playground",
+        name: "ML Playground",
         short_name: "ML Playground",
         description:
           "Machine Learning Playground - Train and compare ML models in browser",

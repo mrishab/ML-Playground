@@ -1,8 +1,8 @@
-# COMP 381 Final Project - Browser ML Playground
+# ML Playground - Browser ML Playground
 
 Interactive machine learning playground built with React, DanfoJs and Scikit Learn JS where data loading, feature engineering, train/test split, model training, and inference run fully in the browser.
 
-View Live site: https://mrishab.github.io/COMP381_FinalProject/
+View Live site: https://mrishab.github.io/ML-Playground/
 
 ## What this project does
 
@@ -58,8 +58,8 @@ Node version policy (from package engines):
 ### 1. Clone and enter project
 
 ```bash
-git clone https://github.com/mrishab/COMP381_FinalProject.git
-cd COMP381_FinalProject
+git clone https://github.com/mrishab/ML-Playground.git
+cd ML-Playground
 ```
 
 ### 2. Use the correct Node version with nvm
@@ -160,7 +160,7 @@ How to publish changes:
 
 Notes:
 
-- Vite base path is configured for GitHub Pages project hosting (/COMP381_FinalProject/).
+- Vite base path is configured for GitHub Pages project hosting (/ML-Playground/).
 - First load after deploy may be cached; hard refresh if you do not see updates immediately.
 
 ## Troubleshooting

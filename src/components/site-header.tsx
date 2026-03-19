@@ -31,7 +31,7 @@ export function SiteHeader() {
           <BreadcrumbList>
             <BreadcrumbItem>
               <BreadcrumbLink href="#">
-                COMP 381 Final Project - Machine Learning Playground
+                Machine Learning Playground
               </BreadcrumbLink>
             </BreadcrumbItem>
           </BreadcrumbList>

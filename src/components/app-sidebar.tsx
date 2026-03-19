@@ -103,7 +103,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-semibold">ML Pipeline</span>
-                  <span className="truncate text-xs">COMP 381</span>
+                  <span className="truncate text-xs">ML Playground</span>
                 </div>
               </a>
             </SidebarMenuButton>

@@ -18,7 +18,7 @@ function App() {
     <ThemeProvider
       attribute="class"
       defaultTheme="dark"
-      storageKey="comp-381-ui-theme"
+      storageKey="ml-playground-ui-theme"
     >
       <BrowserRouter basename={basename}>
         <Routes>
