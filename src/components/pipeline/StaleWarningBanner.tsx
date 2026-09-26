@@ -12,12 +12,12 @@ type StaleWarningBannerProps = {
 };
 
 export function StaleWarningBanner({
-  title = "Parameters Modified (Downstream Stages Stale)",
+  title = "Parameters Modified",
   message,
   onRevert,
-  revertLabel = "Revert Changes to Keep Results",
+  revertLabel = "Revert Changes",
   onRecompute,
-  recomputeLabel = "Apply & Reset Downstream",
+  recomputeLabel = "Apply Changes",
 }: StaleWarningBannerProps) {
   return (
     <Alert className="border-amber-500/40 bg-amber-500/10 text-amber-950 dark:text-amber-200 transition-all duration-200 shadow-sm">
