@@ -14,15 +14,14 @@ export function ClassificationComparisonPage() {
     <ComparisonPageLayout
       {...pageState}
       title="Classification Comparison"
-      subtitle="Compare classification algorithms side by side"
+      subtitle="Compare classification models"
       icon={Target}
       defaultValue="accuracy"
       noModelsLinkTo="/train/knn"
       nextStep={{
-        message:
-          "Comparison complete. View final leaderboard and export evaluation results.",
+        message: "Comparison complete.",
         linkTo: "/validation",
-        linkText: "Proceed to Final Validation",
+        linkText: "View Validation",
       }}
       tabs={[
         {

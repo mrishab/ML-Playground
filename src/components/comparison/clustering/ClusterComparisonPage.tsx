@@ -10,23 +10,20 @@ export function ClusterComparisonPage() {
     <PageLayout
       icon={CircleDot}
       title="Clustering Comparison"
-      subtitle="Compare clustering algorithms side by side"
+      subtitle="Compare clustering models"
       nextStep={{
-        message:
-          "Clustering analysis complete. Compare classification or regression models.",
+        message: "Compare trained models.",
         linkTo:
           problemType === "regression"
             ? "/comparison/regression"
             : "/comparison/classification",
-        linkText: "Go to Comparison",
+        linkText: "Compare Models",
       }}
     >
-      <Card className="border-dashed">
+      <Card className="border-dashed transition-all duration-200">
         <CardContent className="flex h-[200px] items-center justify-center">
-          <p className="text-center text-muted-foreground">
-            No clustering algorithms have been implemented yet. This page will
-            be available once clustering models are added to the training
-            pipeline.
+          <p className="text-center text-sm text-muted-foreground">
+            Clustering models coming soon.
           </p>
         </CardContent>
       </Card>

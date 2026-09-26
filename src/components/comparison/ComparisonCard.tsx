@@ -22,7 +22,7 @@ export function ComparisonCard({
 }: ComparisonCardProps) {
   if (!trained) {
     return (
-      <Card className="border-dashed">
+      <Card className="border-dashed transition-all duration-200">
         <CardHeader className="pb-3">
           <CardTitle className="text-base">{title}</CardTitle>
           {subtitle && <CardDescription>{subtitle}</CardDescription>}
@@ -35,7 +35,7 @@ export function ComparisonCard({
   }
 
   return (
-    <Card>
+    <Card className="transition-all duration-200">
       <CardHeader className="pb-3">
         <CardTitle className="text-base">{title}</CardTitle>
         {subtitle && <CardDescription>{subtitle}</CardDescription>}

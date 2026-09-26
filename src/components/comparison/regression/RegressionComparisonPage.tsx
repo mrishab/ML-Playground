@@ -12,15 +12,14 @@ export function RegressionComparisonPage() {
     <ComparisonPageLayout
       {...pageState}
       title="Regression Comparison"
-      subtitle="Compare regression algorithms side by side"
+      subtitle="Compare regression models"
       icon={TrendingUp}
       defaultValue="mse"
       noModelsLinkTo="/train/linear"
       nextStep={{
-        message:
-          "Comparison complete. View final leaderboard and export evaluation results.",
+        message: "Comparison complete.",
         linkTo: "/validation",
-        linkText: "Proceed to Final Validation",
+        linkText: "View Validation",
       }}
       tabs={[
         {
