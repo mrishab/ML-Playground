@@ -32,3 +32,5 @@ export type OutlierBoundsMap = Record<string, ColumnBounds>;
 export type RawCSVRow = Record<string, string>;
 
 export type DatasetRowData = Record<string, unknown>;
+
+export type { ProblemType } from "@/stores/mlConfig";
