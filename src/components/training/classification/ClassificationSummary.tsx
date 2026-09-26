@@ -1,41 +1,11 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { formatNumber } from "@/lib/number";
 import { cn } from "@/lib/utils";
 import type { ClassificationMetrics } from "@/types/classification";
+import { MetricCard } from "./summary/MetricCard";
 
 type ClassificationSummaryProps = {
   metrics: ClassificationMetrics;
   direction?: "horizontal" | "vertical";
 };
-
-type MetricCardProps = {
-  label: string;
-  value: number;
-  subtitle: string;
-  format?: "number" | "percent";
-};
-
-function MetricCard({
-  label,
-  value,
-  subtitle,
-  format = "number",
-}: MetricCardProps) {
-  const displayValue =
-    format === "percent" ? `${(value * 100).toFixed(2)}%` : formatNumber(value);
-
-  return (
-    <Card>
-      <CardContent className="pt-6">
-        <div className="text-center">
-          <p className="text-sm text-muted-foreground">{label}</p>
-          <p className="text-3xl font-bold">{displayValue}</p>
-          <p className="mt-1 text-xs text-muted-foreground">{subtitle}</p>
-        </div>
-      </CardContent>
-    </Card>
-  );
-}
 
 export function ClassificationSummary({
   metrics,

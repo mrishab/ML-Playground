@@ -1,70 +1,9 @@
-import type { DataTableColumnDef } from "@/components/ui/data-table";
 import { DataTable } from "@/components/ui/data-table";
-import { formatNumber } from "@/lib/number";
 import type { RegressionMetrics } from "@/types/regression";
-
-type PredictionRow = {
-  index: number;
-  actual: number;
-  predicted: number;
-  residual: number;
-  squaredResidual: number;
-};
-
-function createColumns(): DataTableColumnDef<PredictionRow>[] {
-  return [
-    {
-      id: "index",
-      accessorKey: "index",
-      header: { id: "index", title: "#" },
-      cell: ({ getValue }) => (
-        <span className="text-muted-foreground">
-          {String(getValue() ?? "")}
-        </span>
-      ),
-    },
-    {
-      id: "actual",
-      accessorKey: "actual",
-      header: { id: "actual", title: "Actual (y)", className: "text-right" },
-      cell: ({ getValue }) => (
-        <div className="text-right">{formatNumber(getValue<number>())}</div>
-      ),
-    },
-    {
-      id: "predicted",
-      accessorKey: "predicted",
-      header: {
-        id: "predicted",
-        title: "Predicted (ŷ)",
-        className: "text-right",
-      },
-      cell: ({ getValue }) => (
-        <div className="text-right">{formatNumber(getValue<number>())}</div>
-      ),
-    },
-    {
-      id: "residual",
-      accessorKey: "residual",
-      header: { id: "residual", title: "Residual", className: "text-right" },
-      cell: ({ getValue }) => (
-        <div className="text-right">{formatNumber(getValue<number>())}</div>
-      ),
-    },
-    {
-      id: "squaredResidual",
-      accessorKey: "squaredResidual",
-      header: {
-        id: "squaredResidual",
-        title: "Residual²",
-        className: "text-right",
-      },
-      cell: ({ getValue }) => (
-        <div className="text-right">{formatNumber(getValue<number>())}</div>
-      ),
-    },
-  ];
-}
+import {
+  createPredictionColumns,
+  type PredictionRow,
+} from "./predictions/createPredictionColumns";
 
 function metricsToRows(metrics: RegressionMetrics): PredictionRow[] {
   return metrics.actuals.map((actual, i) => ({
@@ -76,12 +15,8 @@ function metricsToRows(metrics: RegressionMetrics): PredictionRow[] {
   }));
 }
 
-type PredictionsTableProps = {
-  metrics: RegressionMetrics;
-};
-
-export function PredictionsTable({ metrics }: PredictionsTableProps) {
-  const columns = createColumns();
+export function PredictionsTable({ metrics }: { metrics: RegressionMetrics }) {
+  const columns = createPredictionColumns();
   const data = metricsToRows(metrics);
 
   return <DataTable columns={columns} data={data} />;

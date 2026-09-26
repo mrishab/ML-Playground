@@ -16,7 +16,7 @@ export function LinearRegressionPage() {
     <TrainingPageLayout
       {...pageState}
       title="Linear Regression"
-      subtitle="Train and evaluate a linear regression model"
+      subtitle="Ordinary Least Squares regression"
       icon={TrendingUp}
       algorithmName="Linear Regression (OLS)"
       configOptions={[{ label: "Fit Intercept", value: "True" }]}
@@ -46,9 +46,9 @@ export function LinearRegressionPage() {
         </Tabs>
       }
       nextStepProps={{
-        message: "Model trained. Compare your results.",
+        message: "Model trained.",
         linkTo: "/comparison/regression",
-        linkText: "Go to Comparison",
+        linkText: "Compare Models",
       }}
       onRun={pageState.runTraining}
       onReset={pageState.reset}
