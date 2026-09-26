@@ -2,6 +2,8 @@ import { Outlet } from "react-router-dom";
 import { AppSidebar } from "./components/app-sidebar";
 import { SiteHeader } from "./components/site-header";
 import { SidebarProvider } from "./components/ui/sidebar";
+import { PipelineStepper } from "./components/pipeline/PipelineStepper";
+import { PrerequisitesModal } from "./components/pipeline/PrerequisitesModal";
 
 export function AppShell() {
   return (
@@ -19,9 +21,11 @@ export function AppShell() {
         />
         <div className="flex flex-col min-w-0 overflow-hidden">
           <SiteHeader />
-          <main className="flex-1 overflow-y-auto bg-background">
+          <PipelineStepper />
+          <main className="flex-1 overflow-y-auto bg-background flex flex-col">
             <Outlet />
           </main>
+          <PrerequisitesModal />
         </div>
       </div>
     </SidebarProvider>

@@ -1,8 +1,11 @@
 import { type LucideIcon } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { PageLayout } from "./PageLayout";
-import { NoDatasetAlert } from "./NoDatasetAlert";
+import { PrerequisiteGate } from "@/components/pipeline/PrerequisiteGate";
+import { StaleWarningBanner } from "@/components/pipeline/StaleWarningBanner";
 import { ModelConfig } from "./ModelConfig";
+import { usePipelineSteps } from "@/hooks/usePipelineSteps";
+import { usePipelineStore } from "@/stores/pipeline";
 
 type TrainingPageLayoutProps = {
   title: string;
@@ -53,26 +56,52 @@ export function TrainingPageLayout({
   onRun,
   onReset,
 }: TrainingPageLayoutProps) {
+  const { steps, isDownstreamStale } = usePipelineSteps();
+  const revertExploreChanges = usePipelineStore(
+    (state) => state.revertExploreChanges,
+  );
+  const step3 = steps[2];
+
   if (!isSplit) {
     return (
       <PageLayout icon={icon} title={title} subtitle={subtitle}>
-        <NoDatasetAlert
-          title="No split data available"
-          description="Please configure and split your data first."
-          linkTo="/pretrain/explore"
-          linkText="Go to Explore page"
-        />
+        <PrerequisiteGate step={step3} />
       </PageLayout>
     );
   }
+
+  // Derive context-aware Action Gate primary CTA
+  const primaryAction = metrics
+    ? {
+        label: nextStepProps.linkText,
+        linkTo: nextStepProps.linkTo,
+      }
+    : {
+        label:
+          trainingState === "training" ? "Training Model..." : "Run Training",
+        onClick: onRun,
+        disabled: !canTrain || trainingState === "training",
+      };
 
   return (
     <PageLayout
       icon={icon}
       title={title}
       subtitle={subtitle}
-      nextStep={metrics ? nextStepProps : undefined}
+      primaryAction={primaryAction}
     >
+      {/* Downstream Stale State Banner */}
+      {isDownstreamStale && Boolean(metrics) && (
+        <StaleWarningBanner
+          title="Trained Model May Be Outdated"
+          message="Upstream dataset or split parameters have changed since this model was trained. The metrics below reflect previous split data. Re-run training to reflect the latest changes."
+          onRevert={revertExploreChanges}
+          revertLabel="Revert Upstream Changes"
+          onRecompute={onRun}
+          recomputeLabel="Re-train Model Now"
+        />
+      )}
+
       {error && (
         <Card className="border-red-500/30 bg-red-500/5">
           <CardContent className="p-4">

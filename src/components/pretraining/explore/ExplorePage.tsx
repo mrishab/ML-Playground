@@ -22,10 +22,12 @@ import { DataTable, SortableHeader } from "@/components/ui/data-table";
 import { FeatureSelector } from "./FeatureSelector";
 import { OutlierVisualizer } from "./OutlierVisualizer";
 import { SplitResults } from "./SplitResults";
-import { NoDatasetAlert } from "@/components/shared/NoDatasetAlert";
-import type { FeatureRowData } from "@/types/dataset";
 import { PageLayout } from "@/components/shared/PageLayout";
+import { PrerequisiteGate } from "@/components/pipeline/PrerequisiteGate";
+import { StaleWarningBanner } from "@/components/pipeline/StaleWarningBanner";
 import { useExplorePage } from "./useExplorePage";
+import { usePipelineSteps } from "@/hooks/usePipelineSteps";
+import type { FeatureRowData } from "@/types/dataset";
 import type { ProblemType } from "@/stores/mlConfig";
 
 const PROBLEM_TYPES: { value: ProblemType; label: string }[] = [
@@ -36,6 +38,9 @@ const PROBLEM_TYPES: { value: ProblemType; label: string }[] = [
 ];
 
 export function ExplorePage() {
+  const { steps, defaultTrainRoute } = usePipelineSteps();
+  const step2 = steps[1];
+
   const {
     df,
     selectedDataset,
@@ -57,6 +62,8 @@ export function ExplorePage() {
     removedRowsAfterOutlierDrop,
     iqrMultiplier,
     isLoadingConfig,
+    isExploreDirty,
+    revertExploreChanges,
     setProblemType,
     setShuffle,
     setTestSplitPercent,
@@ -83,17 +90,42 @@ export function ExplorePage() {
     }));
   }, [previewColumns]);
 
+  // Derive the context-aware primary CTA for the 3-Zone Action Gate
+  const primaryAction = useMemo(() => {
+    if (!isSplit) {
+      return {
+        label: "Create Train/Test Split",
+        onClick: performSplit,
+        disabled: !canSplit,
+        disabledReason: !canSplit
+          ? "Select target variable and at least 1 feature"
+          : undefined,
+      };
+    }
+
+    if (isExploreDirty) {
+      return {
+        label: "Re-split Data (Will Invalidate Models)",
+        onClick: performSplit,
+        disabled: !canSplit,
+        variant: "destructive" as const,
+      };
+    }
+
+    return {
+      label: "Proceed to Model Training",
+      linkTo: defaultTrainRoute,
+    };
+  }, [isSplit, isExploreDirty, canSplit, performSplit, defaultTrainRoute]);
+
   if (!df) {
     return (
       <PageLayout
         icon={Search}
-        title="Explore"
-        subtitle="Configure ML parameters and create train/test split"
+        title="Explore & Split"
+        subtitle="Configure ML parameters and generate train/test splits"
       >
-        <NoDatasetAlert
-          description="Please select a dataset first to configure ML parameters."
-          linkTo="/data/select"
-        />
+        <PrerequisiteGate step={step2} />
       </PageLayout>
     );
   }
@@ -101,7 +133,7 @@ export function ExplorePage() {
   return (
     <PageLayout
       icon={Search}
-      title="Explore"
+      title="Explore & Split"
       subtitle={`Configure ML parameters for ${selectedDataset}`}
       actions={
         <Button
@@ -114,16 +146,20 @@ export function ExplorePage() {
           {isLoadingConfig ? "Loading..." : "Load Default"}
         </Button>
       }
-      nextStep={
-        isSplit
-          ? {
-              message: "Data split complete. Visualize or start training.",
-              linkTo: "/pretrain/visualize",
-              linkText: "Go to Visualize",
-            }
-          : undefined
-      }
+      primaryAction={primaryAction}
     >
+      {/* Stale State Invalidation Warning Banner */}
+      {isExploreDirty && (
+        <StaleWarningBanner
+          title="Split Parameters Modified"
+          message="You have modified split settings since your last split. Existing trained models were fit using previous settings. Re-splitting will reset downstream models."
+          onRevert={revertExploreChanges}
+          revertLabel="Revert to Current Split Settings"
+          onRecompute={performSplit}
+          recomputeLabel="Re-split Data & Reset Downstream"
+        />
+      )}
+
       <div className="grid flex-1 gap-4 lg:grid-cols-2">
         {/* Left Column - Configuration */}
         <div className="space-y-4">
@@ -219,8 +255,13 @@ export function ExplorePage() {
             disabled={!canSplit}
             className="w-full"
             size="lg"
+            variant={isExploreDirty ? "destructive" : "default"}
           >
-            Create Train/Test Split
+            {isSplit
+              ? isExploreDirty
+                ? "Re-split Data (Will Invalidate Models)"
+                : "Re-run Train/Test Split"
+              : "Create Train/Test Split"}
           </Button>
 
           {!canSplit && targetColumn && selectedFeatures.length > 0 && (

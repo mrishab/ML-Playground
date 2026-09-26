@@ -1,6 +1,7 @@
 import { BarChart3 } from "lucide-react";
 import { PageLayout } from "@/components/shared/PageLayout";
-import { NoDatasetAlert } from "@/components/shared/NoDatasetAlert";
+import { PrerequisiteGate } from "@/components/pipeline/PrerequisiteGate";
+import { usePipelineSteps } from "@/hooks/usePipelineSteps";
 import { FeatureTabs } from "./FeatureTabs";
 import { ScatterPlot } from "./ScatterPlot";
 import { useVisualizePage } from "./useVisualizePage";
@@ -26,6 +27,9 @@ export function VisualizePage() {
     },
   });
 
+  const { steps } = usePipelineSteps();
+  const step2 = steps[1];
+
   if (!isSplit) {
     return (
       <PageLayout
@@ -33,12 +37,7 @@ export function VisualizePage() {
         title="Visualize"
         subtitle="Explore your data through visualizations"
       >
-        <NoDatasetAlert
-          title="No split data available"
-          description="Please configure and split your data first."
-          linkTo="/pretrain/explore"
-          linkText="Go to Explore page"
-        />
+        <PrerequisiteGate step={step2} />
       </PageLayout>
     );
   }

@@ -20,9 +20,9 @@ export function ClassificationComparisonPage() {
       noModelsLinkTo="/train/knn"
       nextStep={{
         message:
-          "Analysis complete. Start a new pipeline with a different dataset.",
-        linkTo: "/data/select",
-        linkText: "Start Over",
+          "Comparison complete. View final leaderboard and export evaluation results.",
+        linkTo: "/validation",
+        linkText: "Proceed to Final Validation",
       }}
       tabs={[
         {

@@ -13,6 +13,7 @@ import { LogisticRegressionPage } from "@/components/training/logistic-regressio
 import { ClassificationComparisonPage } from "@/components/comparison/classification/ClassificationComparisonPage";
 import { RegressionComparisonPage } from "@/components/comparison/regression/RegressionComparisonPage";
 import { ClusterComparisonPage } from "@/components/comparison/clustering/ClusterComparisonPage";
+import { ValidationResultsPage } from "@/components/pipeline/ValidationResultsPage";
 
 const basename = import.meta.env.BASE_URL;
 
@@ -51,6 +52,8 @@ function App() {
               path="comparison/clustering"
               element={<ClusterComparisonPage />}
             />
+            {/* Validation / Results */}
+            <Route path="validation" element={<ValidationResultsPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -1,11 +1,14 @@
 import { Shuffle, Construction } from "lucide-react";
 import { useDatasetStore } from "@/stores/dataset";
 import { PageLayout } from "@/components/shared/PageLayout";
-import { NoDatasetAlert } from "@/components/shared/NoDatasetAlert";
+import { PrerequisiteGate } from "@/components/pipeline/PrerequisiteGate";
+import { usePipelineSteps } from "@/hooks/usePipelineSteps";
 import { Card, CardContent } from "@/components/ui/card";
 
 export function TransformPage() {
   const df = useDatasetStore((state) => state.df);
+  const { steps } = usePipelineSteps();
+  const step1 = steps[0];
 
   return (
     <PageLayout
@@ -24,10 +27,7 @@ export function TransformPage() {
       }
     >
       {!df ? (
-        <NoDatasetAlert
-          description="Please select a dataset first."
-          linkTo="/data/select"
-        />
+        <PrerequisiteGate step={step1} />
       ) : (
         <Card className="border-dashed">
           <CardContent className="flex flex-col items-center justify-center gap-3 py-16">

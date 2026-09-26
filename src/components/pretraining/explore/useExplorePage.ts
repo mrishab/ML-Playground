@@ -4,6 +4,8 @@ import type { DataFrame } from "danfojs";
 import { useDatasetStore } from "@/stores/dataset";
 import { useMLConfigStore, type SelectedFeature } from "@/stores/mlConfig";
 import { useTrainingResultsStore } from "@/stores/trainingResults";
+import { usePipelineStore } from "@/stores/pipeline";
+import { usePipelineSteps } from "@/hooks/usePipelineSteps";
 import { loadDatasetConfig } from "@/lib/datasetConfig";
 import { DATASETS } from "@/components/data-ingestion/select-dataset/useDatasetSelect";
 import type {
@@ -117,6 +119,10 @@ export function useExplorePage() {
   } = useMLConfigStore();
   const resetTrainingResults = useTrainingResultsStore(
     (state) => state.resetAll,
+  );
+  const { isExploreDirty } = usePipelineSteps();
+  const revertExploreChanges = usePipelineStore(
+    (state) => state.revertExploreChanges,
   );
 
   const [isLoadingConfig, setIsLoadingConfig] = useState(false);
@@ -283,6 +289,15 @@ export function useExplorePage() {
       yTrain: yTrainDf,
       yTest: yTestDf,
     });
+
+    usePipelineStore.getState().recordSplit({
+      datasetName: selectedDataset,
+      problemType,
+      targetColumn,
+      selectedFeatures,
+      testSplitPercent,
+      shuffle,
+    });
   }, [
     df,
     canSplit,
@@ -290,6 +305,8 @@ export function useExplorePage() {
     testSplitPercent,
     selectedFeatures,
     targetColumn,
+    problemType,
+    selectedDataset,
     resetTrainingResults,
     setSplitData,
   ]);
@@ -397,5 +414,9 @@ export function useExplorePage() {
     loadDefaultConfig,
     dropOutliers,
     setIqrMultiplier,
+
+    // Dirty state management
+    isExploreDirty,
+    revertExploreChanges,
   };
 }

@@ -83,14 +83,13 @@ export const useMLConfigStore = create<MLConfigState & MLConfigActions>()(
   (set) => ({
     ...initialState,
 
-    setProblemType: (problemType) => set({ problemType, isSplit: false }),
+    setProblemType: (problemType) => set({ problemType }),
 
-    setShuffle: (shuffle) => set({ shuffle, isSplit: false }),
+    setShuffle: (shuffle) => set({ shuffle }),
 
-    setTestSplitPercent: (percent) =>
-      set({ testSplitPercent: percent, isSplit: false }),
+    setTestSplitPercent: (percent) => set({ testSplitPercent: percent }),
 
-    setTargetColumn: (column) => set({ targetColumn: column, isSplit: false }),
+    setTargetColumn: (column) => set({ targetColumn: column }),
 
     addFeature: (column) =>
       set((state) => ({
@@ -102,13 +101,11 @@ export const useMLConfigStore = create<MLConfigState & MLConfigActions>()(
             transformation: "none" as TransformationType,
           },
         ],
-        isSplit: false,
       })),
 
     removeFeature: (id) =>
       set((state) => ({
         selectedFeatures: state.selectedFeatures.filter((f) => f.id !== id),
-        isSplit: false,
       })),
 
     updateFeatureTransformation: (id, transformation, options) =>
@@ -124,13 +121,11 @@ export const useMLConfigStore = create<MLConfigState & MLConfigActions>()(
               }
             : f,
         ),
-        isSplit: false,
       })),
 
-    clearFeatures: () => set({ selectedFeatures: [], isSplit: false }),
+    clearFeatures: () => set({ selectedFeatures: [] }),
 
-    setFeatures: (features) =>
-      set({ selectedFeatures: features, isSplit: false }),
+    setFeatures: (features) => set({ selectedFeatures: features }),
 
     setSplitData: (data) =>
       set({

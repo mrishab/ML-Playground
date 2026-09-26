@@ -27,6 +27,7 @@ const BREADCRUMB_MAP: Record<string, string> = {
   classification: "Classification",
   regression: "Regression",
   clustering: "Clustering",
+  validation: "Validation & Results",
 };
 
 export function SiteHeader() {

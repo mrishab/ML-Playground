@@ -18,9 +18,9 @@ export function RegressionComparisonPage() {
       noModelsLinkTo="/train/linear"
       nextStep={{
         message:
-          "Analysis complete. Start a new pipeline with a different dataset.",
-        linkTo: "/data/select",
-        linkText: "Start Over",
+          "Comparison complete. View final leaderboard and export evaluation results.",
+        linkTo: "/validation",
+        linkText: "Proceed to Final Validation",
       }}
       tabs={[
         {

@@ -7,14 +7,16 @@ import {
 } from "lucide-react";
 import { useDatasetLoader } from "@/hooks/useDatasetLoader";
 import { useDatasetStore } from "@/stores/dataset";
+import { usePipelineStore } from "@/stores/pipeline";
 import { DatasetSelect } from "./DatasetSelect";
 import { DatasetOverview } from "./DatasetOverview";
 import { AnalyzeTable } from "./AnalyzeTable";
 import { DatasetCard } from "./DatasetCard";
-import { DATASETS } from "./useDatasetSelect";
+import { useDatasetSelect, DATASETS } from "./useDatasetSelect";
 import { PageLayout } from "@/components/shared/PageLayout";
 import { DataTable, type DataTableColumnDef } from "@/components/ui/data-table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { StaleWarningBanner } from "@/components/pipeline/StaleWarningBanner";
 import type { DatasetRowData } from "@/types/dataset";
 
 export function SelectDatasetPage() {
@@ -22,7 +24,17 @@ export function SelectDatasetPage() {
   const setSelectedDataset = useDatasetStore(
     (state) => state.setSelectedDataset,
   );
+  const { pendingDataset, revertDatasetChange, setPendingDataset } =
+    usePipelineStore();
+  const { onSelect } = useDatasetSelect();
   useDatasetLoader();
+
+  const handleApplyPendingDataset = () => {
+    if (!pendingDataset) return;
+    const newDataset = pendingDataset;
+    setPendingDataset(null);
+    setSelectedDataset(newDataset);
+  };
 
   const rows = useMemo<DatasetRowData[]>(() => {
     if (!df) return [];
@@ -55,40 +67,64 @@ export function SelectDatasetPage() {
     });
   }, [df]);
 
+  const isDatasetReady = Boolean(df && !loading && columns.length > 0);
+
   return (
     <PageLayout
       icon={<FileSpreadsheet className="h-8 w-8 text-primary" />}
       title="Select Dataset"
-      subtitle="Choose a dataset from the available CSV files"
+      subtitle="Choose an in-browser dataset to begin your ML pipeline"
       actions={
         <div className="w-48">
           <DatasetSelect />
         </div>
       }
-      nextStep={
-        df && !loading && columns.length > 0
+      primaryAction={
+        isDatasetReady
           ? {
-              message: "Dataset loaded. Configure your ML parameters next.",
+              label: "Proceed to Pretrain & Split",
               linkTo: "/pretrain/explore",
-              linkText: "Go to Explore",
             }
-          : undefined
+          : {
+              label: "Select a Dataset to Continue",
+              disabled: true,
+            }
       }
     >
+      {/* Pending Dataset Stale Invalidation Warning Banner */}
+      {pendingDataset && pendingDataset !== selectedDataset && (
+        <StaleWarningBanner
+          title="Switch Dataset?"
+          message={`You have selected '${pendingDataset}'. Switching datasets will reset downstream splits and models trained on '${selectedDataset}'. Your current models remain accessible until you apply.`}
+          onRevert={revertDatasetChange}
+          revertLabel={`Keep ${selectedDataset}`}
+          onRecompute={handleApplyPendingDataset}
+          recomputeLabel={`Switch to ${pendingDataset} & Reset Downstream`}
+        />
+      )}
+
       {loading && (
-        <div className="flex flex-1 items-center justify-center">
+        <div className="flex flex-1 items-center justify-center p-12">
           <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
         </div>
       )}
 
       {error && (
-        <div className="rounded-lg border border-destructive bg-destructive/10 p-4 text-destructive">
+        <div className="rounded-lg border border-destructive bg-destructive/10 p-4 text-destructive text-sm">
           {error}
         </div>
       )}
 
-      {df && !loading && columns.length > 0 && (
+      {isDatasetReady && (
         <>
+          <div className="flex items-center justify-between pb-2">
+            <span className="text-xs text-muted-foreground">
+              Loaded:{" "}
+              <strong className="text-foreground">{selectedDataset}</strong> (
+              {rows.length} rows, {columns.length} columns)
+            </span>
+          </div>
+
           <Tabs defaultValue="table" className="flex-1">
             <TabsList>
               <TabsTrigger value="table" className="gap-2">
@@ -126,8 +162,8 @@ export function SelectDatasetPage() {
                 key={ds.name}
                 name={ds.name}
                 problemType={ds.problemType}
-                selected={false}
-                onSelect={() => setSelectedDataset(ds.name)}
+                selected={ds.name === pendingDataset}
+                onSelect={() => onSelect(ds.name)}
               />
             ))}
           </div>
