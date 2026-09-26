@@ -1,0 +1,18 @@
+export const BREADCRUMB_MAP: Record<string, string> = {
+  data: "Data Ingestion",
+  select: "Select Dataset",
+  transform: "Transform",
+  pretrain: "Pretraining",
+  explore: "Explore",
+  visualize: "Visualize",
+  train: "Training",
+  linear: "Linear Regression",
+  knn: "KNN",
+  lda: "LDA",
+  logistic: "Logistic Regression",
+  comparison: "Comparison",
+  classification: "Classification",
+  regression: "Regression",
+  clustering: "Clustering",
+  validation: "Validation & Results",
+};
