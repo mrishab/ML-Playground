@@ -5,6 +5,8 @@
   "ignoreDependencies": [
     "husky",
     "@oxc-parser/binding-darwin-arm64",
-    "@oxlint/binding-darwin-arm64"
+    "@oxlint/binding-darwin-arm64",
+    "@oxc-parser/binding-linux-arm64-gnu",
+    "@oxlint/binding-linux-arm64-gnu"
   ]
 }
