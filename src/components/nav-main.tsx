@@ -1,7 +1,7 @@
 "use client";
 
 import { ChevronRight, type LucideIcon } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import {
   Collapsible,
@@ -19,12 +19,19 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export type NavItem = {
   title: string;
   url?: string;
   icon?: LucideIcon;
   isActive?: boolean;
+  disabled?: boolean;
+  disabledReason?: string;
   items?: NavItem[];
 };
 
@@ -35,6 +42,8 @@ function NavSubItems({
   items: NavItem[];
   depth?: number;
 }) {
+  const location = useLocation();
+
   return (
     <SidebarMenuSub>
       {items.map((item) => (
@@ -54,9 +63,34 @@ function NavSubItems({
               </>
             ) : (
               <SidebarMenuSubButton asChild>
-                <Link to={item.url ?? "#"}>
-                  <span>{item.title}</span>
-                </Link>
+                {item.disabled ? (
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <span
+                        aria-disabled
+                        className="cursor-not-allowed opacity-50"
+                      >
+                        <span>{item.title}</span>
+                      </span>
+                    </TooltipTrigger>
+                    {item.disabledReason && (
+                      <TooltipContent side="right">
+                        <p>{item.disabledReason}</p>
+                      </TooltipContent>
+                    )}
+                  </Tooltip>
+                ) : (
+                  <Link
+                    to={item.url ?? "#"}
+                    className={
+                      location.pathname === item.url
+                        ? "font-medium text-primary"
+                        : ""
+                    }
+                  >
+                    <span>{item.title}</span>
+                  </Link>
+                )}
               </SidebarMenuSubButton>
             )}
           </SidebarMenuSubItem>
@@ -81,11 +115,28 @@ export function NavMain({
           <Collapsible key={item.title} asChild defaultOpen={item.isActive}>
             <SidebarMenuItem>
               <SidebarMenuButton asChild tooltip={item.title}>
-                {item.url ? (
+                {item.url && !item.disabled ? (
                   <Link to={item.url}>
                     {item.icon && <item.icon />}
                     <span>{item.title}</span>
                   </Link>
+                ) : item.disabled ? (
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <span
+                        aria-disabled
+                        className="flex items-center gap-2 opacity-50"
+                      >
+                        {item.icon && <item.icon />}
+                        <span>{item.title}</span>
+                      </span>
+                    </TooltipTrigger>
+                    {item.disabledReason && (
+                      <TooltipContent side="right">
+                        <p>{item.disabledReason}</p>
+                      </TooltipContent>
+                    )}
+                  </Tooltip>
                 ) : (
                   <span className="flex items-center gap-2">
                     {item.icon && <item.icon />}

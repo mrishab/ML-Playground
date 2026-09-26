@@ -27,20 +27,12 @@ export function PrecisionRecallBreakdown({
       </CardHeader>
       <CardContent className="space-y-6">
         {/* Formulas */}
-        <div className="grid gap-4 md:grid-cols-2">
-          <div className="rounded-lg bg-muted p-4">
-            <p className="mb-2 font-mono text-sm">Precision = TP / (TP + FP)</p>
-            <p className="text-sm text-muted-foreground">
-              Of all instances predicted as a class, how many were actually that
-              class?
-            </p>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <div className="rounded-lg bg-muted/60 p-3 text-center">
+            <p className="font-mono text-sm">Precision = TP / (TP + FP)</p>
           </div>
-          <div className="rounded-lg bg-muted p-4">
-            <p className="mb-2 font-mono text-sm">Recall = TP / (TP + FN)</p>
-            <p className="text-sm text-muted-foreground">
-              Of all actual instances of a class, how many did the model
-              correctly identify?
-            </p>
+          <div className="rounded-lg bg-muted/60 p-3 text-center">
+            <p className="font-mono text-sm">Recall = TP / (TP + FN)</p>
           </div>
         </div>
 
@@ -98,17 +90,6 @@ export function PrecisionRecallBreakdown({
               {formatNumber(metrics.weightedRecall)}
             </Badge>
           </div>
-        </div>
-
-        {/* Interpretation */}
-        <div className="rounded-lg border border-purple-500/30 bg-purple-500/5 p-4">
-          <p className="text-sm font-medium">Interpretation</p>
-          <p className="mt-1 text-sm text-muted-foreground">
-            <strong>Precision</strong> measures how many of the model's positive
-            predictions were correct. <strong>Recall</strong> measures how many
-            actual positives the model found. A trade-off often exists:
-            improving one may reduce the other.
-          </p>
         </div>
       </CardContent>
     </Card>

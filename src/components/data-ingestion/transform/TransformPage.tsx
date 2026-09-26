@@ -1,22 +1,43 @@
-import { Shuffle } from "lucide-react";
+import { Shuffle, Construction } from "lucide-react";
+import { useDatasetStore } from "@/stores/dataset";
+import { PageLayout } from "@/components/shared/PageLayout";
+import { NoDatasetAlert } from "@/components/shared/NoDatasetAlert";
+import { Card, CardContent } from "@/components/ui/card";
 
 export function TransformPage() {
+  const df = useDatasetStore((state) => state.df);
+
   return (
-    <div className="flex flex-1 flex-col gap-4 p-4">
-      <div className="flex items-center gap-3">
-        <Shuffle className="h-8 w-8 text-primary" />
-        <div>
-          <h1 className="text-2xl font-semibold">Transform</h1>
-          <p className="text-sm text-muted-foreground">
-            Run custom transformations on your data
-          </p>
-        </div>
-      </div>
-      <div className="flex-1 rounded-xl border border-dashed border-border bg-muted/30 p-8">
-        <p className="text-center text-muted-foreground">
-          Data transformation interface will be implemented here
-        </p>
-      </div>
-    </div>
+    <PageLayout
+      icon={Shuffle}
+      title="Transform"
+      subtitle="Run custom transformations on your data"
+      nextStep={
+        df
+          ? {
+              message:
+                "Data transformation complete. Explore and split your data.",
+              linkTo: "/pretrain/explore",
+              linkText: "Go to Explore",
+            }
+          : undefined
+      }
+    >
+      {!df ? (
+        <NoDatasetAlert
+          description="Please select a dataset first."
+          linkTo="/data/select"
+        />
+      ) : (
+        <Card className="border-dashed">
+          <CardContent className="flex flex-col items-center justify-center gap-3 py-16">
+            <Construction className="h-12 w-12 text-muted-foreground/50" />
+            <p className="text-sm font-medium text-muted-foreground">
+              Transformation tools coming soon
+            </p>
+          </CardContent>
+        </Card>
+      )}
+    </PageLayout>
   );
 }

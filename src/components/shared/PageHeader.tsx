@@ -9,21 +9,19 @@ type PageHeaderProps = {
 };
 
 export function PageHeader({ icon: Icon, title, subtitle }: PageHeaderProps) {
-  const renderIcon = () => {
-    if (!Icon) return null;
-    // Already a React element (e.g., <Search className="..." />)
-    if (isValidElement(Icon)) return Icon;
-    // LucideIcon component reference (e.g., Search)
-    if (typeof Icon === "function" || typeof Icon === "object") {
+  let iconNode: ReactNode = null;
+  if (Icon) {
+    if (isValidElement(Icon)) {
+      iconNode = Icon;
+    } else if (typeof Icon === "function" || typeof Icon === "object") {
       const IconComponent = Icon as LucideIcon;
-      return <IconComponent className="h-8 w-8 text-primary" />;
+      iconNode = <IconComponent className="h-8 w-8 text-primary" />;
     }
-    return null;
-  };
+  }
 
   return (
     <div className="flex items-center gap-3">
-      {renderIcon()}
+      {iconNode}
       <div>
         <h1 className="text-2xl font-semibold">{title}</h1>
         {subtitle && (

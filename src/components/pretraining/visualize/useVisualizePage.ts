@@ -6,6 +6,7 @@ export function useVisualizePage() {
   const yTrain = useMLConfigStore((state) => state.yTrain);
   const targetColumn = useMLConfigStore((state) => state.targetColumn);
   const isSplit = useMLConfigStore((state) => state.isSplit);
+  const problemType = useMLConfigStore((state) => state.problemType);
 
   const featureNames = useMemo(() => {
     if (!xTrain) return [];
@@ -28,6 +29,7 @@ export function useVisualizePage() {
     featureNames,
     targetColumn,
     isSplit,
+    problemType,
     getFeatureData,
   };
 }

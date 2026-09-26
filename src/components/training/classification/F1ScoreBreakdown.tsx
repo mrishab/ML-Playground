@@ -23,13 +23,9 @@ export function F1ScoreBreakdown({ metrics }: F1ScoreBreakdownProps) {
       </CardHeader>
       <CardContent className="space-y-6">
         {/* Formula */}
-        <div className="rounded-lg bg-muted p-4">
-          <p className="mb-2 font-mono text-sm">
+        <div className="rounded-lg bg-muted/60 p-3 text-center">
+          <p className="font-mono text-sm">
             F1 = 2 × (Precision × Recall) / (Precision + Recall)
-          </p>
-          <p className="text-sm text-muted-foreground">
-            The harmonic mean of precision and recall. Ranges from 0 (worst) to
-            1 (perfect). Particularly useful when class distribution is uneven.
           </p>
         </div>
 
@@ -92,7 +88,7 @@ export function F1ScoreBreakdown({ metrics }: F1ScoreBreakdownProps) {
               </div>
               <div className="h-2 overflow-hidden rounded-full bg-muted">
                 <div
-                  className="h-full bg-emerald-500 transition-all"
+                  className="h-full bg-emerald-500 transition-all duration-300 ease-out"
                   style={{
                     width: `${Math.max(0, Math.min(100, cls.f1Score * 100))}%`,
                   }}
@@ -100,17 +96,6 @@ export function F1ScoreBreakdown({ metrics }: F1ScoreBreakdownProps) {
               </div>
             </div>
           ))}
-        </div>
-
-        {/* Interpretation */}
-        <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/5 p-4">
-          <p className="text-sm font-medium">Interpretation</p>
-          <p className="mt-1 text-sm text-muted-foreground">
-            The weighted average F1-score is{" "}
-            <strong>{formatNumber(metrics.weightedF1)}</strong>. An F1-score
-            close to 1 indicates both high precision and high recall. It is more
-            informative than accuracy when classes are imbalanced.
-          </p>
         </div>
       </CardContent>
     </Card>

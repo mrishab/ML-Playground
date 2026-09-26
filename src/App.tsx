@@ -10,6 +10,9 @@ import { LinearRegressionPage } from "@/components/training/linear-regression/Li
 import { KNNPage } from "@/components/training/knn/KNNPage";
 import { LDAPage } from "@/components/training/lda/LDAPage";
 import { LogisticRegressionPage } from "@/components/training/logistic-regression/LogisticRegressionPage";
+import { ClassificationComparisonPage } from "@/components/comparison/classification/ClassificationComparisonPage";
+import { RegressionComparisonPage } from "@/components/comparison/regression/RegressionComparisonPage";
+import { ClusterComparisonPage } from "@/components/comparison/clustering/ClusterComparisonPage";
 
 const basename = import.meta.env.BASE_URL;
 
@@ -35,6 +38,19 @@ function App() {
             <Route path="train/knn" element={<KNNPage />} />
             <Route path="train/lda" element={<LDAPage />} />
             <Route path="train/logistic" element={<LogisticRegressionPage />} />
+            {/* Comparison */}
+            <Route
+              path="comparison/classification"
+              element={<ClassificationComparisonPage />}
+            />
+            <Route
+              path="comparison/regression"
+              element={<RegressionComparisonPage />}
+            />
+            <Route
+              path="comparison/clustering"
+              element={<ClusterComparisonPage />}
+            />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
+const EMPTY_OPTIONS: { label: string; value: string }[] = [];
+
 type ModelConfigProps = {
   algorithm: string;
   featureCount: number;
@@ -12,7 +14,7 @@ type ModelConfigProps = {
   isTraining: boolean;
   isComplete: boolean;
   canTrain: boolean;
-  options?: { label: string; value: string }[];
+  options?: typeof EMPTY_OPTIONS;
 };
 
 export function ModelConfig({
@@ -24,7 +26,7 @@ export function ModelConfig({
   isTraining,
   isComplete,
   canTrain,
-  options = [],
+  options = EMPTY_OPTIONS,
 }: ModelConfigProps) {
   return (
     <Card>

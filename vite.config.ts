@@ -41,6 +41,15 @@ export default defineConfig(() => ({
     }),
   ],
   resolve: {
+    dedupe: [
+      "@tensorflow/tfjs",
+      "@tensorflow/tfjs-core",
+      "@tensorflow/tfjs-backend-cpu",
+      "@tensorflow/tfjs-backend-webgl",
+      "@tensorflow/tfjs-converter",
+      "@tensorflow/tfjs-data",
+      "@tensorflow/tfjs-layers",
+    ],
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },

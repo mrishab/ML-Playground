@@ -1,4 +1,4 @@
-export type LDAModel = {
+type LDAModel = {
   classes: string[];
   priors: number[]; // log(π_k)
   means: number[][]; // μ_k  [nClasses × nFeatures]

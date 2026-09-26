@@ -6,7 +6,7 @@ export type FeatureTabItem = {
   content: ReactNode;
 };
 
-export type UseFeatureTabsProps = {
+type UseFeatureTabsProps = {
   features: string[];
   targetColumn: string;
   renderContent: (feature: string, target: string) => ReactNode;

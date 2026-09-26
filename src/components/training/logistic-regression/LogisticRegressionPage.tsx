@@ -1,9 +1,6 @@
 import { Binary } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { PageHeader } from "@/components/PageHeader";
-import { NoDatasetAlert } from "@/components/NoDatasetAlert";
-import { ModelConfig } from "@/components/training/linear-regression/ModelConfig";
+import { TrainingPageLayout } from "@/components/shared/TrainingPageLayout";
 import { ConfusionMatrix } from "@/components/training/classification/ConfusionMatrix";
 import { ClassificationSummary } from "@/components/training/classification/ClassificationSummary";
 import { AccuracyBreakdown } from "@/components/training/classification/AccuracyBreakdown";
@@ -13,85 +10,25 @@ import { ROCCurve } from "@/components/training/classification/ROCCurve";
 import { useLogisticRegressionPage } from "./useLogisticRegressionPage";
 
 export function LogisticRegressionPage() {
-  const {
-    trainingState,
-    metrics,
-    error,
-    isSplit,
-    canTrain,
-    featureNames,
-    targetColumn,
-    runTraining,
-    reset,
-  } = useLogisticRegressionPage();
-
-  if (!isSplit) {
-    return (
-      <div className="flex flex-1 flex-col gap-4 p-4">
-        <PageHeader
-          icon={Binary}
-          title="Logistic Regression"
-          subtitle="Train and evaluate a logistic regression classifier"
-        />
-        <NoDatasetAlert
-          title="No split data available"
-          description="Please configure and split your data first."
-          linkTo="/pretrain/explore"
-          linkText="Go to Explore page"
-        />
-      </div>
-    );
-  }
+  const pageState = useLogisticRegressionPage();
+  const { metrics } = pageState;
 
   return (
-    <div className="flex flex-1 flex-col gap-4 p-4">
-      <PageHeader
-        icon={Binary}
-        title="Logistic Regression"
-        subtitle="Train and evaluate a logistic regression classifier"
-      />
-
-      {error && (
-        <Card className="border-red-500/30 bg-red-500/5">
-          <CardContent className="p-4">
-            <p className="text-sm text-red-500">{error}</p>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Top Row: Model Config (left) + Summary (right) */}
-      <div className="grid gap-4 md:grid-cols-2">
-        <ModelConfig
-          algorithm="Logistic Regression"
-          featureCount={featureNames.length}
-          targetColumn={targetColumn}
-          onRun={runTraining}
-          onReset={reset}
-          isTraining={trainingState === "training"}
-          isComplete={trainingState === "complete"}
-          canTrain={canTrain}
-          options={[
-            { label: "Penalty", value: "L2" },
-            { label: "Optimizer", value: "Adam" },
-            { label: "Loss", value: "Softmax Cross-Entropy" },
-          ]}
-        />
-
-        {metrics ? (
-          <ClassificationSummary metrics={metrics} direction="vertical" />
-        ) : (
-          <Card className="border-dashed">
-            <CardContent className="flex h-full items-center justify-center p-6">
-              <p className="text-center text-sm text-muted-foreground">
-                Run training to see metrics
-              </p>
-            </CardContent>
-          </Card>
-        )}
-      </div>
-
-      {/* Bottom: Tabs with classification metric breakdowns */}
-      {metrics && (
+    <TrainingPageLayout
+      {...pageState}
+      title="Logistic Regression"
+      subtitle="Train and evaluate a logistic regression classifier"
+      icon={Binary}
+      algorithmName="Logistic Regression"
+      configOptions={[
+        { label: "Penalty", value: "L2" },
+        { label: "Optimizer", value: "Adam" },
+        { label: "Loss", value: "Softmax Cross-Entropy" },
+      ]}
+      summaryComponent={
+        <ClassificationSummary metrics={metrics!} direction="vertical" />
+      }
+      detailsComponent={
         <Tabs defaultValue="confusion" className="w-full">
           <TabsList>
             <TabsTrigger value="confusion">Confusion Matrix</TabsTrigger>
@@ -103,33 +40,29 @@ export function LogisticRegressionPage() {
             <TabsTrigger value="roc">ROC & AUC</TabsTrigger>
           </TabsList>
           <TabsContent value="confusion">
-            <ConfusionMatrix metrics={metrics} />
+            <ConfusionMatrix metrics={metrics!} />
           </TabsContent>
           <TabsContent value="accuracy">
-            <AccuracyBreakdown metrics={metrics} />
+            <AccuracyBreakdown metrics={metrics!} />
           </TabsContent>
           <TabsContent value="precision-recall">
-            <PrecisionRecallBreakdown metrics={metrics} />
+            <PrecisionRecallBreakdown metrics={metrics!} />
           </TabsContent>
           <TabsContent value="f1">
-            <F1ScoreBreakdown metrics={metrics} />
+            <F1ScoreBreakdown metrics={metrics!} />
           </TabsContent>
           <TabsContent value="roc">
-            <ROCCurve metrics={metrics} />
+            <ROCCurve metrics={metrics!} />
           </TabsContent>
         </Tabs>
-      )}
-
-      {trainingState === "idle" && !metrics && (
-        <Card className="border-dashed">
-          <CardContent className="flex h-[200px] items-center justify-center">
-            <p className="text-center text-muted-foreground">
-              Click "Run Training" to train the logistic regression model and
-              view results
-            </p>
-          </CardContent>
-        </Card>
-      )}
-    </div>
+      }
+      nextStepProps={{
+        message: "Model trained. Compare your results.",
+        linkTo: "/comparison/classification",
+        linkText: "Go to Comparison",
+      }}
+      onRun={pageState.runTraining}
+      onReset={pageState.reset}
+    />
   );
 }

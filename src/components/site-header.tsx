@@ -1,41 +1,70 @@
-"use client";
-
-import { SidebarIcon } from "lucide-react";
-
+import { Fragment } from "react";
+import { Link, useLocation } from "react-router-dom";
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
+  BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { Button } from "@/components/ui/button";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
-import { useSidebar } from "@/components/ui/sidebar-context";
+import { ThemeToggle } from "@/components/shared/ThemeToggle";
+
+const BREADCRUMB_MAP: Record<string, string> = {
+  data: "Data Ingestion",
+  select: "Select Dataset",
+  transform: "Transform",
+  pretrain: "Pretraining",
+  explore: "Explore",
+  visualize: "Visualize",
+  train: "Training",
+  linear: "Linear Regression",
+  knn: "KNN",
+  lda: "LDA",
+  logistic: "Logistic Regression",
+  comparison: "Comparison",
+  classification: "Classification",
+  regression: "Regression",
+  clustering: "Clustering",
+};
 
 export function SiteHeader() {
-  const { toggleSidebar } = useSidebar();
+  const location = useLocation();
+  const segments = location.pathname.split("/").filter(Boolean);
+
+  const crumbs = segments
+    .map((segment) => ({
+      key: segment,
+      label: BREADCRUMB_MAP[segment] ?? segment,
+    }))
+    .filter((crumb) => crumb.label);
 
   return (
-    <header className="flex sticky top-0 z-50 w-full items-center border-b bg-background">
+    <header className="sticky top-0 z-50 flex w-full items-center border-b bg-background">
       <div className="flex h-[--header-height] w-full items-center gap-2 px-4">
-        <Button
-          className="h-8 w-8"
-          variant="ghost"
-          size="icon"
-          onClick={toggleSidebar}
-        >
-          <SidebarIcon />
-        </Button>
+        <SidebarTrigger className="-ml-1" />
         <Separator orientation="vertical" className="mr-2 h-4" />
         <Breadcrumb className="hidden sm:block">
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href="#">
-                Machine Learning Playground
+              <BreadcrumbLink asChild>
+                <Link to="/data/select">ML Playground</Link>
               </BreadcrumbLink>
             </BreadcrumbItem>
+            {crumbs.map((crumb) => (
+              <Fragment key={crumb.key}>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <span className="text-muted-foreground">{crumb.label}</span>
+                </BreadcrumbItem>
+              </Fragment>
+            ))}
           </BreadcrumbList>
         </Breadcrumb>
+        <div className="ml-auto flex items-center gap-2">
+          <ThemeToggle />
+        </div>
       </div>
     </header>
   );

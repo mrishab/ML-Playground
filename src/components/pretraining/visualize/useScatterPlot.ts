@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { useTheme } from "next-themes";
 import type { Data, Layout, Config } from "plotly.js";
 
 export type ScatterPlotData = {
@@ -9,6 +10,9 @@ export type ScatterPlotData = {
 };
 
 export function useScatterPlot({ x, y, xLabel, yLabel }: ScatterPlotData) {
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
+
   const data: Data[] = useMemo(
     () => [
       {
@@ -17,9 +21,9 @@ export function useScatterPlot({ x, y, xLabel, yLabel }: ScatterPlotData) {
         type: "scatter",
         mode: "markers",
         marker: {
-          color: "hsl(var(--primary))",
+          color: "#f59e0b",
           size: 8,
-          opacity: 0.7,
+          opacity: 0.75,
         },
         hovertemplate: `${xLabel}: %{x:.4f}<br>${yLabel}: %{y:.4f}<extra></extra>`,
       },
@@ -31,24 +35,24 @@ export function useScatterPlot({ x, y, xLabel, yLabel }: ScatterPlotData) {
     () => ({
       xaxis: {
         title: { text: xLabel },
-        gridcolor: "hsl(var(--border))",
-        zerolinecolor: "hsl(var(--border))",
+        gridcolor: isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.08)",
+        zerolinecolor: isDark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.12)",
       },
       yaxis: {
         title: { text: yLabel },
-        gridcolor: "hsl(var(--border))",
-        zerolinecolor: "hsl(var(--border))",
+        gridcolor: isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.08)",
+        zerolinecolor: isDark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.12)",
       },
       margin: { t: 40, r: 40, b: 60, l: 60 },
       paper_bgcolor: "transparent",
       plot_bgcolor: "transparent",
       font: {
         family: "inherit",
-        color: "hsl(var(--foreground))",
+        color: isDark ? "#cbd5e1" : "#334155",
       },
       hovermode: "closest",
     }),
-    [xLabel, yLabel],
+    [xLabel, yLabel, isDark],
   );
 
   const config: Partial<Config> = useMemo(

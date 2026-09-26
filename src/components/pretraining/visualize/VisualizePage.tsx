@@ -1,77 +1,60 @@
 import { BarChart3 } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
-import { PageHeader } from "@/components/PageHeader";
-import { NoDatasetAlert } from "@/components/NoDatasetAlert";
+import { PageLayout } from "@/components/shared/PageLayout";
+import { NoDatasetAlert } from "@/components/shared/NoDatasetAlert";
 import { FeatureTabs } from "./FeatureTabs";
 import { ScatterPlot } from "./ScatterPlot";
-import { useFeatureTabs } from "./useFeatureTabs";
 import { useVisualizePage } from "./useVisualizePage";
+import { useFeatureTabs } from "./useFeatureTabs";
 
 export function VisualizePage() {
-  const { featureNames, targetColumn, isSplit, getFeatureData } =
+  const { featureNames, targetColumn, isSplit, problemType, getFeatureData } =
     useVisualizePage();
 
   const tabs = useFeatureTabs({
     features: featureNames,
     targetColumn,
-    renderContent: (feature, target) => {
-      const { x, y } = getFeatureData(feature);
+    renderContent: (feature) => {
+      const data = getFeatureData(feature);
       return (
-        <Card>
-          <CardContent className="pt-6">
-            <ScatterPlot x={x} y={y} xLabel={feature} yLabel={target} />
-          </CardContent>
-        </Card>
+        <ScatterPlot
+          x={data.x}
+          y={data.y}
+          xLabel={feature}
+          yLabel={targetColumn}
+        />
       );
     },
   });
 
-  // No split data available
   if (!isSplit) {
     return (
-      <div className="flex flex-1 flex-col gap-4 p-4">
-        <PageHeader
-          icon={BarChart3}
-          title="Visualize"
-          subtitle="Create scatter plots of features vs target variable"
-        />
+      <PageLayout
+        icon={BarChart3}
+        title="Visualize"
+        subtitle="Explore your data through visualizations"
+      >
         <NoDatasetAlert
           title="No split data available"
           description="Please configure and split your data first."
           linkTo="/pretrain/explore"
           linkText="Go to Explore page"
         />
-      </div>
-    );
-  }
-
-  // No features selected
-  if (featureNames.length === 0) {
-    return (
-      <div className="flex flex-1 flex-col gap-4 p-4">
-        <PageHeader
-          icon={BarChart3}
-          title="Visualize"
-          subtitle="Create scatter plots of features vs target variable"
-        />
-        <NoDatasetAlert
-          title="No features available"
-          description="No feature columns found in the split data."
-          linkTo="/pretrain/explore"
-          linkText="Go to Explore page"
-        />
-      </div>
+      </PageLayout>
     );
   }
 
   return (
-    <div className="flex flex-1 flex-col gap-4 p-4">
-      <PageHeader
-        icon={BarChart3}
-        title="Visualize"
-        subtitle={`Scatter plots of ${featureNames.length} feature${featureNames.length > 1 ? "s" : ""} vs ${targetColumn}`}
-      />
+    <PageLayout
+      icon={BarChart3}
+      title="Visualize"
+      subtitle={`Feature correlations and scatter plots for ${featureNames.length} feature${featureNames.length > 1 ? "s" : ""} vs ${targetColumn}`}
+      nextStep={{
+        message: "Ready to train. Choose a model.",
+        linkTo: problemType === "regression" ? "/train/linear" : "/train/knn",
+        linkText: "Go to Training",
+      }}
+    >
       <FeatureTabs tabs={tabs} />
-    </div>
+    </PageLayout>
   );
 }

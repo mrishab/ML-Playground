@@ -18,15 +18,6 @@ export function ConfusionMatrix({ metrics }: ConfusionMatrixProps) {
         <CardTitle className="text-base">Confusion Matrix</CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
-        {/* Formula / Description */}
-        <div className="rounded-lg bg-muted p-4">
-          <p className="text-sm text-muted-foreground">
-            Rows represent <strong>actual</strong> classes, columns represent{" "}
-            <strong>predicted</strong> classes. Diagonal cells are correct
-            predictions (darker = more samples).
-          </p>
-        </div>
-
         {/* Matrix Grid */}
         <div className="overflow-x-auto">
           <table className="mx-auto border-collapse">
@@ -61,7 +52,7 @@ export function ConfusionMatrix({ metrics }: ConfusionMatrixProps) {
                       <td key={predLabel} className="p-1">
                         <div
                           className={cn(
-                            "flex h-14 w-14 items-center justify-center rounded-md text-sm font-semibold transition-colors sm:h-16 sm:w-16",
+                            "flex h-14 w-14 items-center justify-center rounded-md text-sm font-semibold transition-all duration-200 hover:scale-105 sm:h-16 sm:w-16",
                             isDiagonal
                               ? "bg-green-500 text-white"
                               : count > 0

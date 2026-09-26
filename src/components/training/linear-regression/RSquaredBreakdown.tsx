@@ -17,36 +17,25 @@ export function RSquaredBreakdown({ metrics }: RSquaredBreakdownProps) {
       </CardHeader>
       <CardContent className="space-y-6">
         {/* Formula */}
-        <div className="rounded-lg bg-muted p-4">
-          <p className="mb-2 font-mono text-sm">R² = 1 - (RSS / TSS)</p>
-          <p className="text-sm text-muted-foreground">
-            The proportion of variance in the dependent variable explained by
-            the independent variables.
-          </p>
+        <div className="rounded-lg bg-muted/60 p-3 text-center">
+          <p className="font-mono text-sm">R² = 1 - (RSS / TSS)</p>
         </div>
 
-        {/* RSS and TSS Explanation */}
-        <div className="grid gap-4 md:grid-cols-2">
-          <div className="rounded-lg border p-4">
-            <p className="font-medium">RSS (Residual Sum of Squares)</p>
-            <p className="mt-1 font-mono text-sm text-muted-foreground">
+        {/* RSS and TSS */}
+        <div className="grid gap-3 sm:grid-cols-2">
+          <div className="rounded-lg border p-3.5 transition-colors duration-200">
+            <p className="text-sm font-medium">RSS (Residual Sum of Squares)</p>
+            <p className="mt-1 font-mono text-xs text-muted-foreground">
               Σ(yᵢ - ŷᵢ)²
-            </p>
-            <p className="mt-2 text-sm text-muted-foreground">
-              Variation <em>not</em> explained by the model.
             </p>
             <p className="mt-2 text-lg font-semibold">
               {formatNumber(metrics.rss)}
             </p>
           </div>
-          <div className="rounded-lg border p-4">
-            <p className="font-medium">TSS (Total Sum of Squares)</p>
-            <p className="mt-1 font-mono text-sm text-muted-foreground">
+          <div className="rounded-lg border p-3.5 transition-colors duration-200">
+            <p className="text-sm font-medium">TSS (Total Sum of Squares)</p>
+            <p className="mt-1 font-mono text-xs text-muted-foreground">
               Σ(yᵢ - ȳ)²
-            </p>
-            <p className="mt-2 text-sm text-muted-foreground">
-              Total variation in the actual data (where ȳ ={" "}
-              {formatNumber(metrics.yMean)}).
             </p>
             <p className="mt-2 text-lg font-semibold">
               {formatNumber(metrics.tss)}
@@ -55,12 +44,12 @@ export function RSquaredBreakdown({ metrics }: RSquaredBreakdownProps) {
         </div>
 
         {/* Calculation Steps */}
-        <div className="space-y-3">
-          <div className="flex items-center justify-between rounded border p-3">
+        <div className="space-y-2">
+          <div className="flex items-center justify-between rounded border p-2.5 transition-colors duration-200">
             <span className="text-sm">Mean of Y (ȳ)</span>
             <Badge variant="secondary">{formatNumber(metrics.yMean)}</Badge>
           </div>
-          <div className="flex items-center justify-between rounded border p-3">
+          <div className="flex items-center justify-between rounded border p-2.5 transition-colors duration-200">
             <span className="text-sm">
               RSS / TSS = {formatNumber(metrics.rss)} /{" "}
               {formatNumber(metrics.tss)}
@@ -69,7 +58,7 @@ export function RSquaredBreakdown({ metrics }: RSquaredBreakdownProps) {
               {formatNumber(metrics.rss / metrics.tss)}
             </Badge>
           </div>
-          <div className="flex items-center justify-between rounded border p-3">
+          <div className="flex items-center justify-between rounded border p-2.5 transition-colors duration-200">
             <span className="text-sm">
               R² = 1 - {formatNumber(metrics.rss / metrics.tss)}
             </span>
@@ -77,16 +66,6 @@ export function RSquaredBreakdown({ metrics }: RSquaredBreakdownProps) {
               {formatNumber(metrics.rSquared)}
             </Badge>
           </div>
-        </div>
-
-        {/* Interpretation */}
-        <div className="rounded-lg border border-green-500/30 bg-green-500/5 p-4">
-          <p className="text-sm font-medium">Interpretation</p>
-          <p className="mt-1 text-sm text-muted-foreground">
-            The model explains <strong>{rSquaredPercent}%</strong> of the
-            variance in the target variable. An R² of 1 indicates perfect fit,
-            while 0 indicates the model explains none of the variability.
-          </p>
         </div>
 
         {/* Visual Progress */}

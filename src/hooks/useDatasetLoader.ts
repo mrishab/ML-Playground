@@ -3,16 +3,23 @@ import axios from "axios";
 import Papa from "papaparse";
 import { DataFrame } from "danfojs";
 import { useDatasetStore } from "@/stores/dataset";
+import { useMLConfigStore } from "@/stores/mlConfig";
+import { useTrainingResultsStore } from "@/stores/trainingResults";
 import { DATASETS } from "@/components/data-ingestion/select-dataset/useDatasetSelect";
-
-type CSVRow = Record<string, string>;
+import type { RawCSVRow } from "@/types/dataset";
 
 export function useDatasetLoader() {
   const { selectedDataset, setDf, setLoading, setError } = useDatasetStore();
+  const resetMLConfig = useMLConfigStore((state) => state.reset);
+  const resetTrainingResults = useTrainingResultsStore(
+    (state) => state.resetAll,
+  );
 
   useEffect(() => {
     if (!selectedDataset) {
       setDf(null);
+      resetMLConfig();
+      resetTrainingResults();
       return;
     }
 
@@ -22,11 +29,13 @@ export function useDatasetLoader() {
     const loadDataset = async () => {
       setLoading(true);
       setError(null);
+      resetMLConfig();
+      resetTrainingResults();
 
       try {
         const url = `${import.meta.env.BASE_URL}datasets/${dataset.file}`;
         const response = await axios.get<string>(url);
-        const result = Papa.parse<CSVRow>(response.data, {
+        const result = Papa.parse<RawCSVRow>(response.data, {
           header: true,
           skipEmptyLines: true,
           dynamicTyping: true,
@@ -49,5 +58,12 @@ export function useDatasetLoader() {
     };
 
     loadDataset();
-  }, [selectedDataset, setDf, setLoading, setError]);
+  }, [
+    resetMLConfig,
+    resetTrainingResults,
+    selectedDataset,
+    setDf,
+    setLoading,
+    setError,
+  ]);
 }

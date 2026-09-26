@@ -17,3 +17,18 @@ export type OverviewStats = {
   numericColumns: number;
   categoricalColumns: number;
 };
+
+export type FeatureSeriesData = Record<string, number[]>;
+
+export type FeatureRowData = Record<string, number>;
+
+export type ColumnBounds = {
+  lower: number;
+  upper: number;
+};
+
+export type OutlierBoundsMap = Record<string, ColumnBounds>;
+
+export type RawCSVRow = Record<string, string>;
+
+export type DatasetRowData = Record<string, unknown>;

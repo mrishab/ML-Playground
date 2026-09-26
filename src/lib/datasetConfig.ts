@@ -23,23 +23,20 @@ type MLConfigJson = {
   candidate_models: string[];
 };
 
-type DatasetConfigJson = {
-  [datasetFile: string]: {
-    ml_config: MLConfigJson;
-  };
+export type DatasetConfigEntry = {
+  ml_config: MLConfigJson;
 };
 
-export type MappedConfig = {
+export type DatasetConfigFileMap = Record<string, DatasetConfigEntry>;
+
+type MappedConfig = {
   problemType: ProblemType;
   targetColumn: string;
   features: SelectedFeature[];
 };
 
-let featureIdCounter = 1000; // Start high to avoid collision with store counter
-
 function generateFeatureId(): string {
-  featureIdCounter += 1;
-  return `config-feature-${featureIdCounter}`;
+  return `config-${crypto.randomUUID()}`;
 }
 
 function mapProblemType(type: string): ProblemType {
@@ -57,7 +54,7 @@ function mapProblemType(type: string): ProblemType {
   }
 }
 
-export function mapConfigToState(config: MLConfigJson): MappedConfig {
+function mapConfigToState(config: MLConfigJson): MappedConfig {
   const features: SelectedFeature[] = [];
 
   // Add regular terms (no transformation)
@@ -96,7 +93,7 @@ export function mapConfigToState(config: MLConfigJson): MappedConfig {
   };
 }
 
-let configCache: DatasetConfigJson | null = null;
+let configCache: DatasetConfigFileMap | null = null;
 
 export async function loadDatasetConfig(
   datasetFile: string,
@@ -104,7 +101,7 @@ export async function loadDatasetConfig(
   try {
     if (!configCache) {
       const url = `${import.meta.env.BASE_URL}datasets/config.json`;
-      const response = await axios.get<DatasetConfigJson>(url);
+      const response = await axios.get<DatasetConfigFileMap>(url);
       configCache = response.data;
     }
 

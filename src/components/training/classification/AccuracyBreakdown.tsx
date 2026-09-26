@@ -17,26 +17,23 @@ export function AccuracyBreakdown({ metrics }: AccuracyBreakdownProps) {
       </CardHeader>
       <CardContent className="space-y-6">
         {/* Formula */}
-        <div className="rounded-lg bg-muted p-4">
-          <p className="mb-2 font-mono text-sm">
+        <div className="rounded-lg bg-muted/60 p-3 text-center">
+          <p className="font-mono text-sm">
             Accuracy = Correct Predictions / Total Predictions
-          </p>
-          <p className="text-sm text-muted-foreground">
-            The fraction of all predictions that the model classified correctly.
           </p>
         </div>
 
         {/* Calculation Steps */}
-        <div className="space-y-3">
-          <div className="flex items-center justify-between rounded border p-3">
+        <div className="space-y-2">
+          <div className="flex items-center justify-between rounded border p-2.5 transition-colors duration-200">
             <span className="text-sm">Total Samples</span>
             <Badge variant="secondary">{metrics.totalSamples}</Badge>
           </div>
-          <div className="flex items-center justify-between rounded border p-3">
+          <div className="flex items-center justify-between rounded border p-2.5 transition-colors duration-200">
             <span className="text-sm">Correct Predictions</span>
             <Badge variant="secondary">{metrics.correctPredictions}</Badge>
           </div>
-          <div className="flex items-center justify-between rounded border p-3">
+          <div className="flex items-center justify-between rounded border p-2.5 transition-colors duration-200">
             <span className="text-sm">
               Accuracy = {metrics.correctPredictions} / {metrics.totalSamples}
             </span>
@@ -54,23 +51,12 @@ export function AccuracyBreakdown({ metrics }: AccuracyBreakdownProps) {
           </div>
           <div className="h-3 overflow-hidden rounded-full bg-muted">
             <div
-              className="h-full bg-blue-500 transition-all"
+              className="h-full bg-blue-500 transition-all duration-300 ease-out"
               style={{
                 width: `${Math.max(0, Math.min(100, metrics.accuracy * 100))}%`,
               }}
             />
           </div>
-        </div>
-
-        {/* Interpretation */}
-        <div className="rounded-lg border border-blue-500/30 bg-blue-500/5 p-4">
-          <p className="text-sm font-medium">Interpretation</p>
-          <p className="mt-1 text-sm text-muted-foreground">
-            The model correctly classified <strong>{accuracyPercent}%</strong>{" "}
-            of all test samples ({metrics.correctPredictions} out of{" "}
-            {metrics.totalSamples}). Accuracy alone can be misleading for
-            imbalanced datasets.
-          </p>
         </div>
       </CardContent>
     </Card>

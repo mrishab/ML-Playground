@@ -3,8 +3,14 @@ import * as dfd from "danfojs";
 import type { DataFrame } from "danfojs";
 import { useDatasetStore } from "@/stores/dataset";
 import { useMLConfigStore, type SelectedFeature } from "@/stores/mlConfig";
+import { useTrainingResultsStore } from "@/stores/trainingResults";
 import { loadDatasetConfig } from "@/lib/datasetConfig";
 import { DATASETS } from "@/components/data-ingestion/select-dataset/useDatasetSelect";
+import type {
+  FeatureSeriesData,
+  FeatureRowData,
+  OutlierBoundsMap,
+} from "@/types/dataset";
 
 // Fisher-Yates shuffle
 function shuffleArray<T>(array: T[]): T[] {
@@ -47,8 +53,47 @@ function applyTransformation(
   }
 }
 
+/** Apply transformations and deduplicate column names for a set of features. */
+function buildFeatureColumns(
+  df: DataFrame,
+  features: SelectedFeature[],
+): FeatureSeriesData {
+  const data: FeatureSeriesData = {};
+  for (const feature of features) {
+    const { column, name } = applyTransformation(df, feature);
+    let finalName = name;
+    let counter = 1;
+    while (finalName in data) {
+      finalName = `${name}_${counter}`;
+      counter++;
+    }
+    data[finalName] = column;
+  }
+  return data;
+}
+
+function toFiniteNumbers(values: unknown[]): number[] {
+  return values.filter(
+    (value): value is number =>
+      typeof value === "number" && Number.isFinite(value),
+  );
+}
+
+function getQuantile(sortedValues: number[], percentile: number): number {
+  if (sortedValues.length === 0) return 0;
+  if (sortedValues.length === 1) return sortedValues[0];
+
+  const position = (sortedValues.length - 1) * percentile;
+  const lowerIndex = Math.floor(position);
+  const upperIndex = Math.ceil(position);
+  const weight = position - lowerIndex;
+  const lower = sortedValues[lowerIndex];
+  const upper = sortedValues[upperIndex];
+  return lower + (upper - lower) * weight;
+}
+
 export function useExplorePage() {
-  const { df, selectedDataset } = useDatasetStore();
+  const { df, selectedDataset, setDf } = useDatasetStore();
   const {
     problemType,
     shuffle,
@@ -57,8 +102,6 @@ export function useExplorePage() {
     selectedFeatures,
     xTrain,
     xTest,
-    yTrain,
-    yTest,
     isSplit,
     setProblemType,
     setShuffle,
@@ -70,9 +113,14 @@ export function useExplorePage() {
     clearFeatures,
     setFeatures,
     setSplitData,
+    clearSplitData,
   } = useMLConfigStore();
+  const resetTrainingResults = useTrainingResultsStore(
+    (state) => state.resetAll,
+  );
 
   const [isLoadingConfig, setIsLoadingConfig] = useState(false);
+  const [iqrMultiplier, setIqrMultiplier] = useState(1.5);
 
   const columns = useMemo(() => {
     if (!df) return [];
@@ -91,6 +139,94 @@ export function useExplorePage() {
     return numericColumns;
   }, [numericColumns]);
 
+  const numericColumnData = useMemo(() => {
+    if (!df) return [];
+
+    return numericColumns
+      .map((column) => {
+        const rawValues = df.column(column).values as unknown[];
+        const values = toFiniteNumbers(rawValues);
+        if (values.length === 0) return null;
+
+        const sorted = [...values].sort((a, b) => a - b);
+        const q1 = getQuantile(sorted, 0.25);
+        const q3 = getQuantile(sorted, 0.75);
+        const iqr = q3 - q1;
+        const lower = q1 - iqrMultiplier * iqr;
+        const upper = q3 + iqrMultiplier * iqr;
+        const outlierCount = values.filter(
+          (value) => value < lower || value > upper,
+        ).length;
+
+        return {
+          column,
+          values,
+          outlierCount,
+          lower,
+          upper,
+        };
+      })
+      .filter((entry): entry is NonNullable<typeof entry> => entry !== null);
+  }, [df, iqrMultiplier, numericColumns]);
+
+  const totalOutlierValues = useMemo(() => {
+    return numericColumnData.reduce(
+      (count, entry) => count + entry.outlierCount,
+      0,
+    );
+  }, [numericColumnData]);
+
+  const outlierBoundsByColumn = useMemo<OutlierBoundsMap>(() => {
+    const bounds: OutlierBoundsMap = {};
+    for (const entry of numericColumnData) {
+      bounds[entry.column] = { lower: entry.lower, upper: entry.upper };
+    }
+    return bounds;
+  }, [numericColumnData]);
+
+  /** Precompute which rows are outliers — shared by drop action and preview count. */
+  const outlierRows = useMemo(() => {
+    if (!df || numericColumns.length === 0) return { outlier: [], inlier: [] };
+
+    const rowValues = df.values as unknown[][];
+    const allColumns = df.columns as string[];
+    const columnIndexes = new Map(
+      allColumns.map((columnName, index) => [columnName, index] as const),
+    );
+
+    const isOutlierRow = (row: unknown[]): boolean =>
+      numericColumns.some((columnName) => {
+        const bounds = outlierBoundsByColumn[columnName];
+        if (!bounds) return false;
+        const columnIndex = columnIndexes.get(columnName);
+        if (columnIndex === undefined) return false;
+        const value = row[columnIndex];
+        if (typeof value !== "number" || !Number.isFinite(value)) return false;
+        return value < bounds.lower || value > bounds.upper;
+      });
+
+    const outlier: unknown[][] = [];
+    const inlier: unknown[][] = [];
+    for (const row of rowValues) {
+      (isOutlierRow(row) ? outlier : inlier).push(row);
+    }
+    return { outlier, inlier };
+  }, [df, numericColumns, outlierBoundsByColumn]);
+
+  const dropOutliers = useCallback(() => {
+    if (!df || outlierRows.outlier.length === 0) return;
+
+    const allColumns = df.columns as string[];
+    const filteredDf = new dfd.DataFrame(outlierRows.inlier, {
+      columns: allColumns,
+    });
+    setDf(filteredDf);
+    clearSplitData();
+    resetTrainingResults();
+  }, [clearSplitData, df, outlierRows, resetTrainingResults, setDf]);
+
+  const removedRowsAfterOutlierDrop = outlierRows.outlier.length;
+
   const canSplit = useMemo(() => {
     return (
       df !== null &&
@@ -102,6 +238,8 @@ export function useExplorePage() {
 
   const performSplit = useCallback(() => {
     if (!df || !canSplit) return;
+
+    resetTrainingResults();
 
     const nRows = df.shape[0];
     let indices = Array.from({ length: nRows }, (_, i) => i);
@@ -116,27 +254,14 @@ export function useExplorePage() {
     const trainIndices = indices.slice(0, trainSize);
     const testIndices = indices.slice(trainSize);
 
-    // Build feature columns with transformations
-    const featureData: { [key: string]: number[] } = {};
-
-    for (const feature of selectedFeatures) {
-      const { column, name } = applyTransformation(df, feature);
-      // Handle duplicate names by appending index
-      let finalName = name;
-      let counter = 1;
-      while (finalName in featureData) {
-        finalName = `${name}_${counter}`;
-        counter++;
-      }
-      featureData[finalName] = column;
-    }
+    const featureData = buildFeatureColumns(df, selectedFeatures);
 
     // Get y values
     const yFull = df.column(targetColumn);
 
     // Split into train/test
-    const xTrainData: { [key: string]: number[] } = {};
-    const xTestData: { [key: string]: number[] } = {};
+    const xTrainData: FeatureSeriesData = {};
+    const xTestData: FeatureSeriesData = {};
 
     for (const colName of Object.keys(featureData)) {
       xTrainData[colName] = trainIndices.map((i) => featureData[colName][i]);
@@ -165,6 +290,7 @@ export function useExplorePage() {
     testSplitPercent,
     selectedFeatures,
     targetColumn,
+    resetTrainingResults,
     setSplitData,
   ]);
 
@@ -182,18 +308,7 @@ export function useExplorePage() {
   const previewData = useMemo(() => {
     if (!df || selectedFeatures.length === 0) return [];
 
-    const featureData: Record<string, number[]> = {};
-
-    for (const feature of selectedFeatures) {
-      const { column, name } = applyTransformation(df, feature);
-      let finalName = name;
-      let counter = 1;
-      while (finalName in featureData) {
-        finalName = `${name}_${counter}`;
-        counter++;
-      }
-      featureData[finalName] = column;
-    }
+    const featureData = buildFeatureColumns(df, selectedFeatures);
 
     // Add target column if selected
     if (targetColumn) {
@@ -202,9 +317,9 @@ export function useExplorePage() {
     }
 
     const nRows = df.shape[0];
-    const rows: Record<string, number>[] = [];
+    const rows: FeatureRowData[] = [];
     for (let i = 0; i < nRows; i++) {
-      const row: Record<string, number> = {};
+      const row: FeatureRowData = {};
       for (const colName of Object.keys(featureData)) {
         row[colName] = featureData[colName][i];
       }
@@ -254,10 +369,6 @@ export function useExplorePage() {
     selectedFeatures,
 
     // Split state
-    xTrain,
-    xTest,
-    yTrain,
-    yTest,
     isSplit,
     splitStats,
     canSplit,
@@ -265,6 +376,10 @@ export function useExplorePage() {
     // Preview data
     previewData,
     previewColumns,
+    numericColumnData,
+    totalOutlierValues,
+    removedRowsAfterOutlierDrop,
+    iqrMultiplier,
 
     // Loading state
     isLoadingConfig,
@@ -280,5 +395,7 @@ export function useExplorePage() {
     clearFeatures,
     performSplit,
     loadDefaultConfig,
+    dropOutliers,
+    setIqrMultiplier,
   };
 }

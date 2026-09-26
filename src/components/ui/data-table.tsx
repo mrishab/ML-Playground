@@ -47,7 +47,7 @@ type DataTableColumnMeta = {
   title?: string;
 };
 
-export type DataTableHeaderConfig = {
+type DataTableHeaderConfig = {
   id: string;
   title: string;
   className?: string;
