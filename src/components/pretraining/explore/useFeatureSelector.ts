@@ -1,18 +1,7 @@
-import type { TransformationType, SelectedFeature } from "@/stores/mlConfig";
+import type { TransformationType } from "@/stores/mlConfig";
+import type { UseFeatureSelectorProps } from "./feature-selector/types";
 
-export type UseFeatureSelectorProps = {
-  numericColumns: string[];
-  selectedFeatures: SelectedFeature[];
-  availableInteractionColumns: string[];
-  addFeature: (column: string) => void;
-  removeFeature: (id: string) => void;
-  updateFeatureTransformation: (
-    id: string,
-    transformation: TransformationType,
-    options?: { polynomialDegree?: number; interactionWith?: string },
-  ) => void;
-  clearFeatures: () => void;
-};
+export type { UseFeatureSelectorProps } from "./feature-selector/types";
 
 export function useFeatureSelector(props: UseFeatureSelectorProps) {
   const {
@@ -26,13 +15,7 @@ export function useFeatureSelector(props: UseFeatureSelectorProps) {
   } = props;
 
   const handleAddFeature = (column: string) => {
-    if (column) {
-      addFeature(column);
-    }
-  };
-
-  const handleRemoveFeature = (id: string) => {
-    removeFeature(id);
+    if (column) addFeature(column);
   };
 
   const handleTransformationChange = (
@@ -43,22 +26,14 @@ export function useFeatureSelector(props: UseFeatureSelectorProps) {
   };
 
   const handlePolynomialDegreeChange = (id: string, degree: number) => {
-    const feature = selectedFeatures.find((f) => f.id === id);
-    if (feature) {
-      updateFeatureTransformation(id, "polynomial", {
-        polynomialDegree: degree,
-      });
-    }
+    updateFeatureTransformation(id, "polynomial", { polynomialDegree: degree });
   };
 
   const handleInteractionColumnChange = (
     id: string,
     interactionWith: string,
   ) => {
-    const feature = selectedFeatures.find((f) => f.id === id);
-    if (feature) {
-      updateFeatureTransformation(id, "interaction", { interactionWith });
-    }
+    updateFeatureTransformation(id, "interaction", { interactionWith });
   };
 
   return {
@@ -66,7 +41,7 @@ export function useFeatureSelector(props: UseFeatureSelectorProps) {
     selectedFeatures,
     availableInteractionColumns,
     handleAddFeature,
-    handleRemoveFeature,
+    handleRemoveFeature: removeFeature,
     handleTransformationChange,
     handlePolynomialDegreeChange,
     handleInteractionColumnChange,

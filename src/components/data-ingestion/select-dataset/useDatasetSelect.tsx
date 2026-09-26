@@ -3,26 +3,9 @@ import { useDatasetStore } from "@/stores/dataset";
 import { useMLConfigStore } from "@/stores/mlConfig";
 import { useTrainingResultsStore } from "@/stores/trainingResults";
 import { usePipelineStore } from "@/stores/pipeline";
+import { DATASETS, type Dataset } from "./datasetsData";
 
-type Dataset = {
-  name: string;
-  file: string;
-  problemType?: string;
-};
-
-export const DATASETS: Dataset[] = [
-  { name: "Boston", file: "Boston.csv", problemType: "regression" },
-  { name: "College", file: "College.csv", problemType: "classification" },
-  { name: "Heart", file: "heart.csv", problemType: "classification" },
-  { name: "Movies", file: "movies.csv", problemType: "regression" },
-  { name: "MT Cars", file: "mtcars.csv", problemType: "regression" },
-  { name: "S&P Market", file: "Smarket.csv", problemType: "classification" },
-  {
-    name: "Swiss Census",
-    file: "swiss-census.csv",
-    problemType: "regression",
-  },
-];
+export { DATASETS, type Dataset };
 
 export function useDatasetSelect() {
   const selectedDataset = useDatasetStore((state) => state.selectedDataset);
@@ -49,7 +32,6 @@ export function useDatasetSelect() {
         return;
       }
 
-      // If downstream results exist, mark as pending to prevent accidental loss
       if (hasDownstreamResults && selectedDataset) {
         setPendingDataset(datasetName);
       } else {

@@ -14,14 +14,13 @@ export function TransformPage() {
     <PageLayout
       icon={Shuffle}
       title="Transform"
-      subtitle="Run custom transformations on your data"
+      subtitle="Feature transformations"
       nextStep={
         df
           ? {
-              message:
-                "Data transformation complete. Explore and split your data.",
+              message: "Ready to explore and split.",
               linkTo: "/pretrain/explore",
-              linkText: "Go to Explore",
+              linkText: "Explore Data",
             }
           : undefined
       }
@@ -29,11 +28,11 @@ export function TransformPage() {
       {!df ? (
         <PrerequisiteGate step={step1} />
       ) : (
-        <Card className="border-dashed">
+        <Card className="border-dashed transition-all duration-200">
           <CardContent className="flex flex-col items-center justify-center gap-3 py-16">
             <Construction className="h-12 w-12 text-muted-foreground/50" />
             <p className="text-sm font-medium text-muted-foreground">
-              Transformation tools coming soon
+              Transformation tools coming soon.
             </p>
           </CardContent>
         </Card>

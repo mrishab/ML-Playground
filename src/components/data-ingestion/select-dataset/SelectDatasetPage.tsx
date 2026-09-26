@@ -1,173 +1,58 @@
-import { useMemo } from "react";
-import {
-  FileSpreadsheet,
-  Loader2,
-  Table as TableIcon,
-  BarChart3,
-} from "lucide-react";
-import { useDatasetLoader } from "@/hooks/useDatasetLoader";
-import { useDatasetStore } from "@/stores/dataset";
-import { usePipelineStore } from "@/stores/pipeline";
+import { FileSpreadsheet, Loader2 } from "lucide-react";
 import { DatasetSelect } from "./DatasetSelect";
-import { DatasetOverview } from "./DatasetOverview";
-import { AnalyzeTable } from "./AnalyzeTable";
-import { DatasetCard } from "./DatasetCard";
-import { useDatasetSelect, DATASETS } from "./useDatasetSelect";
 import { PageLayout } from "@/components/shared/PageLayout";
-import { DataTable, type DataTableColumnDef } from "@/components/ui/data-table";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { StaleWarningBanner } from "@/components/pipeline/StaleWarningBanner";
-import type { DatasetRowData } from "@/types/dataset";
+import { useSelectDatasetPage } from "./useSelectDatasetPage";
+import { DatasetViewerTabs } from "./DatasetViewerTabs";
+import { DatasetPickerGrid } from "./DatasetPickerGrid";
+import { DatasetPendingBanner } from "./DatasetPendingBanner";
 
 export function SelectDatasetPage() {
-  const { selectedDataset, df, loading, error } = useDatasetStore();
-  const setSelectedDataset = useDatasetStore(
-    (state) => state.setSelectedDataset,
-  );
-  const { pendingDataset, revertDatasetChange, setPendingDataset } =
-    usePipelineStore();
-  const { onSelect } = useDatasetSelect();
-  useDatasetLoader();
+  const page = useSelectDatasetPage();
 
-  const handleApplyPendingDataset = () => {
-    if (!pendingDataset) return;
-    const newDataset = pendingDataset;
-    setPendingDataset(null);
-    setSelectedDataset(newDataset);
-  };
-
-  const rows = useMemo<DatasetRowData[]>(() => {
-    if (!df) return [];
-    const headers = (df.columns as unknown[]).map((col) => String(col ?? ""));
-    const values = Array.isArray(df.values) ? (df.values as unknown[][]) : [];
-
-    return values.map((row) => {
-      const normalizedRow = Array.isArray(row) ? row : [];
-      return headers.reduce<DatasetRowData>((acc, header, index) => {
-        acc[header] = normalizedRow[index] ?? null;
-        return acc;
-      }, {});
-    });
-  }, [df]);
-
-  const columns = useMemo<DataTableColumnDef<DatasetRowData>[]>(() => {
-    if (!df) return [];
-    return df.columns.map((rawHeader: string, index: number) => {
-      const header = String(rawHeader ?? "");
-      const title = header.trim().length > 0 ? header : `Column ${index + 1}`;
-
-      return {
-        id: `column_${index + 1}`,
-        header: { id: `column_${index + 1}`, title },
-        accessorFn: (row: DatasetRowData) => row[header],
-        cell: ({ getValue }) => (
-          <div className="whitespace-nowrap">{String(getValue() ?? "")}</div>
-        ),
-      };
-    });
-  }, [df]);
-
-  const isDatasetReady = Boolean(df && !loading && columns.length > 0);
+  const primaryAction = page.isDatasetReady
+    ? { label: "Explore & Split", linkTo: "/pretrain/explore" }
+    : { label: "Select a Dataset", disabled: true };
 
   return (
     <PageLayout
       icon={<FileSpreadsheet className="h-8 w-8 text-primary" />}
       title="Select Dataset"
-      subtitle="Choose an in-browser dataset to begin your ML pipeline"
+      subtitle="Choose a dataset to begin the pipeline"
       actions={
         <div className="w-48">
           <DatasetSelect />
         </div>
       }
-      primaryAction={
-        isDatasetReady
-          ? {
-              label: "Proceed to Pretrain & Split",
-              linkTo: "/pretrain/explore",
-            }
-          : {
-              label: "Select a Dataset to Continue",
-              disabled: true,
-            }
-      }
+      primaryAction={primaryAction}
     >
-      {/* Pending Dataset Stale Invalidation Warning Banner */}
-      {pendingDataset && pendingDataset !== selectedDataset && (
-        <StaleWarningBanner
-          title="Switch Dataset?"
-          message={`You have selected '${pendingDataset}'. Switching datasets will reset downstream splits and models trained on '${selectedDataset}'. Your current models remain accessible until you apply.`}
-          onRevert={revertDatasetChange}
-          revertLabel={`Keep ${selectedDataset}`}
-          onRecompute={handleApplyPendingDataset}
-          recomputeLabel={`Switch to ${pendingDataset} & Reset Downstream`}
-        />
-      )}
-
-      {loading && (
+      <DatasetPendingBanner
+        pendingDataset={page.pendingDataset}
+        selectedDataset={page.selectedDataset}
+        revertDatasetChange={page.revertDatasetChange}
+        handleApplyPendingDataset={page.handleApplyPendingDataset}
+      />
+      {page.loading && (
         <div className="flex flex-1 items-center justify-center p-12">
           <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
         </div>
       )}
-
-      {error && (
+      {page.error && (
         <div className="rounded-lg border border-destructive bg-destructive/10 p-4 text-destructive text-sm">
-          {error}
+          {page.error}
         </div>
       )}
-
-      {isDatasetReady && (
-        <>
-          <div className="flex items-center justify-between pb-2">
-            <span className="text-xs text-muted-foreground">
-              Loaded:{" "}
-              <strong className="text-foreground">{selectedDataset}</strong> (
-              {rows.length} rows, {columns.length} columns)
-            </span>
-          </div>
-
-          <Tabs defaultValue="table" className="flex-1">
-            <TabsList>
-              <TabsTrigger value="table" className="gap-2">
-                <TableIcon className="h-4 w-4" />
-                Table
-              </TabsTrigger>
-              <TabsTrigger value="analyze" className="gap-2">
-                <BarChart3 className="h-4 w-4" />
-                Analyze
-              </TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="table" className="flex-1">
-              <DataTable columns={columns} data={rows} />
-            </TabsContent>
-
-            <TabsContent value="analyze">
-              <div className="space-y-6">
-                <DatasetOverview />
-                <AnalyzeTable />
-              </div>
-            </TabsContent>
-          </Tabs>
-        </>
+      {page.isDatasetReady && (
+        <DatasetViewerTabs
+          selectedDataset={page.selectedDataset}
+          rows={page.rows}
+          columns={page.columns}
+        />
       )}
-
-      {!selectedDataset && !loading && (
-        <div className="space-y-3">
-          <p className="text-sm text-muted-foreground">
-            Choose a dataset to begin your ML pipeline:
-          </p>
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {DATASETS.map((ds) => (
-              <DatasetCard
-                key={ds.name}
-                name={ds.name}
-                problemType={ds.problemType}
-                selected={ds.name === pendingDataset}
-                onSelect={() => onSelect(ds.name)}
-              />
-            ))}
-          </div>
-        </div>
+      {!page.selectedDataset && !page.loading && (
+        <DatasetPickerGrid
+          pendingDataset={page.pendingDataset}
+          onSelect={page.onSelect}
+        />
       )}
     </PageLayout>
   );

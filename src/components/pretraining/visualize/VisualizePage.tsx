@@ -8,49 +8,45 @@ import { useVisualizePage } from "./useVisualizePage";
 import { useFeatureTabs } from "./useFeatureTabs";
 
 export function VisualizePage() {
-  const { featureNames, targetColumn, isSplit, problemType, getFeatureData } =
-    useVisualizePage();
-
+  const v = useVisualizePage();
   const tabs = useFeatureTabs({
-    features: featureNames,
-    targetColumn,
-    renderContent: (feature) => {
-      const data = getFeatureData(feature);
-      return (
-        <ScatterPlot
-          x={data.x}
-          y={data.y}
-          xLabel={feature}
-          yLabel={targetColumn}
-        />
-      );
-    },
+    features: v.featureNames,
+    targetColumn: v.targetColumn,
+    renderContent: (f) => (
+      <ScatterPlot
+        {...v.getFeatureData(f)}
+        xLabel={f}
+        yLabel={v.targetColumn}
+      />
+    ),
   });
 
   const { steps } = usePipelineSteps();
-  const step2 = steps[1];
-
-  if (!isSplit) {
+  if (!v.isSplit) {
     return (
       <PageLayout
         icon={BarChart3}
         title="Visualize"
-        subtitle="Explore your data through visualizations"
+        subtitle="Scatter plots and feature correlations"
       >
-        <PrerequisiteGate step={step2} />
+        <PrerequisiteGate step={steps[1]} />
       </PageLayout>
     );
   }
+
+  const count = v.featureNames.length;
+  const nextLink =
+    v.problemType === "regression" ? "/train/linear" : "/train/knn";
 
   return (
     <PageLayout
       icon={BarChart3}
       title="Visualize"
-      subtitle={`Feature correlations and scatter plots for ${featureNames.length} feature${featureNames.length > 1 ? "s" : ""} vs ${targetColumn}`}
+      subtitle={`${count} feature${count > 1 ? "s" : ""} vs ${v.targetColumn}`}
       nextStep={{
-        message: "Ready to train. Choose a model.",
-        linkTo: problemType === "regression" ? "/train/linear" : "/train/knn",
-        linkText: "Go to Training",
+        message: "Ready to train.",
+        linkTo: nextLink,
+        linkText: "Train Models",
       }}
     >
       <FeatureTabs tabs={tabs} />

@@ -1,12 +1,9 @@
 import { useEffect } from "react";
-import axios from "axios";
-import Papa from "papaparse";
-import { DataFrame } from "danfojs";
 import { useDatasetStore } from "@/stores/dataset";
 import { useMLConfigStore } from "@/stores/mlConfig";
 import { useTrainingResultsStore } from "@/stores/trainingResults";
 import { DATASETS } from "@/components/data-ingestion/select-dataset/useDatasetSelect";
-import type { RawCSVRow } from "@/types/dataset";
+import { fetchAndParseDataset } from "./fetchDataset";
 
 export function useDatasetLoader() {
   const { selectedDataset, setDf, setLoading, setError } = useDatasetStore();
@@ -33,20 +30,8 @@ export function useDatasetLoader() {
       resetTrainingResults();
 
       try {
-        const url = `${import.meta.env.BASE_URL}datasets/${dataset.file}`;
-        const response = await axios.get<string>(url);
-        const result = Papa.parse<RawCSVRow>(response.data, {
-          header: true,
-          skipEmptyLines: true,
-          dynamicTyping: true,
-          transformHeader: (header) => header.trim(),
-        });
-
-        if (result.errors.length > 0) {
-          throw new Error(result.errors[0].message);
-        }
-
-        setDf(new DataFrame(result.data));
+        const df = await fetchAndParseDataset(dataset.file);
+        setDf(df);
       } catch (err) {
         const message =
           err instanceof Error ? err.message : "Failed to load dataset";
