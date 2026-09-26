@@ -1,81 +1,17 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import type {
-  ColumnDef,
-  ColumnDefTemplate,
-  ColumnFiltersState,
-  HeaderContext,
-  SortingState,
-  VisibilityState,
-} from "@tanstack/react-table";
-import {
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown } from "lucide-react";
+import { useDataTable } from "./data-table/useDataTable";
+import { DataTableToolbar } from "./data-table/DataTableToolbar";
+import { DataTableContent } from "./data-table/DataTableContent";
+import { DataTablePagination } from "./data-table/DataTablePagination";
+import type { DataTableProps } from "./data-table/types";
 
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-
-interface DataTableProps<TData> {
-  columns: DataTableColumnDef<TData>[];
-  data: TData[];
-  filterColumn?: string;
-  filterPlaceholder?: string;
-}
-
-type DataTableColumnMeta = {
-  title?: string;
-};
-
-type DataTableHeaderConfig = {
-  id: string;
-  title: string;
-  className?: string;
-  sortable?: boolean;
-};
-
-type DistributiveOmit<T, K extends PropertyKey> = T extends unknown
-  ? Omit<T, K>
-  : never;
-
-export type DataTableColumnDef<TData> = DistributiveOmit<
-  ColumnDef<TData, unknown>,
-  "header"
-> & {
-  header?:
-    | string
-    | ColumnDefTemplate<HeaderContext<TData, unknown>>
-    | DataTableHeaderConfig;
-};
-
-function isHeaderConfig(header: unknown): header is DataTableHeaderConfig {
-  return (
-    typeof header === "object" &&
-    header !== null &&
-    "id" in header &&
-    "title" in header
-  );
-}
+export type {
+  DataTableColumnDef,
+  DataTableHeaderConfig,
+  DataTableProps,
+} from "./data-table/types";
+export { SortableHeader } from "./data-table/SortableHeader";
 
 export function DataTable<TData>({
   columns,
@@ -83,206 +19,17 @@ export function DataTable<TData>({
   filterColumn,
   filterPlaceholder = "Filter...",
 }: DataTableProps<TData>) {
-  const [sorting, setSorting] = useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = useState({});
-
-  const normalizedColumns = useMemo<ColumnDef<TData, unknown>[]>(() => {
-    return columns.map((columnDef) => {
-      const header = columnDef.header;
-      if (!isHeaderConfig(header)) {
-        return columnDef as ColumnDef<TData, unknown>;
-      }
-
-      const sortable = header.sortable ?? columnDef.enableSorting ?? true;
-
-      return {
-        ...columnDef,
-        id: columnDef.id ?? header.id,
-        enableSorting: columnDef.enableSorting ?? sortable,
-        meta: {
-          ...(columnDef.meta as Record<string, unknown> | undefined),
-          title: header.title,
-        },
-        header: ({ column }) => (
-          <div className={header.className}>
-            {sortable ? (
-              <SortableHeader column={column} title={header.title} />
-            ) : (
-              <span>{header.title}</span>
-            )}
-          </div>
-        ),
-      };
-    });
-  }, [columns]);
-
-  const table = useReactTable({
-    data,
-    columns: normalizedColumns,
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    onColumnVisibilityChange: setColumnVisibility,
-    onRowSelectionChange: setRowSelection,
-    state: {
-      sorting,
-      columnFilters,
-      columnVisibility,
-      rowSelection,
-    },
-  });
+  const { table, normalizedColumns } = useDataTable({ columns, data });
 
   return (
     <div className="w-full">
-      <div className="flex items-center gap-2 py-4">
-        {filterColumn && (
-          <Input
-            placeholder={filterPlaceholder}
-            value={
-              (table.getColumn(filterColumn)?.getFilterValue() as string) ?? ""
-            }
-            onChange={(event) =>
-              table.getColumn(filterColumn)?.setFilterValue(event.target.value)
-            }
-            className="max-w-sm"
-          />
-        )}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columns <ChevronDown className="ml-2 h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                const columnMeta = column.columnDef.meta as
-                  | DataTableColumnMeta
-                  | undefined;
-
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {columnMeta?.title ?? column.id}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
-                    </TableHead>
-                  );
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={normalizedColumns.length}
-                  className="h-24 text-center"
-                >
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
-      <div className="flex items-center justify-between space-x-2 py-4">
-        <div className="text-sm text-muted-foreground">
-          {table.getFilteredRowModel().rows.length} row(s) total
-        </div>
-        <div className="flex items-center space-x-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Previous
-          </Button>
-          <div className="text-sm text-muted-foreground">
-            Page {table.getState().pagination.pageIndex + 1} of{" "}
-            {table.getPageCount()}
-          </div>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            Next
-          </Button>
-        </div>
-      </div>
+      <DataTableToolbar
+        table={table}
+        filterColumn={filterColumn}
+        filterPlaceholder={filterPlaceholder}
+      />
+      <DataTableContent table={table} columnsCount={normalizedColumns.length} />
+      <DataTablePagination table={table} />
     </div>
-  );
-}
-
-// Helper to create a sortable column header
-export function SortableHeader({
-  column,
-  title,
-}: {
-  column: {
-    toggleSorting: (desc?: boolean) => void;
-    getIsSorted: () => false | "asc" | "desc";
-  };
-  title: string;
-}) {
-  return (
-    <Button
-      variant="ghost"
-      onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-      className="-ml-4"
-    >
-      {title}
-      <ArrowUpDown className="ml-2 h-4 w-4" />
-    </Button>
   );
 }
