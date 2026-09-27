@@ -1,4 +1,5 @@
 import Papa from "papaparse";
+import type { DatasetRowData } from "@/types/dataset";
 import type { ParsedCSVResult } from "./types";
 import { formatFileSize } from "./formatFileSize";
 import { buildParsedResult } from "./buildParsedResult";
@@ -22,7 +23,7 @@ export function parseCSVFile(file: File): Promise<ParsedCSVResult> {
       return reject(err);
     }
 
-    Papa.parse<Record<string, unknown>>(file, {
+    Papa.parse<DatasetRowData>(file, {
       header: true,
       skipEmptyLines: "greedy",
       dynamicTyping: true,

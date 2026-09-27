@@ -1,5 +1,7 @@
+import type { DatasetRowData } from "@/types/dataset";
+
 interface ProcessedRows {
-  rows: Record<string, unknown>[];
+  rows: DatasetRowData[];
   missingCount: number;
 }
 
@@ -9,17 +11,17 @@ export function extractRows(
   headers: string[],
 ): ProcessedRows {
   let missingCount = 0;
-  const rows: Record<string, unknown>[] = [];
+  const rows: DatasetRowData[] = [];
 
   for (const rawRow of data) {
     if (!rawRow || typeof rawRow !== "object") continue;
 
     let hasAnyValue = false;
-    const cleanRow: Record<string, unknown> = {};
+    const cleanRow: DatasetRowData = {};
 
     headers.forEach((header, idx) => {
       const rawKey = rawHeaders[idx] ?? header;
-      let val = (rawRow as Record<string, unknown>)[rawKey];
+      let val = (rawRow as DatasetRowData)[rawKey];
       if (val === undefined || val === "" || val === null) {
         val = null;
         missingCount++;

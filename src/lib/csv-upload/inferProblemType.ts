@@ -1,5 +1,6 @@
+import type { DatasetRowData } from "@/types/dataset";
 import type { ProblemType } from "@/stores/mlConfig";
-import { inferColumnTypes, type ColumnType } from "./inferColumnTypes";
+import { inferColumnTypes, type ColumnTypeMap } from "./inferColumnTypes";
 import { detectClassification } from "./detectClassification";
 
 const COMMON_TARGET_NAMES = new Set([
@@ -25,12 +26,12 @@ export function findSuggestedTarget(headers: string[]): string {
 }
 
 export function inferProblemTypeAndTarget(
-  rows: Record<string, unknown>[],
+  rows: DatasetRowData[],
   headers: string[],
 ): {
   suggestedProblemType: ProblemType;
   suggestedTarget: string;
-  columnTypes: Record<string, ColumnType>;
+  columnTypes: ColumnTypeMap;
 } {
   const columnTypes = inferColumnTypes(rows, headers);
   const suggestedTarget = findSuggestedTarget(headers);

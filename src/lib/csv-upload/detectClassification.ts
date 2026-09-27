@@ -1,5 +1,7 @@
+import type { DatasetRowData } from "@/types/dataset";
+
 export function detectClassification(
-  rows: Record<string, unknown>[],
+  rows: DatasetRowData[],
   target: string,
 ): boolean {
   const uniqueValues = new Set<unknown>();

@@ -1,11 +1,12 @@
 import { DataFrame } from "danfojs";
+import type { DatasetRowData } from "@/types/dataset";
 
 export function createDataFrameFromParsed(
-  rows: Record<string, unknown>[],
+  rows: DatasetRowData[],
   headers: string[],
 ): DataFrame {
   const normalizedRows = rows.map((row) => {
-    const item: Record<string, unknown> = {};
+    const item: DatasetRowData = {};
     for (const header of headers) {
       item[header] = row[header] ?? null;
     }

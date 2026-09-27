@@ -7,7 +7,7 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { BREADCRUMB_MAP } from "./breadcrumbMap";
+import { getBreadcrumbLabel } from "./breadcrumbMap";
 
 export function HeaderBreadcrumbs() {
   const location = useLocation();
@@ -16,9 +16,9 @@ export function HeaderBreadcrumbs() {
   const crumbs = segments
     .map((segment) => ({
       key: segment,
-      label: BREADCRUMB_MAP[segment] ?? segment,
+      label: getBreadcrumbLabel(segment),
     }))
-    .filter((crumb) => crumb.label);
+    .filter((crumb) => Boolean(crumb.label));
 
   return (
     <Breadcrumb className="hidden sm:block">

@@ -8,7 +8,7 @@ import { mapConfigToState } from "./dataset-config/mapping";
 
 export type { DatasetConfigEntry, DatasetConfigFileMap, MappedConfig };
 
-let configCache: DatasetConfigFileMap | null = null;
+let configCache: Map<string, DatasetConfigEntry> | null = null;
 
 export async function loadDatasetConfig(
   datasetFile: string,
@@ -17,10 +17,12 @@ export async function loadDatasetConfig(
     if (!configCache) {
       const url = `${import.meta.env.BASE_URL}datasets/config.json`;
       const response = await axios.get<DatasetConfigFileMap>(url);
-      configCache = response.data;
+      configCache = new Map<string, DatasetConfigEntry>(
+        Object.entries(response.data),
+      );
     }
 
-    const datasetConfig = configCache[datasetFile];
+    const datasetConfig = configCache.get(datasetFile);
     if (!datasetConfig) {
       return null;
     }

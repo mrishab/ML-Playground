@@ -1,10 +1,13 @@
+import type { DatasetRowData } from "@/types/dataset";
+
 export type ColumnType = "numeric" | "text" | "boolean";
+export type ColumnTypeMap = Record<string, ColumnType>;
 
 export function inferColumnTypes(
-  rows: Record<string, unknown>[],
+  rows: DatasetRowData[],
   headers: string[],
-): Record<string, ColumnType> {
-  const columnTypes: Record<string, ColumnType> = {};
+): ColumnTypeMap {
+  const columnTypes: ColumnTypeMap = {};
 
   for (const header of headers) {
     let numericCount = 0;

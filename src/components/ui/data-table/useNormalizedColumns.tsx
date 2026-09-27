@@ -1,7 +1,11 @@
 import { useMemo } from "react";
 import type { ColumnDef } from "@tanstack/react-table";
 import { SortableHeader } from "./SortableHeader";
-import { type DataTableColumnDef, isHeaderConfig } from "./types";
+import {
+  type DataTableColumnDef,
+  type DataTableColumnMeta,
+  isHeaderConfig,
+} from "./types";
 
 export function useNormalizedColumns<TData>(
   columns: DataTableColumnDef<TData>[],
@@ -20,7 +24,7 @@ export function useNormalizedColumns<TData>(
         id: columnDef.id ?? header.id,
         enableSorting: columnDef.enableSorting ?? sortable,
         meta: {
-          ...(columnDef.meta as Record<string, unknown> | undefined),
+          ...(columnDef.meta as DataTableColumnMeta | undefined),
           title: header.title,
         },
         header: ({ column }) => (
