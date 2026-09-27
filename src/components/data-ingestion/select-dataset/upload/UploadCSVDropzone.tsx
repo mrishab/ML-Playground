@@ -1,14 +1,8 @@
-import { Upload } from "lucide-react";
 import { UploadCSVBadges } from "./UploadCSVBadges";
+import { UploadCSVDropzonePrompt } from "./UploadCSVDropzonePrompt";
+import type { UploadCSVDropzoneProps } from "./dropzoneTypes";
 
-interface UploadCSVDropzoneProps {
-  isDragging: boolean;
-  fileInputRef: React.RefObject<HTMLInputElement | null>;
-  onDragOver: (e: React.DragEvent) => void;
-  onDragLeave: (e: React.DragEvent) => void;
-  onDrop: (e: React.DragEvent) => void;
-  onFileInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}
+export type { UploadCSVDropzoneProps };
 
 export function UploadCSVDropzone({
   isDragging,
@@ -21,10 +15,18 @@ export function UploadCSVDropzone({
   return (
     <div className="space-y-4 py-2">
       <div
+        role="button"
+        tabIndex={0}
         onDragOver={onDragOver}
         onDragLeave={onDragLeave}
         onDrop={onDrop}
         onClick={() => fileInputRef.current?.click()}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            fileInputRef.current?.click();
+          }
+        }}
         className={`group flex flex-col items-center justify-center rounded-xl border-2 border-dashed p-6 sm:p-10 text-center cursor-pointer transition-[border-color,background-color,transform] duration-150 ease-out active:scale-[0.99] ${
           isDragging
             ? "border-primary bg-primary/10 scale-[1.01]"
@@ -38,18 +40,7 @@ export function UploadCSVDropzone({
           onChange={onFileInputChange}
           className="hidden"
         />
-        <div className="rounded-full bg-primary/10 p-3 mb-3 text-primary transition-transform duration-150 ease-out group-hover:scale-105">
-          <Upload className="h-6 w-6" />
-        </div>
-        <p className="text-sm sm:text-base font-semibold">
-          Drag and drop your CSV file here
-        </p>
-        <p className="text-xs sm:text-sm text-muted-foreground mt-1 max-w-sm">
-          or{" "}
-          <span className="text-primary font-medium underline">
-            browse from your computer
-          </span>
-        </p>
+        <UploadCSVDropzonePrompt />
         <UploadCSVBadges />
       </div>
     </div>

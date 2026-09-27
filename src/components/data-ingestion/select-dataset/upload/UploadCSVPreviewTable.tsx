@@ -25,9 +25,9 @@ export function UploadCSVPreviewTable({
             targetColumn={targetColumn}
           />
           <tbody>
-            {parsed.previewRows.map((row, idx) => (
+            {parsed.previewRows.map((row) => (
               <tr
-                key={idx}
+                key={parsed.headers.map((h) => String(row[h])).join("|")}
                 className="border-b last:border-0 hover:bg-muted/30 transition-colors duration-150 ease-out"
               >
                 {parsed.headers.map((h) => (

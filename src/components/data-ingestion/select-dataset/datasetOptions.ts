@@ -1,7 +1,6 @@
 import { DATASETS } from "./datasetsData";
 import type { DatasetOption } from "./datasetTypes";
 import type { CustomDataset } from "@/stores/dataset";
-import type { TrainingResultsStore } from "@/stores/trainingResults";
 
 export function getCustomOptions(
   customDatasets: CustomDataset[],
@@ -23,17 +22,4 @@ export function getStandardOptions(): DatasetOption[] {
     problemType: d.problemType,
     isCustom: false,
   }));
-}
-
-export function checkHasDownstreamResults(
-  isSplit: boolean,
-  results: TrainingResultsStore,
-): boolean {
-  return (
-    isSplit ||
-    results.linearRegression.metrics !== null ||
-    results.knn.metrics !== null ||
-    results.lda.metrics !== null ||
-    results.logisticRegression.metrics !== null
-  );
 }

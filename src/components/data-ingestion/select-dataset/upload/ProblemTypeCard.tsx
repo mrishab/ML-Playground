@@ -17,7 +17,15 @@ export function ProblemTypeCard({
 }: ProblemTypeCardProps) {
   return (
     <div
+      role="button"
+      tabIndex={0}
       onClick={onClick}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onClick();
+        }
+      }}
       className={`flex items-start gap-2.5 rounded-lg border p-3 cursor-pointer transition-[border-color,background-color,box-shadow,transform] duration-150 ease-out active:scale-[0.99] ${
         isSelected
           ? "border-primary bg-primary/5 ring-1 ring-primary"
