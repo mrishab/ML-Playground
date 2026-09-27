@@ -1,37 +1,11 @@
 import { create } from "zustand";
-import type { DataFrame } from "danfojs";
-import type { ProblemType } from "@/stores/mlConfig";
+import type {
+  DatasetState,
+  DatasetActions,
+  CustomDataset,
+} from "./dataset/types";
 
-export type CustomDataset = {
-  name: string;
-  fileName: string;
-  fileSize: number;
-  problemType?: ProblemType;
-  targetColumn?: string;
-  rowCount: number;
-  columnCount: number;
-  columns: string[];
-  df: DataFrame;
-  uploadedAt: number;
-};
-
-type DatasetState = {
-  selectedDataset: string;
-  df: DataFrame | null;
-  loading: boolean;
-  error: string | null;
-  customDatasets: CustomDataset[];
-};
-
-type DatasetActions = {
-  setSelectedDataset: (name: string) => void;
-  setDf: (df: DataFrame | null) => void;
-  setLoading: (loading: boolean) => void;
-  setError: (error: string | null) => void;
-  addCustomDataset: (dataset: CustomDataset) => void;
-  removeCustomDataset: (name: string) => void;
-  reset: () => void;
-};
+export type { CustomDataset };
 
 const initialState: DatasetState = {
   selectedDataset: "",
