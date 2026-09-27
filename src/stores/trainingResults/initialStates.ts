@@ -5,10 +5,12 @@ import type {
   KNNState,
   TrainingResultsState,
 } from "./types";
+import type { KMeansState } from "@/types/kmeans";
 
 const initialBase: BaseModelState = {
   trainingState: "idle",
   error: null,
+  lossTelemetry: null,
 };
 
 export const initialLinearRegression: LinearRegressionState = {
@@ -22,10 +24,17 @@ export const initialClassification: ClassificationModelState = {
 };
 
 export const DEFAULT_K = 5;
+export const DEFAULT_KMEANS_K = 3;
 
 export const initialKNN: KNNState = {
   ...initialClassification,
   k: DEFAULT_K,
+};
+
+export const initialKMeans: KMeansState = {
+  ...initialBase,
+  k: DEFAULT_KMEANS_K,
+  metrics: null,
 };
 
 export const initialTrainingResultsState: TrainingResultsState = {
@@ -33,4 +42,5 @@ export const initialTrainingResultsState: TrainingResultsState = {
   knn: initialKNN,
   lda: { ...initialClassification },
   logisticRegression: { ...initialClassification },
+  kmeans: initialKMeans,
 };

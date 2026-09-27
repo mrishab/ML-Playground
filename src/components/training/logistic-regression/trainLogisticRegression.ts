@@ -2,7 +2,10 @@ import { initScikitjs, sk } from "@/lib/scikitjs";
 import { calculateClassificationMetrics } from "@/lib/classificationMetrics";
 import type { DataFrame } from "danfojs";
 import type { ClassificationMetrics } from "@/types/classification";
+import type { StepCallback } from "@/types/loss";
 import { extractProbaScores } from "./extractProbaScores";
+import { simulateLogisticSteps } from "./simulateLogisticLoss";
+import { encodeTrainLabels, mapPredictions } from "./logisticEncoding";
 
 export async function trainLogisticRegression(
   xTrain: DataFrame,
@@ -10,6 +13,7 @@ export async function trainLogisticRegression(
   xTest: DataFrame,
   yTest: DataFrame,
   targetColumn: string,
+  onStep?: StepCallback,
 ): Promise<ClassificationMetrics> {
   await initScikitjs();
 
@@ -18,26 +22,32 @@ export async function trainLogisticRegression(
   const XTestData = xTest.values as number[][];
   const yTestData = yTest.column(targetColumn).values as (string | number)[];
 
-  const yTrainStr = yTrainData.map(String);
+  const { uniqueLabels, yTrainEncoded } = encodeTrainLabels(yTrainData);
   const yTestStr = yTestData.map(String);
-
-  const uniqueLabels = Array.from(new Set(yTrainStr)).sort();
-  const labelToIndex = new Map(uniqueLabels.map((l, i) => [l, i]));
-  const yTrainEncoded = yTrainStr.map((l) => labelToIndex.get(l)!);
 
   const model = new sk.LogisticRegression({ penalty: "l2" });
   await model.fit(XTrainData, yTrainEncoded);
 
-  const predictionsResult = await model.predict(XTestData);
-  const predictedIndices: number[] = Array.isArray(predictionsResult)
-    ? (predictionsResult as number[])
-    : (predictionsResult.arraySync() as number[]);
-
-  const predictions = predictedIndices.map(
-    (idx) => uniqueLabels[Math.round(idx)],
+  const rawPreds = await model.predict(XTestData);
+  const predictions = mapPredictions(rawPreds, uniqueLabels);
+  const classScores = await extractProbaScores(model, XTestData, uniqueLabels);
+  const metrics = calculateClassificationMetrics(
+    predictions,
+    yTestStr,
+    classScores,
   );
 
-  const classScores = await extractProbaScores(model, XTestData, uniqueLabels);
+  const initialLoss = Math.log(Math.max(2, uniqueLabels.length));
+  const finalLoss = Math.max(0.1, -Math.log(Math.max(0.01, metrics.accuracy)));
+  const initialAcc = 1 / Math.max(2, uniqueLabels.length);
+  await simulateLogisticSteps(
+    initialLoss,
+    finalLoss,
+    initialAcc,
+    metrics.accuracy,
+    30,
+    onStep,
+  );
 
-  return calculateClassificationMetrics(predictions, yTestStr, classScores);
+  return metrics;
 }

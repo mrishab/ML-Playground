@@ -1,32 +1,49 @@
 import { CircleDot } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
-import { PageLayout } from "@/components/shared/PageLayout";
-import { useMLConfigStore } from "@/stores/mlConfig";
+import { TrainingPageLayout } from "@/components/shared/TrainingPageLayout";
+import { useKMeansPage } from "@/components/training/kmeans/useKMeansPage";
+import { KMeansConfigCard } from "@/components/training/kmeans/KMeansConfigCard";
+import { ClusterSummaryCards } from "@/components/training/kmeans/ClusterSummaryCards";
+import { ClusterDetailsTabs } from "@/components/training/kmeans/ClusterDetailsTabs";
 
 export function ClusterComparisonPage() {
-  const problemType = useMLConfigStore((state) => state.problemType);
+  const pageState = useKMeansPage();
+  const { metrics, k, setK, trainingState, xTrain, lossTelemetry } = pageState;
+  const rawData = (xTrain?.values as number[][]) ?? [];
 
   return (
-    <PageLayout
+    <TrainingPageLayout
+      {...pageState}
+      title="K-Means Clustering"
+      subtitle="Unsupervised centroid-based clustering with live Inertia loss"
       icon={CircleDot}
-      title="Clustering Comparison"
-      subtitle="Compare clustering models"
-      nextStep={{
-        message: "Compare trained models.",
-        linkTo:
-          problemType === "regression"
-            ? "/comparison/regression"
-            : "/comparison/classification",
-        linkText: "Compare Models",
+      algorithmName="K-Means (Lloyd's Algorithm)"
+      configOptions={[
+        { label: "Clusters (k)", value: String(k) },
+        { label: "Initialization", value: "Random Partition" },
+        { label: "Loss Function", value: "Inertia (WCSS)" },
+      ]}
+      headerExtras={
+        <KMeansConfigCard
+          k={k}
+          onKChange={setK}
+          disabled={trainingState === "training"}
+        />
+      }
+      summaryComponent={<ClusterSummaryCards metrics={metrics!} />}
+      detailsComponent={
+        <ClusterDetailsTabs
+          data={rawData}
+          metrics={metrics!}
+          telemetry={lossTelemetry}
+        />
+      }
+      nextStepProps={{
+        message: "Clustering complete.",
+        linkTo: "/validation",
+        linkText: "View Validation",
       }}
-    >
-      <Card className="border-dashed">
-        <CardContent className="flex min-h-[120px] items-center justify-center py-8">
-          <p className="text-center text-sm text-muted-foreground">
-            Clustering models coming soon.
-          </p>
-        </CardContent>
-      </Card>
-    </PageLayout>
+      onRun={pageState.runTraining}
+      onReset={pageState.reset}
+    />
   );
 }

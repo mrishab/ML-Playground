@@ -1,5 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { ModelConfig } from "../ModelConfig";
+import { MiniLossMonitor } from "@/components/training/loss-plot/MiniLossMonitor";
 import type { TrainingPageLayoutProps } from "./types";
 
 type TrainingConfigGridProps = Pick<
@@ -13,6 +14,7 @@ type TrainingConfigGridProps = Pick<
   | "headerExtras"
   | "summaryComponent"
   | "metrics"
+  | "lossTelemetry"
   | "onRun"
   | "onReset"
 >;
@@ -37,6 +39,8 @@ export function TrainingConfigGrid(props: TrainingConfigGridProps) {
 
       {props.metrics ? (
         props.summaryComponent
+      ) : props.trainingState === "training" ? (
+        <MiniLossMonitor telemetry={props.lossTelemetry ?? null} />
       ) : (
         <Card className="border-dashed">
           <CardContent className="flex h-full items-center justify-center p-6">

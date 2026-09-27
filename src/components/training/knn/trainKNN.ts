@@ -2,6 +2,8 @@ import { initScikitjs, sk } from "@/lib/scikitjs";
 import { calculateClassificationMetrics } from "@/lib/classificationMetrics";
 import type { DataFrame } from "danfojs";
 import type { ClassificationMetrics } from "@/types/classification";
+import type { StepCallback } from "@/types/loss";
+import { simulateKNNSteps } from "./simulateKNNLoss";
 
 export async function trainKNN(
   xTrain: DataFrame,
@@ -10,6 +12,7 @@ export async function trainKNN(
   yTest: DataFrame,
   targetColumn: string,
   k: number,
+  onStep?: StepCallback,
 ): Promise<ClassificationMetrics> {
   await initScikitjs();
 
@@ -20,7 +23,6 @@ export async function trainKNN(
 
   const yTrainStr = yTrainData.map(String);
   const yTestStr = yTestData.map(String);
-
   const uniqueLabels = Array.from(new Set(yTrainStr)).sort();
   const labelToIndex = new Map(uniqueLabels.map((l, i) => [l, i]));
   const yTrainEncoded = yTrainStr.map((l) => labelToIndex.get(l)!);
@@ -36,6 +38,9 @@ export async function trainKNN(
   const predictions = predictedIndices.map(
     (idx) => uniqueLabels[Math.round(idx)],
   );
+  const metrics = calculateClassificationMetrics(predictions, yTestStr);
 
-  return calculateClassificationMetrics(predictions, yTestStr);
+  await simulateKNNSteps(metrics.accuracy, 25, onStep);
+
+  return metrics;
 }

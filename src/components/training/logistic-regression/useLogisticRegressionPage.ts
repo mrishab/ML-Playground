@@ -1,21 +1,13 @@
 import { useCallback } from "react";
-import { useTrainingResultsStore } from "@/stores/trainingResults";
 import { useTrainingData } from "@/components/training/shared/useTrainingData";
+import { createTelemetryUpdater } from "@/components/training/shared/createTelemetryUpdater";
 import { trainLogisticRegression } from "./trainLogisticRegression";
+import { useLogisticRegressionStore } from "./useLogisticRegressionStore";
 
 export function useLogisticRegressionPage() {
   const data = useTrainingData();
-  const { trainingState, metrics, error } = useTrainingResultsStore(
-    (s) => s.logisticRegression,
-  );
-  const setTrainingState = useTrainingResultsStore(
-    (s) => s.setLogisticRegressionState,
-  );
-  const setMetrics = useTrainingResultsStore(
-    (s) => s.setLogisticRegressionMetrics,
-  );
-  const setError = useTrainingResultsStore((s) => s.setLogisticRegressionError);
-  const reset = useTrainingResultsStore((s) => s.resetLogisticRegression);
+  const store = useLogisticRegressionStore();
+  const { setTrainingState, setError, setMetrics, setTelemetry } = store;
 
   const runTraining = useCallback(async () => {
     const { canTrain, xTrain, xTest, yTrain, yTest, targetColumn } = data;
@@ -23,11 +15,17 @@ export function useLogisticRegressionPage() {
       setError("Missing required data. Please configure and split data first.");
       return;
     }
-
     setTrainingState("training");
     setError(null);
     setMetrics(null);
-
+    const onStep = createTelemetryUpdater(
+      "classification",
+      "Cross-Entropy Loss (Log-Loss)",
+      "Log-Loss",
+      setTelemetry,
+      "Accuracy (%)",
+      "%",
+    );
     try {
       const results = await trainLogisticRegression(
         xTrain,
@@ -35,22 +33,15 @@ export function useLogisticRegressionPage() {
         xTest,
         yTest,
         targetColumn,
+        onStep,
       );
       setMetrics(results);
       setTrainingState("complete");
     } catch (err) {
-      console.error("[LogisticRegression] Training failed:", err);
       setError(err instanceof Error ? err.message : "Training failed");
       setTrainingState("error");
     }
-  }, [data, setTrainingState, setError, setMetrics]);
+  }, [data, setTrainingState, setError, setMetrics, setTelemetry]);
 
-  return {
-    ...data,
-    trainingState,
-    metrics,
-    error,
-    runTraining,
-    reset,
-  };
+  return { ...data, ...store, runTraining };
 }

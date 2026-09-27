@@ -1,19 +1,15 @@
 import { useCallback } from "react";
-import { useTrainingResultsStore } from "@/stores/trainingResults";
 import { useTrainingData } from "@/components/training/shared/useTrainingData";
+import { createTelemetryUpdater } from "@/components/training/shared/createTelemetryUpdater";
 import { trainKNN } from "./trainKNN";
 import { useKNNK } from "./useKNNK";
+import { useKNNStore } from "./useKNNStore";
 
 export function useKNNPage() {
   const data = useTrainingData();
-  const { k, setK, effectiveMaxK } = useKNNK(data.xTrain);
-  const { trainingState, metrics, error } = useTrainingResultsStore(
-    (s) => s.knn,
-  );
-  const setTrainingState = useTrainingResultsStore((s) => s.setKNNState);
-  const setMetrics = useTrainingResultsStore((s) => s.setKNNMetrics);
-  const setError = useTrainingResultsStore((s) => s.setKNNError);
-  const reset = useTrainingResultsStore((s) => s.resetKNN);
+  const store = useKNNStore();
+  const { k, setTrainingState, setError, setMetrics, setTelemetry } = store;
+  const { effectiveMaxK } = useKNNK(data.xTrain);
 
   const runTraining = useCallback(async () => {
     const { canTrain, xTrain, xTest, yTrain, yTest, targetColumn } = data;
@@ -24,6 +20,15 @@ export function useKNNPage() {
     setTrainingState("training");
     setError(null);
     setMetrics(null);
+    const onStep = createTelemetryUpdater(
+      "classification",
+      "Neighborhood Distance Loss",
+      "Distance Loss",
+      setTelemetry,
+      "Misclassification Rate (%)",
+      "%",
+      25,
+    );
     try {
       const results = await trainKNN(
         xTrain,
@@ -32,25 +37,15 @@ export function useKNNPage() {
         yTest,
         targetColumn,
         k,
+        onStep,
       );
       setMetrics(results);
       setTrainingState("complete");
     } catch (err) {
-      console.error("[KNN] Training failed:", err);
       setError(err instanceof Error ? err.message : "Training failed");
       setTrainingState("error");
     }
-  }, [data, k, setTrainingState, setError, setMetrics]);
+  }, [data, k, setTrainingState, setError, setMetrics, setTelemetry]);
 
-  return {
-    ...data,
-    trainingState,
-    metrics,
-    error,
-    k,
-    setK,
-    effectiveMaxK,
-    runTraining,
-    reset,
-  };
+  return { ...data, ...store, effectiveMaxK, runTraining };
 }

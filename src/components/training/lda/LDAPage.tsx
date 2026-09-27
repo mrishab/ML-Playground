@@ -22,7 +22,12 @@ export function LDAPage() {
       summaryComponent={
         <ClassificationSummary metrics={metrics!} direction="vertical" />
       }
-      detailsComponent={<ClassificationDetailsTabs metrics={metrics!} />}
+      detailsComponent={
+        <ClassificationDetailsTabs
+          metrics={metrics!}
+          telemetry={pageState.lossTelemetry}
+        />
+      }
       nextStepProps={{
         message: "Model trained.",
         linkTo: "/comparison/classification",

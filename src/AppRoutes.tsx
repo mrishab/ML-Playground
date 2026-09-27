@@ -22,10 +22,12 @@ export function AppRoutes() {
         <Route path="data/transform" element={<TransformPage />} />
         <Route path="pretrain/explore" element={<ExplorePage />} />
         <Route path="pretrain/visualize" element={<VisualizePage />} />
+        <Route path="pretrain/analyze" element={<VisualizePage />} />
         <Route path="train/linear" element={<LinearRegressionPage />} />
         <Route path="train/knn" element={<KNNPage />} />
         <Route path="train/lda" element={<LDAPage />} />
         <Route path="train/logistic" element={<LogisticRegressionPage />} />
+        <Route path="train/clustering" element={<ClusterComparisonPage />} />
         <Route
           path="comparison/classification"
           element={<ClassificationComparisonPage />}
