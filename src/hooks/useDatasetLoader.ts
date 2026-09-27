@@ -3,21 +3,16 @@ import { useDatasetStore } from "@/stores/dataset";
 import { useMLConfigStore } from "@/stores/mlConfig";
 import { useTrainingResultsStore } from "@/stores/trainingResults";
 import { loadStandardDataset } from "./loadStandardDataset";
+import { loadCustomDataset } from "./loadCustomDataset";
 
 export function useDatasetLoader() {
-  const { selectedDataset, customDatasets, setDf, setLoading, setError } =
-    useDatasetStore();
-  const resetMLConfig = useMLConfigStore((state) => state.reset);
-  const setProblemType = useMLConfigStore((state) => state.setProblemType);
-  const setTargetColumn = useMLConfigStore((state) => state.setTargetColumn);
-  const resetTrainingResults = useTrainingResultsStore(
-    (state) => state.resetAll,
-  );
+  const { selectedDataset, customDatasets } = useDatasetStore();
 
   useEffect(() => {
+    const { setDf, setLoading, setError } = useDatasetStore.getState();
     const resetAll = () => {
-      resetMLConfig();
-      resetTrainingResults();
+      useMLConfigStore.getState().reset();
+      useTrainingResultsStore.getState().resetAll();
     };
 
     if (!selectedDataset) {
@@ -28,12 +23,13 @@ export function useDatasetLoader() {
 
     const custom = customDatasets.find((d) => d.name === selectedDataset);
     if (custom) {
-      setError(null);
-      setLoading(false);
-      setDf(custom.df);
-      resetAll();
-      if (custom.problemType) setProblemType(custom.problemType);
-      if (custom.targetColumn) setTargetColumn(custom.targetColumn);
+      loadCustomDataset({
+        custom,
+        setDf,
+        setLoading,
+        setError,
+        onReset: resetAll,
+      });
       return;
     }
 
@@ -44,15 +40,5 @@ export function useDatasetLoader() {
       setDf,
       onReset: resetAll,
     });
-  }, [
-    selectedDataset,
-    customDatasets,
-    setDf,
-    setLoading,
-    setError,
-    resetMLConfig,
-    resetTrainingResults,
-    setProblemType,
-    setTargetColumn,
-  ]);
+  }, [selectedDataset, customDatasets]);
 }

@@ -7,9 +7,9 @@ import { useKNNK } from "./useKNNK";
 export function useKNNPage() {
   const data = useTrainingData();
   const { k, setK, effectiveMaxK } = useKNNK(data.xTrain);
-  const trainingState = useTrainingResultsStore((s) => s.knn.trainingState);
-  const metrics = useTrainingResultsStore((s) => s.knn.metrics);
-  const error = useTrainingResultsStore((s) => s.knn.error);
+  const { trainingState, metrics, error } = useTrainingResultsStore(
+    (s) => s.knn,
+  );
   const setTrainingState = useTrainingResultsStore((s) => s.setKNNState);
   const setMetrics = useTrainingResultsStore((s) => s.setKNNMetrics);
   const setError = useTrainingResultsStore((s) => s.setKNNError);

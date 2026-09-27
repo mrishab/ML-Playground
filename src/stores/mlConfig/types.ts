@@ -1,20 +1,11 @@
 import type { DataFrame } from "danfojs";
 
-export type TransformationType = "none" | "polynomial" | "interaction";
-
-export type ProblemType =
-  | "regression"
-  | "classification"
-  | "clustering"
-  | "dimensionality_reduction";
-
-export type SelectedFeature = {
-  id: string;
-  column: string;
-  transformation: TransformationType;
-  polynomialDegree?: number;
-  interactionWith?: string;
-};
+export type * from "./featureTypes";
+import type {
+  ProblemType,
+  SelectedFeature,
+  TransformationType,
+} from "./featureTypes";
 
 export type MLConfigState = {
   problemType: ProblemType;

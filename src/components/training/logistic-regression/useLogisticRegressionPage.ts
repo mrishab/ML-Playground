@@ -5,12 +5,9 @@ import { trainLogisticRegression } from "./trainLogisticRegression";
 
 export function useLogisticRegressionPage() {
   const data = useTrainingData();
-  const trainingState = useTrainingResultsStore(
-    (s) => s.logisticRegression.trainingState,
+  const { trainingState, metrics, error } = useTrainingResultsStore(
+    (s) => s.logisticRegression,
   );
-  const metrics = useTrainingResultsStore((s) => s.logisticRegression.metrics);
-  const error = useTrainingResultsStore((s) => s.logisticRegression.error);
-
   const setTrainingState = useTrainingResultsStore(
     (s) => s.setLogisticRegressionState,
   );

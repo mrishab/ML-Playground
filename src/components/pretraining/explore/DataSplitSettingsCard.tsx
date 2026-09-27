@@ -2,22 +2,10 @@ import { Shuffle as ShuffleIcon } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import type { ProblemType } from "@/stores/mlConfig";
 import { ProblemTypeSelect } from "./ProblemTypeSelect";
 import { TargetColumnSelect } from "./TargetColumnSelect";
 import { TestSplitSlider } from "./TestSplitSlider";
-
-interface DataSplitSettingsCardProps {
-  problemType: ProblemType;
-  setProblemType: (p: ProblemType) => void;
-  shuffle: boolean;
-  setShuffle: (s: boolean) => void;
-  testSplitPercent: number;
-  setTestSplitPercent: (p: number) => void;
-  targetColumn: string;
-  setTargetColumn: (c: string) => void;
-  columns: string[];
-}
+import type { DataSplitSettingsCardProps } from "./types";
 
 export function DataSplitSettingsCard({
   problemType,

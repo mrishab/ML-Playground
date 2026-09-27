@@ -3,16 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { DatasetCardBadges } from "./DatasetCardBadges";
 import { DatasetDeleteButton } from "./DatasetDeleteButton";
 
-type DatasetCardProps = {
-  name: string;
-  problemType?: string;
-  selected: boolean;
-  onSelect: () => void;
-  isCustom?: boolean;
-  rowCount?: number;
-  columnCount?: number;
-  onDelete?: () => void;
-};
+import type { DatasetCardProps } from "./datasetTypes";
 
 export function DatasetCard({
   name,

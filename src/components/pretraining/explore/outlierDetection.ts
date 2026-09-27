@@ -40,9 +40,8 @@ export function partitionOutlierRows(
       if (!b || idx === undefined) return false;
       const val = row[idx];
       return (
-        typeof val === "number" &&
         Number.isFinite(val) &&
-        (val < b.lower || val > b.upper)
+        ((val as number) < b.lower || (val as number) > b.upper)
       );
     });
 

@@ -1,6 +1,5 @@
 import { Search } from "lucide-react";
 import { PageLayout } from "@/components/shared/PageLayout";
-import { PrerequisiteGate } from "@/components/pipeline/PrerequisiteGate";
 import { useExplorePage } from "./useExplorePage";
 import { usePipelineSteps } from "@/hooks/usePipelineSteps";
 import { useExplorePrimaryAction } from "./useExplorePrimaryAction";
@@ -8,6 +7,8 @@ import { ExploreLeftColumn } from "./ExploreLeftColumn";
 import { ExploreRightColumn } from "./ExploreRightColumn";
 import { ExploreLoadDefaultButton } from "./ExploreLoadDefaultButton";
 import { ExploreWarningBanner } from "./ExploreWarningBanner";
+
+import { ExplorePrereqGate } from "./ExplorePrereqGate";
 
 export function ExplorePage() {
   const { steps, defaultTrainRoute } = usePipelineSteps();
@@ -18,15 +19,7 @@ export function ExplorePage() {
   });
 
   if (!explore.df) {
-    return (
-      <PageLayout
-        icon={Search}
-        title="Explore & Split"
-        subtitle="Configure features and create data splits"
-      >
-        <PrerequisiteGate step={steps[1]} />
-      </PageLayout>
-    );
+    return <ExplorePrereqGate step={steps[1]} />;
   }
 
   return (

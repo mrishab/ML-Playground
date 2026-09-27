@@ -5,11 +5,9 @@ import { trainLinearRegression } from "./trainLinearRegression";
 
 export function useLinearRegressionPage() {
   const data = useTrainingData();
-  const trainingState = useTrainingResultsStore(
-    (s) => s.linearRegression.trainingState,
+  const { trainingState, metrics, error } = useTrainingResultsStore(
+    (s) => s.linearRegression,
   );
-  const metrics = useTrainingResultsStore((s) => s.linearRegression.metrics);
-  const error = useTrainingResultsStore((s) => s.linearRegression.error);
   const setTrainingState = useTrainingResultsStore(
     (s) => s.setLinearRegressionState,
   );

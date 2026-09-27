@@ -35,14 +35,7 @@ export const useMLConfigStore = create<MLConfigStore>()((set) => ({
     })),
   clearFeatures: () => set({ selectedFeatures: [] }),
   setFeatures: (features) => set({ selectedFeatures: features }),
-  setSplitData: (d) =>
-    set({
-      xTrain: d.xTrain,
-      xTest: d.xTest,
-      yTrain: d.yTrain,
-      yTest: d.yTest,
-      isSplit: true,
-    }),
+  setSplitData: (d) => set({ ...d, isSplit: true }),
   clearSplitData: () =>
     set({
       xTrain: null,

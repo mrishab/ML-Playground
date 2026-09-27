@@ -7,7 +7,7 @@ export function useEvaluatedModels(
   problemType: string,
   results: TrainingResultsStore,
 ): EvaluatedModel[] {
-  const { linearRegression, knn, lda, logisticRegression } = results;
+  const { linearRegression } = results;
 
   return useMemo(() => {
     if (problemType === "regression") {
@@ -28,12 +28,5 @@ export function useEvaluatedModels(
       return buildClassificationModels(results);
     }
     return [];
-  }, [
-    problemType,
-    linearRegression.metrics,
-    knn,
-    lda,
-    logisticRegression,
-    results,
-  ]);
+  }, [problemType, linearRegression.metrics, results]);
 }

@@ -1,15 +1,7 @@
-import type { LucideIcon } from "lucide-react";
-import type { PipelineStepInfo } from "@/stores/pipeline";
 import { cn } from "@/lib/utils";
 import { StepBadgeIcon } from "./StepBadgeIcon";
 import { getStepTooltip, getStepSubtitle } from "./stepLabels";
-
-interface PipelineStepButtonProps {
-  step: PipelineStepInfo;
-  icon: LucideIcon;
-  isActive: boolean;
-  onClick: () => void;
-}
+import type { PipelineStepButtonProps } from "./types";
 
 export function PipelineStepButton({
   step,

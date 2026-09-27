@@ -5,10 +5,9 @@ import { trainLDA } from "./trainLDA";
 
 export function useLDAPage() {
   const data = useTrainingData();
-  const trainingState = useTrainingResultsStore((s) => s.lda.trainingState);
-  const metrics = useTrainingResultsStore((s) => s.lda.metrics);
-  const error = useTrainingResultsStore((s) => s.lda.error);
-
+  const { trainingState, metrics, error } = useTrainingResultsStore(
+    (s) => s.lda,
+  );
   const setTrainingState = useTrainingResultsStore((s) => s.setLDAState);
   const setMetrics = useTrainingResultsStore((s) => s.setLDAMetrics);
   const setError = useTrainingResultsStore((s) => s.setLDAError);
