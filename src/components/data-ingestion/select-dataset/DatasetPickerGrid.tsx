@@ -1,23 +1,17 @@
-import { DATASETS, type DatasetOption } from "./useDatasetSelect";
+import type { DatasetPickerGridProps, DatasetOption } from "./datasetTypes";
+import { DATASETS } from "./useDatasetSelect";
 import { DatasetCard } from "./DatasetCard";
 import { UploadDatasetCard } from "./upload/UploadDatasetCard";
 import { DatasetPickerHeader } from "./DatasetPickerHeader";
 
-interface DatasetPickerGridProps {
-  pendingDataset: string | null;
-  onSelect: (name: string) => void;
-  onOpenUpload: () => void;
-  onFileDrop?: (file: File) => void;
-  customDatasets?: DatasetOption[];
-  onDeleteCustom?: (name: string) => void;
-}
+const EMPTY_CUSTOM_DATASETS: DatasetOption[] = [];
 
 export function DatasetPickerGrid({
   pendingDataset,
   onSelect,
   onOpenUpload,
   onFileDrop,
-  customDatasets = [],
+  customDatasets = EMPTY_CUSTOM_DATASETS,
   onDeleteCustom,
 }: DatasetPickerGridProps) {
   return (

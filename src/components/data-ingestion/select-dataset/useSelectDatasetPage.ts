@@ -6,7 +6,10 @@ import { useDatasetSelect } from "./useDatasetSelect";
 import { useDatasetTableData } from "./useDatasetTableData";
 
 export function useSelectDatasetPage() {
-  const { selectedDataset, df, loading, error } = useDatasetStore();
+  const selectedDataset = useDatasetStore((s) => s.selectedDataset);
+  const df = useDatasetStore((s) => s.df);
+  const loading = useDatasetStore((s) => s.loading);
+  const error = useDatasetStore((s) => s.error);
   const setSelectedDataset = useDatasetStore(
     (state) => state.setSelectedDataset,
   );

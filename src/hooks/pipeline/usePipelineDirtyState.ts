@@ -5,14 +5,13 @@ import { usePipelineStore, areExploreSettingsDirty } from "@/stores/pipeline";
 
 export function usePipelineDirtyState(isSplitReady: boolean) {
   const selectedDataset = useDatasetStore((s) => s.selectedDataset);
-  const {
-    targetColumn,
-    selectedFeatures,
-    testSplitPercent,
-    shuffle,
-    problemType,
-  } = useMLConfigStore();
-  const { pendingDataset, lastSplitConfig } = usePipelineStore();
+  const targetColumn = useMLConfigStore((s) => s.targetColumn);
+  const selectedFeatures = useMLConfigStore((s) => s.selectedFeatures);
+  const testSplitPercent = useMLConfigStore((s) => s.testSplitPercent);
+  const shuffle = useMLConfigStore((s) => s.shuffle);
+  const problemType = useMLConfigStore((s) => s.problemType);
+  const pendingDataset = usePipelineStore((s) => s.pendingDataset);
+  const lastSplitConfig = usePipelineStore((s) => s.lastSplitConfig);
 
   const isExploreDirty = useMemo(() => {
     if (!isSplitReady || !lastSplitConfig) return false;

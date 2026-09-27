@@ -18,8 +18,10 @@ export function useUploadCSVForm({
   setError,
 }: FormParams) {
   const fields = useCSVFormFields();
-  const existingNames = useDatasetStore((s) =>
-    s.customDatasets.map((d) => d.name.toLowerCase()),
+  const customDatasets = useDatasetStore((s) => s.customDatasets);
+  const existingNames = useMemo(
+    () => customDatasets.map((d) => d.name.toLowerCase()),
+    [customDatasets],
   );
 
   const handleImport = useCSVImportAction({

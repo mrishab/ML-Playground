@@ -1,11 +1,7 @@
 import { useMemo } from "react";
 import { DATASETS, type Dataset } from "./datasetsData";
 import type { DatasetOption } from "./datasetTypes";
-import {
-  getCustomOptions,
-  getStandardOptions,
-  checkHasDownstreamResults,
-} from "./datasetOptions";
+import { getCustomOptions, getStandardOptions } from "./datasetOptions";
 import { useDatasetSelectStores } from "./useDatasetSelectStores";
 import { useDatasetSelectionHandler } from "./useDatasetSelectionHandler";
 
@@ -13,10 +9,7 @@ export { DATASETS, type Dataset, type DatasetOption };
 
 export function useDatasetSelect() {
   const stores = useDatasetSelectStores();
-  const hasDownstreamResults = checkHasDownstreamResults(
-    stores.isSplit,
-    stores.results,
-  );
+  const hasDownstreamResults = stores.hasDownstreamResults;
 
   const customOptions = useMemo(
     () => getCustomOptions(stores.customDatasets),

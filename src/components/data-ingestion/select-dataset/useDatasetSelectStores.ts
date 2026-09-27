@@ -9,7 +9,13 @@ export function useDatasetSelectStores() {
   const customDatasets = useDatasetStore((s) => s.customDatasets);
   const removeCustomDataset = useDatasetStore((s) => s.removeCustomDataset);
   const isSplit = useMLConfigStore((s) => s.isSplit);
-  const results = useTrainingResultsStore();
+  const hasModelResults = useTrainingResultsStore(
+    (s) =>
+      s.linearRegression.metrics !== null ||
+      s.knn.metrics !== null ||
+      s.lda.metrics !== null ||
+      s.logisticRegression.metrics !== null,
+  );
   const { pendingDataset, setPendingDataset } = usePipelineStore();
 
   return {
@@ -18,7 +24,7 @@ export function useDatasetSelectStores() {
     customDatasets,
     removeCustomDataset,
     isSplit,
-    results,
+    hasDownstreamResults: isSplit || hasModelResults,
     pendingDataset,
     setPendingDataset,
   };

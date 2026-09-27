@@ -18,3 +18,12 @@ export type DatasetCardProps = {
   columnCount?: number;
   onDelete?: () => void;
 };
+
+export type DatasetPickerGridProps = {
+  pendingDataset: string | null;
+  onSelect: (name: string) => void;
+  onOpenUpload: () => void;
+  onFileDrop?: (file: File) => void;
+  customDatasets?: DatasetOption[];
+  onDeleteCustom?: (name: string) => void;
+};

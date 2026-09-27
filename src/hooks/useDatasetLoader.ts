@@ -6,7 +6,8 @@ import { loadStandardDataset } from "./loadStandardDataset";
 import { loadCustomDataset } from "./loadCustomDataset";
 
 export function useDatasetLoader() {
-  const { selectedDataset, customDatasets } = useDatasetStore();
+  const selectedDataset = useDatasetStore((s) => s.selectedDataset);
+  const customDatasets = useDatasetStore((s) => s.customDatasets);
 
   useEffect(() => {
     const { setDf, setLoading, setError } = useDatasetStore.getState();
@@ -16,8 +17,10 @@ export function useDatasetLoader() {
     };
 
     if (!selectedDataset) {
-      setDf(null);
-      resetAll();
+      if (useDatasetStore.getState().df !== null) {
+        setDf(null);
+        resetAll();
+      }
       return;
     }
 
