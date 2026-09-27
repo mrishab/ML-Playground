@@ -24,7 +24,7 @@ export function useRocTraces(
       mode: "lines" as const,
       name: "Random (AUC = 0.5)",
       line: {
-        color: isDark ? "#64748b" : "#94a3b8",
+        color: isDark ? "#808080" : "#94a3b8",
         width: 1,
         dash: "dash",
       },

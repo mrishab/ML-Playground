@@ -29,6 +29,9 @@ export function ActionGateBar(props: ActionGateProps) {
           onToggle={() =>
             state.setShowChecklistDetails(!state.showChecklistDetails)
           }
+          completedSteps={state.completedSteps}
+          totalSteps={state.totalSteps}
+          currentStepId={state.currentStepId}
         />
         <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
           <ActionGateBackButton

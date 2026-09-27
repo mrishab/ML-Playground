@@ -18,3 +18,15 @@ export type ActionGateProps = {
   primaryAction?: ActionGatePrimaryAction;
   customChecklist?: ActionGateChecklistItem[];
 };
+
+export type ActionGateChecklistButtonProps = {
+  satisfiedCount: number;
+  totalCount: number;
+  allSatisfied: boolean;
+  missingItems: ActionGateChecklistItem[];
+  isOpen: boolean;
+  onToggle: () => void;
+  completedSteps: number;
+  totalSteps: number;
+  currentStepId: number;
+};
