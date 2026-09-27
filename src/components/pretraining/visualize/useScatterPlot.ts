@@ -5,33 +5,31 @@ import {
   useScatterPlotLayout,
   SCATTER_PLOT_CONFIG,
 } from "./scatterPlotOptions";
+import { buildScatterTraces } from "./scatter/scatterTraces";
 
 export type ScatterPlotData = {
   x: number[];
-  y: number[];
+  y: (number | string)[];
   xLabel: string;
   yLabel: string;
+  problemType?: string;
 };
 
-export function useScatterPlot({ x, y, xLabel, yLabel }: ScatterPlotData) {
+export function useScatterPlot({
+  x,
+  y,
+  xLabel,
+  yLabel,
+  problemType,
+}: ScatterPlotData) {
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
 
   const data: Data[] = useMemo(
-    () => [
-      {
-        x,
-        y,
-        type: "scatter",
-        mode: "markers",
-        marker: { color: "#f59e0b", size: 8, opacity: 0.75 },
-        hovertemplate: `${xLabel}: %{x:.4f}<br>${yLabel}: %{y:.4f}<extra></extra>`,
-      },
-    ],
-    [x, y, xLabel, yLabel],
+    () => buildScatterTraces(x, y, xLabel, yLabel, problemType, isDark),
+    [x, y, xLabel, yLabel, problemType, isDark],
   );
 
   const layout = useScatterPlotLayout(xLabel, yLabel, isDark);
-
   return { data, layout, config: SCATTER_PLOT_CONFIG };
 }

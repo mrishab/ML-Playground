@@ -3,31 +3,22 @@ import { PageLayout } from "@/components/shared/PageLayout";
 import { PrerequisiteGate } from "@/components/pipeline/PrerequisiteGate";
 import { usePipelineSteps } from "@/hooks/usePipelineSteps";
 import { FeatureTabs } from "./FeatureTabs";
-import { ScatterPlot } from "./ScatterPlot";
+import { PretrainSubNav } from "../shared/PretrainSubNav";
 import { useVisualizePage } from "./useVisualizePage";
-import { useFeatureTabs } from "./useFeatureTabs";
+import { useVisualizeTabs } from "./useVisualizeTabs";
 
 export function VisualizePage() {
   const v = useVisualizePage();
-  const tabs = useFeatureTabs({
-    features: v.featureNames,
-    targetColumn: v.targetColumn,
-    renderContent: (f) => (
-      <ScatterPlot
-        {...v.getFeatureData(f)}
-        xLabel={f}
-        yLabel={v.targetColumn}
-      />
-    ),
-  });
-
   const { steps } = usePipelineSteps();
+  const tabs = useVisualizeTabs(v);
+
   if (!v.isSplit) {
     return (
       <PageLayout
         icon={BarChart3}
-        title="Visualize"
-        subtitle="Scatter plots and feature correlations"
+        title="Feature Analysis"
+        subtitle="Scatter plots, correlations, and density heatmaps"
+        actions={<PretrainSubNav isSplit={false} />}
       >
         <PrerequisiteGate step={steps[1]} />
       </PageLayout>
@@ -41,12 +32,12 @@ export function VisualizePage() {
   return (
     <PageLayout
       icon={BarChart3}
-      title="Visualize"
-      subtitle={`${count} feature${count > 1 ? "s" : ""} vs ${v.targetColumn}`}
-      nextStep={{
-        message: "Ready to train.",
+      title="Feature Analysis"
+      subtitle={`${count} feature${count > 1 ? "s" : ""} vs ${v.targetColumn} (${v.problemType ?? "regression"})`}
+      actions={<PretrainSubNav isSplit={v.isSplit} />}
+      primaryAction={{
+        label: "Proceed to Model Training",
         linkTo: nextLink,
-        linkText: "Train Models",
       }}
     >
       <FeatureTabs tabs={tabs} />

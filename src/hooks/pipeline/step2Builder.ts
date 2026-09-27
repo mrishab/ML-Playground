@@ -36,7 +36,11 @@ export function buildStep2(p: Step2Params): PipelineStepInfo {
     title: "2. Pretrain & Split",
     shortTitle: "Pretrain",
     route: "/pretrain/explore",
-    subRoutes: ["/pretrain/explore", "/pretrain/visualize"],
+    subRoutes: [
+      "/pretrain/explore",
+      "/pretrain/visualize",
+      "/pretrain/analyze",
+    ],
     status,
     isStale: p.isExploreDirty || p.isDatasetDirty,
     artifactDescription: p.isSplitReady

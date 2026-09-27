@@ -5,7 +5,7 @@ interface PrimaryActionParams {
   isExploreDirty: boolean;
   canSplit: boolean;
   performSplit: () => void;
-  defaultTrainRoute: string;
+  defaultTrainRoute?: string;
 }
 
 export function useExplorePrimaryAction({
@@ -13,7 +13,6 @@ export function useExplorePrimaryAction({
   isExploreDirty,
   canSplit,
   performSplit,
-  defaultTrainRoute,
 }: PrimaryActionParams) {
   return useMemo(() => {
     if (!isSplit) {
@@ -37,8 +36,8 @@ export function useExplorePrimaryAction({
     }
 
     return {
-      label: "Proceed to Model Training",
-      linkTo: defaultTrainRoute,
+      label: "Proceed to Feature Analysis",
+      linkTo: "/pretrain/analyze",
     };
-  }, [isSplit, isExploreDirty, canSplit, performSplit, defaultTrainRoute]);
+  }, [isSplit, isExploreDirty, canSplit, performSplit]);
 }

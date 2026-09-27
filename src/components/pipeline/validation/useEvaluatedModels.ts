@@ -7,7 +7,7 @@ export function useEvaluatedModels(
   problemType: string,
   results: TrainingResultsStore,
 ): EvaluatedModel[] {
-  const { linearRegression } = results;
+  const { linearRegression, kmeans } = results;
 
   return useMemo(() => {
     if (problemType === "regression") {
@@ -27,6 +27,20 @@ export function useEvaluatedModels(
     if (problemType === "classification") {
       return buildClassificationModels(results);
     }
+
+    if (problemType === "clustering" && kmeans.metrics) {
+      return [
+        {
+          name: "K-Means Clustering",
+          type: `K = ${kmeans.metrics.k}`,
+          primaryMetric: `Inertia: ${kmeans.metrics.inertia.toLocaleString()}`,
+          secondaryMetric: `Clusters: ${kmeans.metrics.k}`,
+          rawScore: -kmeans.metrics.inertia,
+          metrics: kmeans.metrics,
+        },
+      ];
+    }
+
     return [];
-  }, [problemType, linearRegression.metrics, results]);
+  }, [problemType, linearRegression.metrics, kmeans.metrics, results]);
 }

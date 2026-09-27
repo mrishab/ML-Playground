@@ -1,20 +1,20 @@
 import Plot from "react-plotly.js";
-import { useScatterPlot } from "./useScatterPlot";
-import type { ScatterPlotData } from "./useScatterPlot";
+import { useDistributionPlot } from "./useDistributionPlot";
+import type { DistributionPlotProps } from "./useDistributionPlot";
 
-type ScatterPlotProps = ScatterPlotData & {
+type Props = DistributionPlotProps & {
   height?: number;
 };
 
-export function ScatterPlot({
+export function DistributionPlot({
   x,
   y,
   xLabel,
   yLabel,
   problemType,
   height = 320,
-}: ScatterPlotProps) {
-  const { data, layout, config } = useScatterPlot({
+}: Props) {
+  const { data, layout, config } = useDistributionPlot({
     x,
     y,
     xLabel,

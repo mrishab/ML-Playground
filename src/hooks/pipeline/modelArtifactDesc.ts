@@ -18,5 +18,8 @@ export function getModelArtifactDesc(
   if (logisticRegression.metrics) {
     return `Logistic (${(logisticRegression.metrics.accuracy * 100).toFixed(0)}%)`;
   }
+  if (problemType === "clustering" && results.kmeans.metrics) {
+    return `K-Means (k=${results.kmeans.metrics.k})`;
+  }
   return null;
 }

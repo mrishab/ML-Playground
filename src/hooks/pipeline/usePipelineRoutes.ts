@@ -5,7 +5,7 @@ export function usePipelineRoutes(problemType: ProblemType) {
     problemType === "regression"
       ? "/train/linear"
       : problemType === "clustering"
-        ? "/comparison/clustering"
+        ? "/train/clustering"
         : "/train/knn";
 
   const defaultCompareRoute =

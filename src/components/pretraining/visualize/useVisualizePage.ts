@@ -1,5 +1,11 @@
 import { useMemo, useCallback } from "react";
 import { useMLConfigStore } from "@/stores/mlConfig";
+import {
+  extractFeatureSeries,
+  type FeatureDataResult,
+} from "./featureSeriesExtractor";
+
+export type { FeatureDataResult };
 
 export function useVisualizePage() {
   const xTrain = useMLConfigStore((state) => state.xTrain);
@@ -14,13 +20,8 @@ export function useVisualizePage() {
   }, [xTrain]);
 
   const getFeatureData = useCallback(
-    (featureName: string): { x: number[]; y: number[] } => {
-      if (!xTrain || !yTrain || !targetColumn) {
-        return { x: [], y: [] };
-      }
-      const x = xTrain.column(featureName).values as number[];
-      const y = yTrain.column(targetColumn).values as number[];
-      return { x, y };
+    (featureName: string): FeatureDataResult => {
+      return extractFeatureSeries(xTrain, yTrain, targetColumn, featureName);
     },
     [xTrain, yTrain, targetColumn],
   );

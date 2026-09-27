@@ -16,7 +16,7 @@ export function usePipelinePrereqs() {
     ml.problemType === "regression"
       ? res.linearRegression.metrics !== null
       : ml.problemType === "clustering"
-        ? true
+        ? res.kmeans.metrics !== null
         : Boolean(
             res.knn.metrics ||
               res.lda.metrics ||
