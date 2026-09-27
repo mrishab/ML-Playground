@@ -15,7 +15,7 @@ export function SplitResults({ stats, targetColumn }: SplitResultsProps) {
   if (!stats) {
     return (
       <Card className="border-dashed transition-all duration-200">
-        <CardContent className="flex h-[200px] items-center justify-center">
+        <CardContent className="flex min-h-[120px] items-center justify-center py-8">
           <p className="text-sm text-muted-foreground">
             Create a split to view results.
           </p>

@@ -18,7 +18,7 @@ export function useScatterPlotLayout(
         gridcolor: isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.08)",
         zerolinecolor: isDark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.12)",
       },
-      margin: { t: 40, r: 40, b: 60, l: 60 },
+      margin: { t: 30, r: 16, b: 48, l: 48 },
       paper_bgcolor: "transparent",
       plot_bgcolor: "transparent",
       font: { family: "inherit", color: isDark ? "#cbd5e1" : "#334155" },

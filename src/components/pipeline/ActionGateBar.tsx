@@ -11,7 +11,7 @@ export function ActionGateBar(props: ActionGateProps) {
   const state = useActionGateState(props);
 
   return (
-    <div className="sticky bottom-0 z-40 mt-auto border-t bg-background/95 backdrop-blur-sm transition-all duration-200">
+    <div className="sticky bottom-0 z-40 mt-auto border-t bg-background/95 backdrop-blur-sm transition-all duration-200 pb-[calc(0.5rem+env(safe-area-inset-bottom,0px))]">
       {state.showChecklistDetails && (
         <ActionGateDrawer
           title={state.currentStep.title}
@@ -19,7 +19,7 @@ export function ActionGateBar(props: ActionGateProps) {
           onClose={() => state.setShowChecklistDetails(false)}
         />
       )}
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 px-3 py-2 sm:px-4 sm:py-2.5">
         <ActionGateChecklistButton
           satisfiedCount={state.satisfiedCount}
           totalCount={state.totalCount}
@@ -30,17 +30,19 @@ export function ActionGateBar(props: ActionGateProps) {
             state.setShowChecklistDetails(!state.showChecklistDetails)
           }
         />
-        <ActionGateBackButton
-          prevStepRoute={state.prevStepRoute}
-          prevStepLabel={state.prevStepLabel}
-        />
-        <ActionGateCTA
-          primaryAction={props.primaryAction}
-          nextStepRoute={state.nextStepRoute}
-          nextStepLabel={state.nextStepLabel}
-          canProceedToNext={state.canProceedToNext}
-          onNextClick={state.handleNextClick}
-        />
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          <ActionGateBackButton
+            prevStepRoute={state.prevStepRoute}
+            prevStepLabel={state.prevStepLabel}
+          />
+          <ActionGateCTA
+            primaryAction={props.primaryAction}
+            nextStepRoute={state.nextStepRoute}
+            nextStepLabel={state.nextStepLabel}
+            canProceedToNext={state.canProceedToNext}
+            onNextClick={state.handleNextClick}
+          />
+        </div>
       </div>
     </div>
   );

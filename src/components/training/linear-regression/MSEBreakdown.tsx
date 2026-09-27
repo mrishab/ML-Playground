@@ -23,19 +23,29 @@ export function MSEBreakdown({ metrics }: MSEBreakdownProps) {
 
         {/* Calculation Steps */}
         <div className="space-y-2">
-          <div className="flex items-center justify-between rounded border p-2.5 transition-colors duration-200">
-            <span className="text-sm">Number of observations (n)</span>
-            <Badge variant="secondary">{metrics.n}</Badge>
+          <div className="flex flex-wrap items-center justify-between gap-2 rounded border p-2.5 transition-colors duration-200">
+            <span className="text-xs sm:text-sm">
+              Number of observations (n)
+            </span>
+            <Badge variant="secondary" className="shrink-0">
+              {metrics.n}
+            </Badge>
           </div>
-          <div className="flex items-center justify-between rounded border p-2.5 transition-colors duration-200">
-            <span className="text-sm">Sum of Squared Residuals (RSS)</span>
-            <Badge variant="secondary">{formatNumber(metrics.rss)}</Badge>
+          <div className="flex flex-wrap items-center justify-between gap-2 rounded border p-2.5 transition-colors duration-200">
+            <span className="text-xs sm:text-sm">
+              Sum of Squared Residuals (RSS)
+            </span>
+            <Badge variant="secondary" className="shrink-0">
+              {formatNumber(metrics.rss)}
+            </Badge>
           </div>
-          <div className="flex items-center justify-between rounded border p-2.5 transition-colors duration-200">
-            <span className="text-sm">
+          <div className="flex flex-wrap items-center justify-between gap-2 rounded border p-2.5 transition-colors duration-200">
+            <span className="text-xs sm:text-sm">
               MSE = {formatNumber(metrics.rss)} / {metrics.n}
             </span>
-            <Badge className="bg-blue-500">{formatNumber(metrics.mse)}</Badge>
+            <Badge className="bg-blue-500 shrink-0">
+              {formatNumber(metrics.mse)}
+            </Badge>
           </div>
         </div>
       </CardContent>

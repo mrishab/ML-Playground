@@ -31,7 +31,13 @@ export function ModelConfigRows({
       </div>
       <div className="flex items-center justify-between">
         <span className="text-sm text-muted-foreground">Target</span>
-        <Badge variant="outline">{targetColumn || "—"}</Badge>
+        <Badge
+          variant="outline"
+          className="max-w-[180px] sm:max-w-[240px] truncate"
+          title={targetColumn}
+        >
+          {targetColumn || "—"}
+        </Badge>
       </div>
     </>
   );

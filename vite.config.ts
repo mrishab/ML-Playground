@@ -12,7 +12,7 @@ export default defineConfig(() => ({
     tailwindcss(),
     VitePWA({
       registerType: "autoUpdate",
-      includeAssets: ["favicon.ico", "apple-touch-icon.png", "masked-icon.svg"],
+      includeAssets: ["favicon.svg", "icon.svg"],
       workbox: {
         maximumFileSizeToCacheInBytes: 15 * 1024 * 1024, // 15 MB
       },
@@ -21,20 +21,21 @@ export default defineConfig(() => ({
         short_name: "ML Playground",
         description:
           "Machine Learning Playground - Train and compare ML models in browser",
-        theme_color: "#3b82f6",
-        background_color: "#ffffff",
+        theme_color: "#4f46e5",
+        background_color: "#09090b",
         display: "standalone",
-        orientation: "portrait",
+        orientation: "any",
         icons: [
           {
-            src: "pwa-192x192.png",
-            sizes: "192x192",
-            type: "image/png",
+            src: "icon.svg",
+            sizes: "any",
+            type: "image/svg+xml",
+            purpose: "any maskable",
           },
           {
-            src: "pwa-512x512.png",
-            sizes: "512x512",
-            type: "image/png",
+            src: "favicon.svg",
+            sizes: "any",
+            type: "image/svg+xml",
           },
         ],
       },

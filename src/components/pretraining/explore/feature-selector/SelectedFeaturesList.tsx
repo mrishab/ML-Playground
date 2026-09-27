@@ -21,14 +21,14 @@ export function SelectedFeaturesList({
 }: SelectedFeaturesListProps) {
   if (selectedFeatures.length === 0) {
     return (
-      <div className="flex h-[100px] items-center justify-center rounded-md border border-dashed text-sm text-muted-foreground">
+      <div className="flex min-h-[80px] items-center justify-center rounded-md border border-dashed py-6 text-sm text-muted-foreground">
         No features selected
       </div>
     );
   }
 
   return (
-    <ScrollArea className="h-[280px] rounded-md border p-3">
+    <ScrollArea className="max-h-[240px] rounded-md border p-3 sm:max-h-[280px]">
       <div className="space-y-3">
         {selectedFeatures.map((feature) => (
           <FeatureItemCard

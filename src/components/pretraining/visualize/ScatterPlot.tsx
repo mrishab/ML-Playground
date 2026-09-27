@@ -11,7 +11,7 @@ export function ScatterPlot({
   y,
   xLabel,
   yLabel,
-  height = 400,
+  height = 320,
 }: ScatterPlotProps) {
   const { data, layout, config } = useScatterPlot({ x, y, xLabel, yLabel });
 

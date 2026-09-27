@@ -13,7 +13,7 @@ export function DataTableContent<TData>({
   columnsCount,
 }: DataTableContentProps<TData>) {
   return (
-    <div className="rounded-md border">
+    <div className="overflow-x-auto rounded-md border">
       <Table>
         <DataTableHeader table={table} />
         <TableBody>

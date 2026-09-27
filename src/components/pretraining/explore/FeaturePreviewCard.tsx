@@ -40,7 +40,7 @@ export function FeaturePreviewCard({
         {previewColumns.length > 0 ? (
           <DataTable columns={tableColumns} data={previewData} />
         ) : (
-          <div className="flex h-[400px] items-center justify-center text-sm text-muted-foreground">
+          <div className="flex min-h-[200px] items-center justify-center text-sm text-muted-foreground sm:min-h-[280px]">
             Select features to preview data
           </div>
         )}

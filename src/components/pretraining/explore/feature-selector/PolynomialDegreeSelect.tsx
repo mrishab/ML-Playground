@@ -20,7 +20,7 @@ export function PolynomialDegreeSelect({
       value={String(degree ?? 2)}
       onValueChange={(v) => onDegreeChange(parseInt(v))}
     >
-      <SelectTrigger className="h-7 w-[80px] text-xs">
+      <SelectTrigger className="h-7 w-auto min-w-[70px] sm:w-[80px] text-xs">
         <SelectValue />
       </SelectTrigger>
       <SelectContent>

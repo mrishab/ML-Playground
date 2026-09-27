@@ -25,7 +25,7 @@ export function PipelineStepButton({
       type="button"
       onClick={onClick}
       className={cn(
-        "group flex flex-1 items-center gap-2 rounded-lg px-2.5 py-1.5 text-left text-xs transition-all duration-200 cursor-pointer",
+        "group flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-left text-xs transition-all duration-200 cursor-pointer sm:gap-2 sm:px-2.5 min-w-max",
         isActive &&
           "bg-primary/10 font-semibold text-primary ring-1 ring-primary/30",
         !isActive &&
@@ -44,11 +44,13 @@ export function PipelineStepButton({
         isStale={isStale}
         isLocked={isLocked}
       />
-      <div className="hidden min-w-0 flex-col md:flex">
+      <div
+        className={cn("min-w-0 flex-col", isActive ? "flex" : "hidden sm:flex")}
+      >
         <span className="truncate leading-tight font-medium">
           {step.shortTitle}
         </span>
-        <span className="truncate text-[10px] text-muted-foreground/70">
+        <span className="hidden truncate text-[10px] text-muted-foreground/70 md:inline">
           {getStepSubtitle(step, isActive)}
         </span>
       </div>

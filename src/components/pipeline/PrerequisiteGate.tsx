@@ -11,7 +11,7 @@ export function PrerequisiteGate({ step }: { step: PipelineStepInfo }) {
   const unsatisfiedReq = step.requirements.find((req) => !req.satisfied);
 
   return (
-    <div className="flex flex-1 items-center justify-center p-6">
+    <div className="flex flex-1 items-center justify-center p-3 sm:p-6">
       <Card className="w-full max-w-xl border-dashed">
         <PrerequisiteGateHeader title={step.title} />
         <CardContent className="space-y-4">

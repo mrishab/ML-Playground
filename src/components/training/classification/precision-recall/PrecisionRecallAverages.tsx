@@ -8,26 +8,28 @@ export function PrecisionRecallAverages({
   metrics: ClassificationMetrics;
 }) {
   return (
-    <div className="space-y-3">
-      <div className="flex items-center justify-between rounded border p-3">
-        <span className="text-sm">Macro Avg Precision</span>
-        <Badge variant="secondary">
+    <div className="space-y-2 sm:space-y-3">
+      <div className="flex flex-wrap items-center justify-between gap-2 rounded border p-2.5 sm:p-3">
+        <span className="text-xs sm:text-sm">Macro Avg Precision</span>
+        <Badge variant="secondary" className="shrink-0">
           {formatNumber(metrics.macroPrecision)}
         </Badge>
       </div>
-      <div className="flex items-center justify-between rounded border p-3">
-        <span className="text-sm">Macro Avg Recall</span>
-        <Badge variant="secondary">{formatNumber(metrics.macroRecall)}</Badge>
+      <div className="flex flex-wrap items-center justify-between gap-2 rounded border p-2.5 sm:p-3">
+        <span className="text-xs sm:text-sm">Macro Avg Recall</span>
+        <Badge variant="secondary" className="shrink-0">
+          {formatNumber(metrics.macroRecall)}
+        </Badge>
       </div>
-      <div className="flex items-center justify-between rounded border p-3">
-        <span className="text-sm">Weighted Avg Precision</span>
-        <Badge className="bg-purple-500">
+      <div className="flex flex-wrap items-center justify-between gap-2 rounded border p-2.5 sm:p-3">
+        <span className="text-xs sm:text-sm">Weighted Avg Precision</span>
+        <Badge className="bg-purple-500 shrink-0">
           {formatNumber(metrics.weightedPrecision)}
         </Badge>
       </div>
-      <div className="flex items-center justify-between rounded border p-3">
-        <span className="text-sm">Weighted Avg Recall</span>
-        <Badge className="bg-purple-500">
+      <div className="flex flex-wrap items-center justify-between gap-2 rounded border p-2.5 sm:p-3">
+        <span className="text-xs sm:text-sm">Weighted Avg Recall</span>
+        <Badge className="bg-purple-500 shrink-0">
           {formatNumber(metrics.weightedRecall)}
         </Badge>
       </div>

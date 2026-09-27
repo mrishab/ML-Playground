@@ -23,16 +23,16 @@ export function PrecisionRecallContent({
           <p className="text-xs text-muted-foreground">Weighted Recall</p>
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-3">
-        <div className="flex items-center justify-between rounded border p-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
+        <div className="flex items-center justify-between gap-1.5 rounded border p-2">
           <span className="text-xs">Macro P</span>
-          <Badge variant="outline" className="text-xs">
+          <Badge variant="outline" className="text-xs shrink-0">
             {formatNumber(metrics.macroPrecision)}
           </Badge>
         </div>
-        <div className="flex items-center justify-between rounded border p-2">
+        <div className="flex items-center justify-between gap-1.5 rounded border p-2">
           <span className="text-xs">Macro R</span>
-          <Badge variant="outline" className="text-xs">
+          <Badge variant="outline" className="text-xs shrink-0">
             {formatNumber(metrics.macroRecall)}
           </Badge>
         </div>

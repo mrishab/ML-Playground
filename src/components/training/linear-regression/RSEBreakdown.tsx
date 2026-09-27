@@ -23,27 +23,37 @@ export function RSEBreakdown({ metrics }: RSEBreakdownProps) {
 
         {/* Calculation Steps */}
         <div className="space-y-2">
-          <div className="flex items-center justify-between rounded border p-2.5 transition-colors duration-200">
-            <span className="text-sm">Residual Sum of Squares (RSS)</span>
-            <Badge variant="secondary">{formatNumber(metrics.rss)}</Badge>
+          <div className="flex flex-wrap items-center justify-between gap-2 rounded border p-2.5 transition-colors duration-200">
+            <span className="text-xs sm:text-sm">
+              Residual Sum of Squares (RSS)
+            </span>
+            <Badge variant="secondary" className="shrink-0">
+              {formatNumber(metrics.rss)}
+            </Badge>
           </div>
-          <div className="flex items-center justify-between rounded border p-2.5 transition-colors duration-200">
-            <span className="text-sm">Degrees of Freedom (n - 2)</span>
-            <Badge variant="secondary">{metrics.n - 2}</Badge>
+          <div className="flex flex-wrap items-center justify-between gap-2 rounded border p-2.5 transition-colors duration-200">
+            <span className="text-xs sm:text-sm">
+              Degrees of Freedom (n - 2)
+            </span>
+            <Badge variant="secondary" className="shrink-0">
+              {metrics.n - 2}
+            </Badge>
           </div>
-          <div className="flex items-center justify-between rounded border p-2.5 transition-colors duration-200">
-            <span className="text-sm">
+          <div className="flex flex-wrap items-center justify-between gap-2 rounded border p-2.5 transition-colors duration-200">
+            <span className="text-xs sm:text-sm">
               RSS / (n - 2) = {formatNumber(metrics.rss)} / {metrics.n - 2}
             </span>
-            <Badge variant="secondary">
+            <Badge variant="secondary" className="shrink-0">
               {formatNumber(metrics.rss / (metrics.n - 2))}
             </Badge>
           </div>
-          <div className="flex items-center justify-between rounded border p-2.5 transition-colors duration-200">
-            <span className="text-sm">
+          <div className="flex flex-wrap items-center justify-between gap-2 rounded border p-2.5 transition-colors duration-200">
+            <span className="text-xs sm:text-sm">
               RSE = √({formatNumber(metrics.rss / (metrics.n - 2))})
             </span>
-            <Badge className="bg-orange-500">{formatNumber(metrics.rse)}</Badge>
+            <Badge className="bg-orange-500 shrink-0">
+              {formatNumber(metrics.rse)}
+            </Badge>
           </div>
         </div>
       </CardContent>

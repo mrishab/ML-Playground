@@ -21,7 +21,7 @@ export function InteractionColumnSelect({
 }: InteractionColumnSelectProps) {
   return (
     <Select value={interactionWith ?? ""} onValueChange={onInteractionChange}>
-      <SelectTrigger className="h-7 w-[120px] text-xs">
+      <SelectTrigger className="h-7 w-auto min-w-[100px] flex-1 sm:flex-none sm:w-[120px] text-xs">
         <SelectValue placeholder="Select..." />
       </SelectTrigger>
       <SelectContent>

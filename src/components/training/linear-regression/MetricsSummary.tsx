@@ -22,7 +22,9 @@ export function MetricsSummary({
     <div
       className={cn(
         "grid gap-4",
-        direction === "horizontal" ? "md:grid-cols-3" : "grid-cols-1",
+        direction === "horizontal"
+          ? "grid-cols-1 sm:grid-cols-3"
+          : "grid-cols-1",
       )}
     >
       {items.map((item) => (
@@ -30,11 +32,17 @@ export function MetricsSummary({
           key={item.label}
           className="transition-all duration-200 hover:shadow-md hover:-translate-y-0.5"
         >
-          <CardContent className="pt-6">
+          <CardContent className="pt-4 sm:pt-6 p-3 sm:p-6">
             <div className="text-center">
-              <p className="text-sm text-muted-foreground">{item.label}</p>
-              <p className="text-3xl font-bold">{formatNumber(item.value)}</p>
-              <p className="mt-1 text-xs text-muted-foreground">{item.desc}</p>
+              <p className="text-xs sm:text-sm text-muted-foreground">
+                {item.label}
+              </p>
+              <p className="text-2xl sm:text-3xl font-bold truncate mt-0.5">
+                {formatNumber(item.value)}
+              </p>
+              <p className="mt-1 text-[11px] sm:text-xs text-muted-foreground">
+                {item.desc}
+              </p>
             </div>
           </CardContent>
         </Card>

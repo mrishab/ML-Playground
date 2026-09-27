@@ -19,7 +19,11 @@ export function FeatureTabs({ tabs, defaultTab }: FeatureTabsProps) {
       <ScrollArea className="w-full">
         <TabsList className="inline-flex w-max">
           {tabs.map((tab) => (
-            <TabsTrigger key={tab.id} value={tab.id} className="min-w-[120px]">
+            <TabsTrigger
+              key={tab.id}
+              value={tab.id}
+              className="min-w-[80px] sm:min-w-[120px]"
+            >
               {tab.label}
             </TabsTrigger>
           ))}

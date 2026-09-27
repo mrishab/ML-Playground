@@ -18,7 +18,7 @@ export function TransformationTypeSelect({
 }: TransformationTypeSelectProps) {
   return (
     <Select value={value} onValueChange={onChange}>
-      <SelectTrigger className="h-7 w-[130px] text-xs">
+      <SelectTrigger className="h-7 w-auto min-w-[110px] flex-1 sm:flex-none sm:w-[130px] text-xs">
         <SelectValue />
       </SelectTrigger>
       <SelectContent>

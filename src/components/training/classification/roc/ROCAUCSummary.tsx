@@ -11,15 +11,16 @@ export function ROCAUCSummary({ rocCurves }: { rocCurves: ClassROC[] }) {
           key={curve.label}
           className="flex items-center justify-between rounded border p-2.5 transition-colors duration-200"
         >
-          <div className="flex items-center gap-2">
+          <div className="flex min-w-0 items-center gap-2">
             <div
-              className="h-3 w-3 rounded-full"
+              className="h-3 w-3 shrink-0 rounded-full"
               style={{ backgroundColor: ROC_COLORS[i % ROC_COLORS.length] }}
             />
-            <span className="text-sm">AUC ({curve.label})</span>
+            <span className="truncate text-sm">AUC ({curve.label})</span>
           </div>
           <Badge
             variant="secondary"
+            className="shrink-0"
             style={{ color: ROC_COLORS[i % ROC_COLORS.length] }}
           >
             {formatNumber(curve.auc)}

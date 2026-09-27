@@ -19,7 +19,7 @@ export function SelectDatasetPage() {
       title="Select Dataset"
       subtitle="Choose a dataset to begin the pipeline"
       actions={
-        <div className="w-48">
+        <div className="w-full sm:w-48">
           <DatasetSelect />
         </div>
       }

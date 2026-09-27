@@ -39,7 +39,7 @@ export function RequirementChecklist({
           </div>
           <Badge
             variant={req.satisfied ? "secondary" : "outline"}
-            className="text-[10px]"
+            className="text-[10px] shrink-0"
           >
             {req.satisfied ? "Satisfied" : "Missing"}
           </Badge>

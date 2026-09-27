@@ -11,8 +11,14 @@ export function ExploreLoadDefaultButton({
   onClick,
 }: ExploreLoadDefaultButtonProps) {
   return (
-    <Button variant="outline" size="sm" onClick={onClick} disabled={isLoading}>
-      <Download className="mr-2 h-4 w-4" />
+    <Button
+      variant="outline"
+      size="sm"
+      onClick={onClick}
+      disabled={isLoading}
+      className="text-xs sm:text-sm h-8"
+    >
+      <Download className="mr-1.5 h-3.5 w-3.5 sm:mr-2 sm:h-4 sm:w-4" />
       {isLoading ? "Loading..." : "Load Default"}
     </Button>
   );

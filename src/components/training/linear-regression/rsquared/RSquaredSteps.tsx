@@ -7,19 +7,27 @@ export function RSquaredSteps({ metrics }: { metrics: RegressionMetrics }) {
 
   return (
     <div className="space-y-2">
-      <div className="flex items-center justify-between rounded border p-2.5 transition-colors duration-200">
-        <span className="text-sm">Mean of Y (ȳ)</span>
-        <Badge variant="secondary">{formatNumber(metrics.yMean)}</Badge>
+      <div className="flex flex-wrap items-center justify-between gap-2 rounded border p-2.5 transition-colors duration-200">
+        <span className="text-xs sm:text-sm">Mean of Y (ȳ)</span>
+        <Badge variant="secondary" className="shrink-0">
+          {formatNumber(metrics.yMean)}
+        </Badge>
       </div>
-      <div className="flex items-center justify-between rounded border p-2.5 transition-colors duration-200">
-        <span className="text-sm">
+      <div className="flex flex-wrap items-center justify-between gap-2 rounded border p-2.5 transition-colors duration-200">
+        <span className="text-xs sm:text-sm">
           RSS / TSS = {formatNumber(metrics.rss)} / {formatNumber(metrics.tss)}
         </span>
-        <Badge variant="secondary">{formatNumber(ratio)}</Badge>
+        <Badge variant="secondary" className="shrink-0">
+          {formatNumber(ratio)}
+        </Badge>
       </div>
-      <div className="flex items-center justify-between rounded border p-2.5 transition-colors duration-200">
-        <span className="text-sm">R² = 1 - {formatNumber(ratio)}</span>
-        <Badge className="bg-green-500">{formatNumber(metrics.rSquared)}</Badge>
+      <div className="flex flex-wrap items-center justify-between gap-2 rounded border p-2.5 transition-colors duration-200">
+        <span className="text-xs sm:text-sm">
+          R² = 1 - {formatNumber(ratio)}
+        </span>
+        <Badge className="bg-emerald-500 shrink-0">
+          {formatNumber(metrics.rSquared)}
+        </Badge>
       </div>
     </div>
   );

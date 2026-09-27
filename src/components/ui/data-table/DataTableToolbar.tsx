@@ -14,7 +14,7 @@ export function DataTableToolbar<TData>({
   filterPlaceholder = "Filter...",
 }: DataTableToolbarProps<TData>) {
   return (
-    <div className="flex items-center gap-2 py-4">
+    <div className="flex items-center justify-between gap-2 py-3 sm:py-4">
       {filterColumn && (
         <Input
           placeholder={filterPlaceholder}
@@ -24,7 +24,7 @@ export function DataTableToolbar<TData>({
           onChange={(e) =>
             table.getColumn(filterColumn)?.setFilterValue(e.target.value)
           }
-          className="max-w-sm"
+          className="flex-1 min-w-0 max-w-xs sm:max-w-sm"
         />
       )}
       <DataTableColumnToggle table={table} />

@@ -25,11 +25,11 @@ export function BestModelBanner({
   return (
     <Card className="border-primary/30 bg-card shadow-sm transition-all duration-200">
       <CardHeader className="pb-3">
-        <div className="flex items-center gap-2">
-          <CardTitle className="text-lg font-bold">
+        <div className="flex flex-wrap items-center gap-2">
+          <CardTitle className="text-base sm:text-lg font-bold">
             Best Model: {bestModel.name}
           </CardTitle>
-          <Badge className="bg-primary text-primary-foreground text-xs">
+          <Badge className="bg-primary text-primary-foreground text-xs shrink-0">
             Top Score
           </Badge>
         </div>
@@ -38,7 +38,7 @@ export function BestModelBanner({
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-4">
+        <div className="grid grid-cols-2 gap-2 sm:gap-3 md:grid-cols-4">
           <ModelMetricBox label="Primary" value={bestModel.primaryMetric} />
           <ModelMetricBox label="Secondary" value={bestModel.secondaryMetric} />
           <ModelMetricBox label="Features" value={featureCount} />

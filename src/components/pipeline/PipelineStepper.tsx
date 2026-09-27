@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { ChevronRight, Database } from "lucide-react";
 import { usePipelineSteps } from "@/hooks/usePipelineSteps";
@@ -9,6 +10,17 @@ export function PipelineStepper() {
   const navigate = useNavigate();
   const { steps, currentStepId } = usePipelineSteps();
   const { openLockedModal } = usePipelineStore();
+  const activeStepRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (activeStepRef.current) {
+      activeStepRef.current.scrollIntoView({
+        behavior: "smooth",
+        inline: "center",
+        block: "nearest",
+      });
+    }
+  }, [currentStepId]);
 
   const handleStepClick = (step: PipelineStepInfo) => {
     if (step.status === "locked") {
@@ -21,9 +33,9 @@ export function PipelineStepper() {
   return (
     <nav
       aria-label="ML Pipeline Progress"
-      className="w-full border-b bg-muted/20 px-4 py-2.5 backdrop-blur-sm transition-colors duration-200"
+      className="w-full border-b bg-muted/20 px-2 py-2 backdrop-blur-sm transition-colors duration-200 sm:px-4 sm:py-2.5"
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-1 sm:gap-2">
+      <div className="no-scrollbar flex items-center gap-0.5 overflow-x-auto sm:gap-1 sm:justify-between mx-auto max-w-7xl">
         {steps.map((step, index) => {
           const Icon = STEP_ICONS[index] || Database;
           const isActive = step.id === currentStepId;
@@ -31,7 +43,8 @@ export function PipelineStepper() {
           return (
             <div
               key={step.id}
-              className="flex flex-1 items-center last:flex-initial"
+              ref={isActive ? activeStepRef : undefined}
+              className="flex shrink-0 items-center"
             >
               <PipelineStepButton
                 step={step}

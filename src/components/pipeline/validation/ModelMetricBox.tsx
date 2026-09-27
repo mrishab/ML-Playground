@@ -16,7 +16,7 @@ export function ModelMetricBox({
       <p className="text-xs text-muted-foreground">{label}</p>
       <p
         className={cn(
-          "text-xl font-bold text-foreground mt-1",
+          "text-lg sm:text-xl font-bold text-foreground mt-0.5 truncate",
           truncate && "truncate",
         )}
       >

@@ -31,7 +31,8 @@ export function ActionGateCTA({
         disabled={!canProceedToNext}
         className="group"
       >
-        Next: {nextStepLabel}
+        <span className="hidden sm:inline">Next: {nextStepLabel}</span>
+        <span className="sm:hidden">Next</span>
         <ArrowRight className="ml-1.5 h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
       </Button>
     );

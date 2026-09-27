@@ -22,19 +22,23 @@ export function AccuracyBreakdown({
         </div>
 
         <div className="space-y-2">
-          <div className="flex items-center justify-between rounded border p-2.5 transition-colors duration-200">
-            <span className="text-sm">Total Samples</span>
-            <Badge variant="secondary">{metrics.totalSamples}</Badge>
+          <div className="flex flex-wrap items-center justify-between gap-2 rounded border p-2.5 transition-colors duration-200">
+            <span className="text-xs sm:text-sm">Total Samples</span>
+            <Badge variant="secondary" className="shrink-0">
+              {metrics.totalSamples}
+            </Badge>
           </div>
-          <div className="flex items-center justify-between rounded border p-2.5 transition-colors duration-200">
-            <span className="text-sm">Correct Predictions</span>
-            <Badge variant="secondary">{metrics.correctPredictions}</Badge>
+          <div className="flex flex-wrap items-center justify-between gap-2 rounded border p-2.5 transition-colors duration-200">
+            <span className="text-xs sm:text-sm">Correct Predictions</span>
+            <Badge variant="secondary" className="shrink-0">
+              {metrics.correctPredictions}
+            </Badge>
           </div>
-          <div className="flex items-center justify-between rounded border p-2.5 transition-colors duration-200">
-            <span className="text-sm">
+          <div className="flex flex-wrap items-center justify-between gap-2 rounded border p-2.5 transition-colors duration-200">
+            <span className="text-xs sm:text-sm">
               Accuracy = {metrics.correctPredictions} / {metrics.totalSamples}
             </span>
-            <Badge className="bg-blue-500">
+            <Badge className="bg-blue-500 shrink-0">
               {formatNumber(metrics.accuracy)}
             </Badge>
           </div>

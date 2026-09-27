@@ -24,7 +24,7 @@ export function FeatureItemCard({
   return (
     <div className="flex flex-col gap-2 rounded-lg border bg-muted/30 p-3">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <Badge variant="secondary">{feature.column}</Badge>
           {feature.transformation !== "none" && (
             <Badge variant="outline" className="text-xs">

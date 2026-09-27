@@ -20,12 +20,16 @@ export function PageHeader({ icon: Icon, title, subtitle }: PageHeaderProps) {
   }
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
       {iconNode}
-      <div>
-        <h1 className="text-2xl font-semibold">{title}</h1>
+      <div className="min-w-0">
+        <h1 className="text-xl font-semibold sm:text-2xl leading-tight">
+          {title}
+        </h1>
         {subtitle && (
-          <p className="text-sm text-muted-foreground">{subtitle}</p>
+          <p className="text-xs text-muted-foreground sm:text-sm mt-0.5">
+            {subtitle}
+          </p>
         )}
       </div>
     </div>
