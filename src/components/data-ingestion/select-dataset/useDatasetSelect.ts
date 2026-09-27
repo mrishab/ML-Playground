@@ -1,110 +1,48 @@
-import { useCallback, useMemo } from "react";
-import { useDatasetStore } from "@/stores/dataset";
-import { useMLConfigStore } from "@/stores/mlConfig";
-import { useTrainingResultsStore } from "@/stores/trainingResults";
-import { usePipelineStore } from "@/stores/pipeline";
+import { useMemo } from "react";
 import { DATASETS, type Dataset } from "./datasetsData";
+import type { DatasetOption } from "./datasetTypes";
+import {
+  getCustomOptions,
+  getStandardOptions,
+  checkHasDownstreamResults,
+} from "./datasetOptions";
+import { useDatasetSelectStores } from "./useDatasetSelectStores";
+import { useDatasetSelectionHandler } from "./useDatasetSelectionHandler";
 
-export { DATASETS, type Dataset };
-
-export type DatasetOption = {
-  name: string;
-  file?: string;
-  problemType?: string;
-  isCustom?: boolean;
-  rowCount?: number;
-  columnCount?: number;
-  fileSize?: number;
-};
+export { DATASETS, type Dataset, type DatasetOption };
 
 export function useDatasetSelect() {
-  const selectedDataset = useDatasetStore((state) => state.selectedDataset);
-  const setSelectedDataset = useDatasetStore(
-    (state) => state.setSelectedDataset,
-  );
-  const customDatasets = useDatasetStore((state) => state.customDatasets);
-  const removeCustomDataset = useDatasetStore(
-    (state) => state.removeCustomDataset,
+  const stores = useDatasetSelectStores();
+  const hasDownstreamResults = checkHasDownstreamResults(
+    stores.isSplit,
+    stores.results,
   );
 
-  const isSplit = useMLConfigStore((state) => state.isSplit);
-  const { linearRegression, knn, lda, logisticRegression } =
-    useTrainingResultsStore();
-
-  const { pendingDataset, setPendingDataset } = usePipelineStore();
-
-  const hasDownstreamResults =
-    isSplit ||
-    linearRegression.metrics !== null ||
-    knn.metrics !== null ||
-    lda.metrics !== null ||
-    logisticRegression.metrics !== null;
-
-  const customOptions: DatasetOption[] = useMemo(
-    () =>
-      customDatasets.map((cd) => ({
-        name: cd.name,
-        problemType: cd.problemType,
-        isCustom: true,
-        rowCount: cd.rowCount,
-        columnCount: cd.columnCount,
-        fileSize: cd.fileSize,
-      })),
-    [customDatasets],
+  const customOptions = useMemo(
+    () => getCustomOptions(stores.customDatasets),
+    [stores.customDatasets],
   );
-
-  const standardOptions: DatasetOption[] = useMemo(
-    () =>
-      DATASETS.map((d) => ({
-        name: d.name,
-        file: d.file,
-        problemType: d.problemType,
-        isCustom: false,
-      })),
-    [],
-  );
-
+  const standardOptions = useMemo(() => getStandardOptions(), []);
   const allDatasets = useMemo(
     () => [...customOptions, ...standardOptions],
     [customOptions, standardOptions],
   );
 
-  const handleSelect = useCallback(
-    (datasetName: string) => {
-      if (datasetName === selectedDataset) {
-        setPendingDataset(null);
-        return;
-      }
-
-      if (hasDownstreamResults && selectedDataset) {
-        setPendingDataset(datasetName);
-      } else {
-        setSelectedDataset(datasetName);
-      }
-    },
-    [
-      selectedDataset,
-      hasDownstreamResults,
-      setPendingDataset,
-      setSelectedDataset,
-    ],
-  );
-
-  const handleDeleteCustom = useCallback(
-    (datasetName: string) => {
-      removeCustomDataset(datasetName);
-    },
-    [removeCustomDataset],
-  );
+  const onSelect = useDatasetSelectionHandler({
+    selectedDataset: stores.selectedDataset,
+    hasDownstreamResults,
+    setPendingDataset: stores.setPendingDataset,
+    setSelectedDataset: stores.setSelectedDataset,
+  });
 
   return {
     datasets: allDatasets,
     customDatasets: customOptions,
     standardDatasets: standardOptions,
-    selectedDataset,
-    pendingDataset,
+    selectedDataset: stores.selectedDataset,
+    pendingDataset: stores.pendingDataset,
     hasDownstreamResults,
-    onSelect: handleSelect,
-    onDeleteCustom: handleDeleteCustom,
+    onSelect,
+    onDeleteCustom: stores.removeCustomDataset,
   };
 }

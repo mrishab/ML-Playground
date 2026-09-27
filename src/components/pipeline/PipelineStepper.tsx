@@ -1,34 +1,11 @@
-import { useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import { ChevronRight, Database } from "lucide-react";
-import { usePipelineSteps } from "@/hooks/usePipelineSteps";
-import { usePipelineStore, type PipelineStepInfo } from "@/stores/pipeline";
 import { STEP_ICONS } from "./stepper/constants";
 import { PipelineStepButton } from "./stepper/PipelineStepButton";
+import { usePipelineStepper } from "./stepper/usePipelineStepper";
 
 export function PipelineStepper() {
-  const navigate = useNavigate();
-  const { steps, currentStepId } = usePipelineSteps();
-  const { openLockedModal } = usePipelineStore();
-  const activeStepRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (activeStepRef.current) {
-      activeStepRef.current.scrollIntoView({
-        behavior: "smooth",
-        inline: "center",
-        block: "nearest",
-      });
-    }
-  }, [currentStepId]);
-
-  const handleStepClick = (step: PipelineStepInfo) => {
-    if (step.status === "locked") {
-      openLockedModal(step);
-      return;
-    }
-    navigate(step.route);
-  };
+  const { steps, currentStepId, activeStepRef, handleStepClick } =
+    usePipelineStepper();
 
   return (
     <nav

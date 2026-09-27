@@ -1,6 +1,7 @@
 import { DATASETS, type DatasetOption } from "./useDatasetSelect";
 import { DatasetCard } from "./DatasetCard";
 import { UploadDatasetCard } from "./upload/UploadDatasetCard";
+import { DatasetPickerHeader } from "./DatasetPickerHeader";
 
 interface DatasetPickerGridProps {
   pendingDataset: string | null;
@@ -21,21 +22,11 @@ export function DatasetPickerGrid({
 }: DatasetPickerGridProps) {
   return (
     <div className="space-y-4">
-      <div>
-        <p className="text-sm font-medium text-foreground">
-          Select or Upload a Dataset
-        </p>
-        <p className="text-xs text-muted-foreground mt-0.5">
-          Choose a built-in benchmark dataset or import your own CSV to begin
-          your ML pipeline:
-        </p>
-      </div>
+      <DatasetPickerHeader />
 
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {/* Upload Card */}
         <UploadDatasetCard onClick={onOpenUpload} onFileDrop={onFileDrop} />
 
-        {/* Custom Uploaded Datasets */}
         {customDatasets.map((ds) => (
           <DatasetCard
             key={ds.name}
@@ -52,7 +43,6 @@ export function DatasetPickerGrid({
           />
         ))}
 
-        {/* Standard Datasets */}
         {DATASETS.map((ds) => (
           <DatasetCard
             key={ds.name}

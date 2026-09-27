@@ -1,7 +1,7 @@
-import { FileSpreadsheet, Trash2 } from "lucide-react";
+import { FileSpreadsheet } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { DatasetCardBadges } from "./DatasetCardBadges";
+import { DatasetDeleteButton } from "./DatasetDeleteButton";
 
 type DatasetCardProps = {
   name: string;
@@ -44,49 +44,14 @@ export function DatasetCard({
         <div className="flex flex-1 flex-col min-w-0">
           <div className="flex items-center justify-between gap-1">
             <p className="font-medium leading-none truncate">{name}</p>
-            {isCustom && onDelete && (
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onDelete();
-                }}
-                className="h-6 w-6 opacity-70 transition-[opacity,color,transform] duration-150 ease-out hover:opacity-100 hover:text-destructive hover:scale-110 active:scale-95 shrink-0"
-                title="Remove dataset"
-              >
-                <Trash2 className="h-3.5 w-3.5" />
-              </Button>
-            )}
+            {isCustom && <DatasetDeleteButton onDelete={onDelete} />}
           </div>
-          <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
-            {isCustom && (
-              <Badge
-                variant="secondary"
-                className="bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 text-[10px] px-1.5 py-0 uppercase tracking-wider"
-              >
-                Uploaded
-              </Badge>
-            )}
-            {problemType && (
-              <Badge
-                variant="secondary"
-                className="px-1.5 py-0 text-[10px] uppercase tracking-wider"
-              >
-                {problemType}
-              </Badge>
-            )}
-            {rowCount !== undefined && (
-              <span className="text-[11px] text-muted-foreground">
-                {rowCount.toLocaleString()} rows
-              </span>
-            )}
-            {columnCount !== undefined && (
-              <span className="text-[11px] text-muted-foreground">
-                · {columnCount} cols
-              </span>
-            )}
-          </div>
+          <DatasetCardBadges
+            isCustom={isCustom}
+            problemType={problemType}
+            rowCount={rowCount}
+            columnCount={columnCount}
+          />
         </div>
       </CardContent>
     </Card>

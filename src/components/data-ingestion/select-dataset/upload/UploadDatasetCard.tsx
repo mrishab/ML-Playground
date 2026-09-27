@@ -1,7 +1,7 @@
-import { useState } from "react";
 import { Upload } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { useDatasetCardDrop } from "./useDatasetCardDrop";
 
 interface UploadDatasetCardProps {
   onClick: () => void;
@@ -12,39 +12,15 @@ export function UploadDatasetCard({
   onClick,
   onFileDrop,
 }: UploadDatasetCardProps) {
-  const [isDragOver, setIsDragOver] = useState(false);
-
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsDragOver(true);
-  };
-
-  const handleDragLeave = (e: React.DragEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsDragOver(false);
-  };
-
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsDragOver(false);
-
-    const files = e.dataTransfer.files;
-    if (files && files.length > 0 && onFileDrop) {
-      onFileDrop(files[0]);
-    } else {
-      onClick();
-    }
-  };
+  const { isDragOver, dragHandlers } = useDatasetCardDrop({
+    onClick,
+    onFileDrop,
+  });
 
   return (
     <Card
       onClick={onClick}
-      onDragOver={handleDragOver}
-      onDragLeave={handleDragLeave}
-      onDrop={handleDrop}
+      {...dragHandlers}
       className={`cursor-pointer border-dashed transition-[transform,border-color,background-color,box-shadow] duration-150 ease-out active:scale-[0.99] hover:-translate-y-0.5 hover:shadow-md ${
         isDragOver
           ? "border-primary bg-primary/10 ring-2 ring-primary scale-[1.02]"
