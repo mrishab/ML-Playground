@@ -45,7 +45,7 @@ export function UploadDatasetCard({
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
-      className={`cursor-pointer border-dashed transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md ${
+      className={`cursor-pointer border-dashed transition-[transform,border-color,background-color,box-shadow] duration-150 ease-out active:scale-[0.99] hover:-translate-y-0.5 hover:shadow-md ${
         isDragOver
           ? "border-primary bg-primary/10 ring-2 ring-primary scale-[1.02]"
           : "border-primary/40 hover:border-primary hover:bg-primary/5"

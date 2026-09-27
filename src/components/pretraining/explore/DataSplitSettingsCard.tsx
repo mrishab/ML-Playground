@@ -31,7 +31,7 @@ export function DataSplitSettingsCard({
   columns,
 }: DataSplitSettingsCardProps) {
   return (
-    <Card className="transition-all duration-200">
+    <Card>
       <CardHeader className="pb-3">
         <CardTitle className="text-base">Data Split Settings</CardTitle>
       </CardHeader>

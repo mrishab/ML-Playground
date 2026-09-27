@@ -37,7 +37,7 @@ export function PrerequisiteGate({ step }: { step: PipelineStepInfo }) {
                 className="w-full sm:w-auto group"
               >
                 {unsatisfiedReq.actionLabel}
-                <ArrowRight className="ml-1.5 h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
+                <ArrowRight className="ml-1.5 h-4 w-4 transition-transform duration-150 ease-out group-hover:translate-x-1" />
               </Button>
             )}
           </div>

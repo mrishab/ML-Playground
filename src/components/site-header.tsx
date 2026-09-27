@@ -10,7 +10,7 @@ export function SiteHeader() {
       <div className="flex h-14 w-full items-center gap-2.5 px-3 sm:gap-3 sm:px-6">
         <Link
           to="/data/select"
-          className="flex items-center gap-2.5 font-semibold transition-all duration-150 active:scale-[0.98] hover:opacity-85 shrink-0"
+          className="flex items-center gap-2.5 font-semibold transition-[transform,opacity] duration-150 ease-out active:scale-[0.98] hover:opacity-85 shrink-0"
         >
           <Logo className="size-8 rounded-lg shadow-sm" size={32} />
           <span className="text-sm font-semibold tracking-tight">

@@ -40,7 +40,7 @@ export function ActionGateChecklistButton({
         </span>
         <ChevronUp
           className={cn(
-            "h-3 w-3 text-muted-foreground transition-transform duration-200 shrink-0",
+            "h-3 w-3 text-muted-foreground transition-transform duration-200 ease-out shrink-0",
             isOpen && "rotate-180",
           )}
         />

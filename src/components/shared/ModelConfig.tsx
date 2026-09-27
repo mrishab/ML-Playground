@@ -28,7 +28,7 @@ export function ModelConfig({
   options = EMPTY_OPTIONS,
 }: ModelConfigProps) {
   return (
-    <Card className="transition-all duration-200">
+    <Card>
       <CardHeader className="pb-3">
         <CardTitle className="text-base">Model Configuration</CardTitle>
       </CardHeader>

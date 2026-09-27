@@ -12,7 +12,7 @@ export function ModelMetricBox({
   truncate,
 }: ModelMetricBoxProps) {
   return (
-    <div className="rounded-lg border bg-muted/30 p-3 transition-all duration-200 hover:bg-muted/50">
+    <div className="rounded-lg border bg-muted/30 p-3 transition-[background-color,border-color] duration-150 ease-out hover:bg-muted/50">
       <p className="text-xs text-muted-foreground">{label}</p>
       <p
         className={cn(

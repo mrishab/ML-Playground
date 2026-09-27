@@ -25,7 +25,7 @@ export function PipelineStepButton({
       type="button"
       onClick={onClick}
       className={cn(
-        "group flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-left text-xs transition-all duration-200 cursor-pointer sm:gap-2 sm:px-2.5 min-w-max",
+        "group flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-left text-xs transition-[background-color,color,box-shadow,transform] duration-150 ease-out active:scale-[0.98] cursor-pointer sm:gap-2 sm:px-2.5 min-w-max",
         isActive &&
           "bg-primary/10 font-semibold text-primary ring-1 ring-primary/30",
         !isActive &&

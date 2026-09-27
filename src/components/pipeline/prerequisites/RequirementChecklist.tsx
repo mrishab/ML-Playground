@@ -14,7 +14,7 @@ export function RequirementChecklist({
       {requirements.map((req) => (
         <div
           key={req.id}
-          className="flex items-start gap-2.5 text-xs leading-normal"
+          className="flex items-start gap-2.5 text-xs leading-normal p-1.5 rounded-md transition-[background-color] duration-150 ease-out hover:bg-muted/50"
         >
           {req.satisfied ? (
             <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" />

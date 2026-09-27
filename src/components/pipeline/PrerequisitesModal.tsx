@@ -39,7 +39,7 @@ export function PrerequisitesModal() {
           {firstUnsatisfiedReq && (
             <Button onClick={handleGoTo} size="sm" className="group">
               {firstUnsatisfiedReq.actionLabel}
-              <ArrowRight className="ml-1.5 h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
+              <ArrowRight className="ml-1.5 h-3.5 w-3.5 transition-transform duration-150 ease-out group-hover:translate-x-1" />
             </Button>
           )}
         </DialogFooter>

@@ -11,7 +11,7 @@ export function OutlierVisualizer(props: OutlierVisualizerProps) {
   const { data, layout, config } = useBoxPlotOptions(props.numericColumnData);
 
   return (
-    <Card className="transition-all duration-200">
+    <Card>
       <CardHeader className="pb-3">
         <CardTitle className="text-base">Outliers (IQR Boxplot)</CardTitle>
       </CardHeader>

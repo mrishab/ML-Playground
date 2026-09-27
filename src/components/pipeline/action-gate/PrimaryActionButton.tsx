@@ -19,7 +19,7 @@ export function PrimaryActionButton({
       >
         <Link to={action.linkTo}>
           {action.label}
-          <ArrowRight className="ml-1.5 h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
+          <ArrowRight className="ml-1.5 h-3.5 w-3.5 transition-transform duration-150 ease-out group-hover:translate-x-1" />
         </Link>
       </Button>
     );
@@ -33,7 +33,7 @@ export function PrimaryActionButton({
       className="group"
     >
       {action.label}
-      <ArrowRight className="ml-1.5 h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
+      <ArrowRight className="ml-1.5 h-3.5 w-3.5 transition-transform duration-150 ease-out group-hover:translate-x-1" />
     </Button>
   );
 }

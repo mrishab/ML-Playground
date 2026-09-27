@@ -278,7 +278,7 @@ export function UploadCSVModal({
               onDragLeave={handleDragLeave}
               onDrop={handleDrop}
               onClick={() => fileInputRef.current?.click()}
-              className={`flex flex-col items-center justify-center rounded-xl border-2 border-dashed p-6 sm:p-10 text-center cursor-pointer transition-all duration-200 ${
+              className={`flex flex-col items-center justify-center rounded-xl border-2 border-dashed p-6 sm:p-10 text-center cursor-pointer transition-[border-color,background-color,transform] duration-150 ease-out ${
                 isDragging
                   ? "border-primary bg-primary/10 scale-[1.01]"
                   : "border-muted-foreground/30 hover:border-primary/60 hover:bg-muted/30"
@@ -426,7 +426,7 @@ export function UploadCSVModal({
               <div className="grid grid-cols-2 gap-2 sm:gap-3">
                 <div
                   onClick={() => setProblemType("classification")}
-                  className={`flex items-start gap-2.5 rounded-lg border p-3 cursor-pointer transition-all duration-200 ${
+                  className={`flex items-start gap-2.5 rounded-lg border p-3 cursor-pointer transition-[border-color,background-color,box-shadow,transform] duration-150 ease-out active:scale-[0.99] ${
                     problemType === "classification"
                       ? "border-primary bg-primary/5 ring-1 ring-primary"
                       : "hover:bg-muted/50 border-input"
@@ -452,7 +452,7 @@ export function UploadCSVModal({
 
                 <div
                   onClick={() => setProblemType("regression")}
-                  className={`flex items-start gap-2.5 rounded-lg border p-3 cursor-pointer transition-all duration-200 ${
+                  className={`flex items-start gap-2.5 rounded-lg border p-3 cursor-pointer transition-[border-color,background-color,box-shadow,transform] duration-150 ease-out active:scale-[0.99] ${
                     problemType === "regression"
                       ? "border-primary bg-primary/5 ring-1 ring-primary"
                       : "hover:bg-muted/50 border-input"

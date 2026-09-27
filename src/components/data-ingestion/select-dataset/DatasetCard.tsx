@@ -26,7 +26,7 @@ export function DatasetCard({
 }: DatasetCardProps) {
   return (
     <Card
-      className={`group cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-md ${
+      className={`group cursor-pointer transition-[transform,border-color,background-color,box-shadow] duration-150 ease-out active:scale-[0.99] hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-md ${
         selected ? "border-primary bg-primary/5 ring-1 ring-primary" : ""
       }`}
       onClick={onSelect}
@@ -52,7 +52,7 @@ export function DatasetCard({
                   e.stopPropagation();
                   onDelete();
                 }}
-                className="h-6 w-6 opacity-70 hover:opacity-100 hover:text-destructive shrink-0"
+                className="h-6 w-6 opacity-70 transition-[opacity,color,transform] duration-150 ease-out hover:opacity-100 hover:text-destructive hover:scale-110 active:scale-95 shrink-0"
                 title="Remove dataset"
               >
                 <Trash2 className="h-3.5 w-3.5" />

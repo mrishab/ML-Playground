@@ -18,7 +18,7 @@ interface FeatureSelectionCardProps {
 
 export function FeatureSelectionCard(props: FeatureSelectionCardProps) {
   return (
-    <Card className="transition-all duration-200">
+    <Card>
       <CardHeader className="pb-3">
         <CardTitle className="text-base">Feature Selection</CardTitle>
       </CardHeader>

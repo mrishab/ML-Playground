@@ -30,7 +30,7 @@ export function MetricsSummary({
       {items.map((item) => (
         <Card
           key={item.label}
-          className="transition-all duration-200 hover:shadow-md hover:-translate-y-0.5"
+          className="transition-[transform,box-shadow,border-color] duration-150 ease-out hover:shadow-md hover:-translate-y-0.5"
         >
           <CardContent className="pt-4 sm:pt-6 p-3 sm:p-6">
             <div className="text-center">

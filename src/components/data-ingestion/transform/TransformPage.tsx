@@ -28,7 +28,7 @@ export function TransformPage() {
       {!df ? (
         <PrerequisiteGate step={step1} />
       ) : (
-        <Card className="border-dashed transition-all duration-200">
+        <Card className="border-dashed">
           <CardContent className="flex flex-col items-center justify-center gap-3 py-16">
             <Construction className="h-12 w-12 text-muted-foreground/50" />
             <p className="text-sm font-medium text-muted-foreground">

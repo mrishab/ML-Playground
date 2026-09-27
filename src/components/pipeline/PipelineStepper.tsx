@@ -33,7 +33,7 @@ export function PipelineStepper() {
   return (
     <nav
       aria-label="ML Pipeline Progress"
-      className="w-full border-b bg-muted/20 px-2 py-2 backdrop-blur-sm transition-colors duration-200 sm:px-4 sm:py-2.5"
+      className="w-full border-b bg-muted/20 px-2 py-2 backdrop-blur-sm transition-[background-color,border-color] duration-200 ease-out sm:px-4 sm:py-2.5"
     >
       <div className="no-scrollbar flex items-center gap-0.5 overflow-x-auto sm:gap-1 sm:justify-between mx-auto max-w-7xl">
         {steps.map((step, index) => {

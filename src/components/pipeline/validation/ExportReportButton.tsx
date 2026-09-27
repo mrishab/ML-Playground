@@ -7,8 +7,13 @@ interface ExportReportButtonProps {
 
 export function ExportReportButton({ onClick }: ExportReportButtonProps) {
   return (
-    <Button variant="outline" size="sm" onClick={onClick} className="text-xs">
-      <Download className="mr-1.5 h-3.5 w-3.5" />
+    <Button
+      variant="outline"
+      size="sm"
+      onClick={onClick}
+      className="group text-xs"
+    >
+      <Download className="mr-1.5 h-3.5 w-3.5 transition-transform duration-150 ease-out group-hover:-translate-y-0.5" />
       <span>
         Export <span className="hidden sm:inline">JSON </span>Report
       </span>

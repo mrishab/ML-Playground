@@ -10,7 +10,7 @@ export function ActionGateDrawerItem({
   return (
     <div
       className={cn(
-        "flex items-start gap-2 rounded-md border p-2.5 text-xs transition-colors duration-200",
+        "flex items-start gap-2 rounded-md border p-2.5 text-xs transition-[background-color,border-color,color] duration-150 ease-out",
         item.satisfied
           ? "border-emerald-500/20 bg-emerald-500/5 text-emerald-950 dark:text-emerald-200"
           : "border-amber-500/20 bg-amber-500/5 text-amber-950 dark:text-amber-200",

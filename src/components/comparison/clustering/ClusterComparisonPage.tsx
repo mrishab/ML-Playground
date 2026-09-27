@@ -20,7 +20,7 @@ export function ClusterComparisonPage() {
         linkText: "Compare Models",
       }}
     >
-      <Card className="border-dashed transition-all duration-200">
+      <Card className="border-dashed">
         <CardContent className="flex min-h-[120px] items-center justify-center py-8">
           <p className="text-center text-sm text-muted-foreground">
             Clustering models coming soon.

@@ -23,20 +23,20 @@ export function ROCContent({ metrics }: { metrics: ClassificationMetrics }) {
       </div>
       <div className="h-3 overflow-hidden rounded-full bg-muted">
         <div
-          className="h-full bg-violet-500 transition-all"
+          className="h-full bg-violet-500 transition-[width] duration-300 ease-out"
           style={{
             width: `${Math.max(0, Math.min(100, macroAUC * 100))}%`,
           }}
         />
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
-        <div className="flex items-center justify-between gap-1.5 rounded border p-2">
+        <div className="flex items-center justify-between gap-1.5 rounded border p-2 transition-[background-color,border-color] duration-150 ease-out hover:bg-muted/30">
           <span className="text-xs">Min AUC</span>
           <Badge variant="outline" className="text-xs shrink-0">
             {formatNumber(minAUC)}
           </Badge>
         </div>
-        <div className="flex items-center justify-between gap-1.5 rounded border p-2">
+        <div className="flex items-center justify-between gap-1.5 rounded border p-2 transition-[background-color,border-color] duration-150 ease-out hover:bg-muted/30">
           <span className="text-xs">Max AUC</span>
           <Badge variant="outline" className="text-xs shrink-0">
             {formatNumber(maxAUC)}

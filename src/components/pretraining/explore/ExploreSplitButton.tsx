@@ -25,7 +25,7 @@ export function ExploreSplitButton({
       <Button
         onClick={performSplit}
         disabled={!canSplit}
-        className="w-full transition-all duration-200"
+        className="w-full"
         size="lg"
         variant={isExploreDirty ? "destructive" : "default"}
       >
@@ -33,7 +33,7 @@ export function ExploreSplitButton({
       </Button>
 
       {!canSplit && targetColumn && selectedFeatures.length > 0 && (
-        <Card className="border-red-500/30 bg-red-500/5 transition-all duration-200 animate-in fade-in-50">
+        <Card className="border-red-500/30 bg-red-500/5 animate-in fade-in-50 duration-200">
           <CardContent className="flex items-center gap-3 p-3">
             <AlertCircle className="h-4 w-4 text-red-500 shrink-0" />
             <p className="text-sm">Target column cannot be used as a feature</p>

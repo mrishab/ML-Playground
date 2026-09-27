@@ -7,13 +7,13 @@ export function RSquaredSteps({ metrics }: { metrics: RegressionMetrics }) {
 
   return (
     <div className="space-y-2">
-      <div className="flex flex-wrap items-center justify-between gap-2 rounded border p-2.5 transition-colors duration-200">
+      <div className="flex flex-wrap items-center justify-between gap-2 rounded border p-2.5 transition-[background-color,border-color] duration-150 ease-out hover:bg-muted/40">
         <span className="text-xs sm:text-sm">Mean of Y (ȳ)</span>
         <Badge variant="secondary" className="shrink-0">
           {formatNumber(metrics.yMean)}
         </Badge>
       </div>
-      <div className="flex flex-wrap items-center justify-between gap-2 rounded border p-2.5 transition-colors duration-200">
+      <div className="flex flex-wrap items-center justify-between gap-2 rounded border p-2.5 transition-[background-color,border-color] duration-150 ease-out hover:bg-muted/40">
         <span className="text-xs sm:text-sm">
           RSS / TSS = {formatNumber(metrics.rss)} / {formatNumber(metrics.tss)}
         </span>
@@ -21,7 +21,7 @@ export function RSquaredSteps({ metrics }: { metrics: RegressionMetrics }) {
           {formatNumber(ratio)}
         </Badge>
       </div>
-      <div className="flex flex-wrap items-center justify-between gap-2 rounded border p-2.5 transition-colors duration-200">
+      <div className="flex flex-wrap items-center justify-between gap-2 rounded border p-2.5 transition-[background-color,border-color] duration-150 ease-out hover:bg-muted/40">
         <span className="text-xs sm:text-sm">
           R² = 1 - {formatNumber(ratio)}
         </span>

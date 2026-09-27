@@ -26,11 +26,7 @@ export function FeaturePreviewCard({
   }, [previewColumns]);
 
   return (
-    <Card
-      className={`transition-all duration-200 ${
-        previewColumns.length === 0 ? "border-dashed" : ""
-      }`}
-    >
+    <Card className={previewColumns.length === 0 ? "border-dashed" : undefined}>
       {previewColumns.length > 0 && (
         <CardHeader className="pb-3">
           <CardTitle className="text-base">Feature Preview</CardTitle>

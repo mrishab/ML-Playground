@@ -20,7 +20,7 @@ export function StaleWarningBanner({
   recomputeLabel = "Apply Changes",
 }: StaleWarningBannerProps) {
   return (
-    <Alert className="border-amber-500/40 bg-amber-500/10 text-amber-950 dark:text-amber-200 transition-all duration-200 shadow-sm">
+    <Alert className="border-amber-500/40 bg-amber-500/10 text-amber-950 dark:text-amber-200 transition-[border-color,background-color,box-shadow] duration-200 ease-out shadow-sm">
       <AlertTriangle className="h-5 w-5 text-amber-600 dark:text-amber-400" />
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 w-full">
         <div>

@@ -31,11 +31,11 @@ export function ConfusionMatrixContent({
       </div>
       <div className="flex h-3 overflow-hidden rounded-full">
         <div
-          className="bg-green-500 transition-all"
+          className="bg-green-500 transition-[width] duration-300 ease-out"
           style={{ width: `${correctPct}%` }}
         />
         <div
-          className="bg-red-500 transition-all"
+          className="bg-red-500 transition-[width] duration-300 ease-out"
           style={{ width: `${misclassifiedPct}%` }}
         />
       </div>

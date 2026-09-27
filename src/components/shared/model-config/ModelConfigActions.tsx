@@ -39,10 +39,10 @@ export function ModelConfigActions({
         <Button
           variant="outline"
           onClick={onReset}
-          className="animate-in fade-in zoom-in-95 duration-200"
+          className="group animate-in fade-in zoom-in-95 duration-150"
           title="Reset Model"
         >
-          <RotateCcw className="h-4 w-4" />
+          <RotateCcw className="h-4 w-4 transition-transform duration-200 ease-out group-hover:-rotate-45" />
         </Button>
       )}
     </div>

@@ -22,19 +22,19 @@ export function AccuracyBreakdown({
         </div>
 
         <div className="space-y-2">
-          <div className="flex flex-wrap items-center justify-between gap-2 rounded border p-2.5 transition-colors duration-200">
+          <div className="flex flex-wrap items-center justify-between gap-2 rounded border p-2.5 transition-[background-color,border-color] duration-150 ease-out hover:bg-muted/40">
             <span className="text-xs sm:text-sm">Total Samples</span>
             <Badge variant="secondary" className="shrink-0">
               {metrics.totalSamples}
             </Badge>
           </div>
-          <div className="flex flex-wrap items-center justify-between gap-2 rounded border p-2.5 transition-colors duration-200">
+          <div className="flex flex-wrap items-center justify-between gap-2 rounded border p-2.5 transition-[background-color,border-color] duration-150 ease-out hover:bg-muted/40">
             <span className="text-xs sm:text-sm">Correct Predictions</span>
             <Badge variant="secondary" className="shrink-0">
               {metrics.correctPredictions}
             </Badge>
           </div>
-          <div className="flex flex-wrap items-center justify-between gap-2 rounded border p-2.5 transition-colors duration-200">
+          <div className="flex flex-wrap items-center justify-between gap-2 rounded border p-2.5 transition-[background-color,border-color] duration-150 ease-out hover:bg-muted/40">
             <span className="text-xs sm:text-sm">
               Accuracy = {metrics.correctPredictions} / {metrics.totalSamples}
             </span>

@@ -16,7 +16,7 @@ export function ConfusionMatrixCell({
   return (
     <div
       className={cn(
-        "flex h-11 w-11 items-center justify-center rounded-md text-xs sm:text-sm font-semibold transition-all duration-200 hover:scale-105 sm:h-14 sm:w-14 md:h-16 md:w-16",
+        "flex h-11 w-11 items-center justify-center rounded-md text-xs sm:text-sm font-semibold transition-[transform,box-shadow,opacity] duration-150 ease-out hover:scale-105 sm:h-14 sm:w-14 md:h-16 md:w-16",
         isDiagonal
           ? "bg-green-500 text-white"
           : count > 0

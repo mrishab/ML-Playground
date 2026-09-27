@@ -23,7 +23,7 @@ export function RSEBreakdown({ metrics }: RSEBreakdownProps) {
 
         {/* Calculation Steps */}
         <div className="space-y-2">
-          <div className="flex flex-wrap items-center justify-between gap-2 rounded border p-2.5 transition-colors duration-200">
+          <div className="flex flex-wrap items-center justify-between gap-2 rounded border p-2.5 transition-[background-color,border-color] duration-150 ease-out hover:bg-muted/40">
             <span className="text-xs sm:text-sm">
               Residual Sum of Squares (RSS)
             </span>
@@ -31,7 +31,7 @@ export function RSEBreakdown({ metrics }: RSEBreakdownProps) {
               {formatNumber(metrics.rss)}
             </Badge>
           </div>
-          <div className="flex flex-wrap items-center justify-between gap-2 rounded border p-2.5 transition-colors duration-200">
+          <div className="flex flex-wrap items-center justify-between gap-2 rounded border p-2.5 transition-[background-color,border-color] duration-150 ease-out hover:bg-muted/40">
             <span className="text-xs sm:text-sm">
               Degrees of Freedom (n - 2)
             </span>
@@ -39,7 +39,7 @@ export function RSEBreakdown({ metrics }: RSEBreakdownProps) {
               {metrics.n - 2}
             </Badge>
           </div>
-          <div className="flex flex-wrap items-center justify-between gap-2 rounded border p-2.5 transition-colors duration-200">
+          <div className="flex flex-wrap items-center justify-between gap-2 rounded border p-2.5 transition-[background-color,border-color] duration-150 ease-out hover:bg-muted/40">
             <span className="text-xs sm:text-sm">
               RSS / (n - 2) = {formatNumber(metrics.rss)} / {metrics.n - 2}
             </span>
@@ -47,7 +47,7 @@ export function RSEBreakdown({ metrics }: RSEBreakdownProps) {
               {formatNumber(metrics.rss / (metrics.n - 2))}
             </Badge>
           </div>
-          <div className="flex flex-wrap items-center justify-between gap-2 rounded border p-2.5 transition-colors duration-200">
+          <div className="flex flex-wrap items-center justify-between gap-2 rounded border p-2.5 transition-[background-color,border-color] duration-150 ease-out hover:bg-muted/40">
             <span className="text-xs sm:text-sm">
               RSE = √({formatNumber(metrics.rss / (metrics.n - 2))})
             </span>

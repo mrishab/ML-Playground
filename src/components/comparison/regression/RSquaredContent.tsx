@@ -14,7 +14,7 @@ export function RSquaredContent({ metrics }: { metrics: RegressionMetrics }) {
       </div>
       <div className="h-3 overflow-hidden rounded-full bg-muted">
         <div
-          className="h-full bg-blue-500 transition-all"
+          className="h-full bg-blue-500 transition-[width] duration-300 ease-out"
           style={{
             width: `${Math.max(0, Math.min(100, metrics.rSquared * 100))}%`,
           }}

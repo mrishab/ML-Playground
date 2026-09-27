@@ -19,7 +19,7 @@ export function StepBadgeIcon({
   return (
     <div
       className={cn(
-        "flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[11px] font-medium transition-all duration-200",
+        "flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[11px] font-medium transition-[background-color,color,box-shadow,transform] duration-150 ease-out",
         isActive && "bg-primary text-primary-foreground shadow-sm",
         isCompleted &&
           !isStale &&

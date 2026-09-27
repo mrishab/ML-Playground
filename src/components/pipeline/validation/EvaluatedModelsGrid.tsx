@@ -22,7 +22,7 @@ export function EvaluatedModelsGrid({ models }: EvaluatedModelsGridProps) {
         {models.map((m, idx) => (
           <Card
             key={m.name}
-            className="transition-all duration-200 hover:shadow-md hover:-translate-y-0.5"
+            className="transition-[transform,box-shadow,border-color] duration-150 ease-out hover:shadow-md hover:-translate-y-0.5"
           >
             <CardHeader className="pb-2">
               <div className="flex items-center justify-between">

@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 
 export function CompletionCelebrationCard() {
   return (
-    <Card className="border-emerald-500/30 bg-emerald-500/5 transition-all duration-200">
+    <Card className="border-emerald-500/30 bg-emerald-500/5 transition-[border-color,background-color] duration-200 ease-out">
       <CardContent className="flex flex-wrap sm:flex-nowrap items-center gap-3.5 p-4 sm:p-5">
         <div className="flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">
           <Sparkles className="h-5 w-5 sm:h-6 sm:w-6" />

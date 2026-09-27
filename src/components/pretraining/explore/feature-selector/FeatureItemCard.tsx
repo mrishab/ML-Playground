@@ -22,7 +22,7 @@ export function FeatureItemCard({
   onInteractionChange,
 }: FeatureItemCardProps) {
   return (
-    <div className="flex flex-col gap-2 rounded-lg border bg-muted/30 p-3">
+    <div className="flex flex-col gap-2 rounded-lg border bg-muted/30 p-3 transition-[background-color,border-color,box-shadow] duration-150 ease-out hover:border-primary/40 hover:bg-muted/50">
       <div className="flex items-center justify-between">
         <div className="flex flex-wrap items-center gap-2">
           <Badge variant="secondary">{feature.column}</Badge>
@@ -37,7 +37,7 @@ export function FeatureItemCard({
         <Button
           variant="ghost"
           size="icon"
-          className="h-6 w-6"
+          className="h-6 w-6 transition-[opacity,transform,color] duration-150 ease-out hover:scale-110 active:scale-95 hover:text-destructive"
           onClick={() => onRemove(feature.id)}
         >
           <X className="h-3 w-3" />

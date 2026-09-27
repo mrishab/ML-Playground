@@ -23,7 +23,7 @@ export function BestModelBanner({
   targetColumn,
 }: BestModelBannerProps) {
   return (
-    <Card className="border-primary/30 bg-card shadow-sm transition-all duration-200">
+    <Card className="border-primary/30 bg-card shadow-sm transition-[border-color,background-color,box-shadow] duration-200 ease-out">
       <CardHeader className="pb-3">
         <div className="flex flex-wrap items-center gap-2">
           <CardTitle className="text-base sm:text-lg font-bold">

@@ -13,7 +13,7 @@ export function ROCCurve({ metrics }: { metrics: ClassificationMetrics }) {
   const layout = useRocLayout(isDark);
 
   return (
-    <Card className="transition-all duration-200">
+    <Card>
       <CardHeader>
         <CardTitle className="text-base">ROC Curve & AUC</CardTitle>
       </CardHeader>
