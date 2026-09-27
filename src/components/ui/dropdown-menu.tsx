@@ -6,4 +6,6 @@ export {
 export {
   DropdownMenuItem,
   DropdownMenuCheckboxItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
 } from "./dropdown-menu/DropdownMenuItems";

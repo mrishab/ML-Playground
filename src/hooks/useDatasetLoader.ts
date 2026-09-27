@@ -6,8 +6,11 @@ import { DATASETS } from "@/components/data-ingestion/select-dataset/useDatasetS
 import { fetchAndParseDataset } from "./fetchDataset";
 
 export function useDatasetLoader() {
-  const { selectedDataset, setDf, setLoading, setError } = useDatasetStore();
+  const { selectedDataset, customDatasets, setDf, setLoading, setError } =
+    useDatasetStore();
   const resetMLConfig = useMLConfigStore((state) => state.reset);
+  const setProblemType = useMLConfigStore((state) => state.setProblemType);
+  const setTargetColumn = useMLConfigStore((state) => state.setTargetColumn);
   const resetTrainingResults = useTrainingResultsStore(
     (state) => state.resetAll,
   );
@@ -20,6 +23,24 @@ export function useDatasetLoader() {
       return;
     }
 
+    // Check if it's an uploaded custom dataset
+    const custom = customDatasets.find((d) => d.name === selectedDataset);
+    if (custom) {
+      setError(null);
+      setLoading(false);
+      setDf(custom.df);
+      resetMLConfig();
+      resetTrainingResults();
+      if (custom.problemType) {
+        setProblemType(custom.problemType);
+      }
+      if (custom.targetColumn) {
+        setTargetColumn(custom.targetColumn);
+      }
+      return;
+    }
+
+    // Otherwise check built-in standard datasets
     const dataset = DATASETS.find((d) => d.name === selectedDataset);
     if (!dataset) return;
 
@@ -46,7 +67,10 @@ export function useDatasetLoader() {
   }, [
     resetMLConfig,
     resetTrainingResults,
+    setProblemType,
+    setTargetColumn,
     selectedDataset,
+    customDatasets,
     setDf,
     setLoading,
     setError,

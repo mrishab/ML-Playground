@@ -12,6 +12,10 @@ export function useExploreConfigLoader(
 ) {
   const [isLoadingConfig, setIsLoadingConfig] = useState(false);
 
+  const hasDefaultConfig = Boolean(
+    DATASETS.find((d) => d.name === selectedDataset),
+  );
+
   const loadDefaultConfig = useCallback(async () => {
     if (!selectedDataset) return;
     const dataset = DATASETS.find((d) => d.name === selectedDataset);
@@ -30,5 +34,5 @@ export function useExploreConfigLoader(
     }
   }, [selectedDataset, setProblemType, setTargetColumn, setFeatures]);
 
-  return { isLoadingConfig, loadDefaultConfig };
+  return { isLoadingConfig, loadDefaultConfig, hasDefaultConfig };
 }

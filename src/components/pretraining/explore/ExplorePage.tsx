@@ -35,10 +35,12 @@ export function ExplorePage() {
       title="Explore & Split"
       subtitle={`Features & split for ${explore.selectedDataset}`}
       actions={
-        <ExploreLoadDefaultButton
-          isLoading={explore.isLoadingConfig}
-          onClick={explore.loadDefaultConfig}
-        />
+        explore.hasDefaultConfig ? (
+          <ExploreLoadDefaultButton
+            isLoading={explore.isLoadingConfig}
+            onClick={explore.loadDefaultConfig}
+          />
+        ) : undefined
       }
       primaryAction={primaryAction}
     >

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useDatasetLoader } from "@/hooks/useDatasetLoader";
 import { useDatasetStore } from "@/stores/dataset";
 import { usePipelineStore } from "@/stores/pipeline";
@@ -11,8 +12,10 @@ export function useSelectDatasetPage() {
   );
   const { pendingDataset, revertDatasetChange, setPendingDataset } =
     usePipelineStore();
-  const { onSelect } = useDatasetSelect();
+  const { onSelect, customDatasets, onDeleteCustom } = useDatasetSelect();
   useDatasetLoader();
+
+  const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
 
   const handleApplyPendingDataset = () => {
     if (!pendingDataset) return;
@@ -32,8 +35,12 @@ export function useSelectDatasetPage() {
     revertDatasetChange,
     handleApplyPendingDataset,
     onSelect,
+    customDatasets,
+    onDeleteCustom,
     rows,
     columns,
     isDatasetReady,
+    isUploadModalOpen,
+    setIsUploadModalOpen,
   };
 }

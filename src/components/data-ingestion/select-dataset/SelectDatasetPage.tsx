@@ -1,10 +1,12 @@
-import { FileSpreadsheet, Loader2 } from "lucide-react";
+import { FileSpreadsheet, Loader2, Upload } from "lucide-react";
 import { DatasetSelect } from "./DatasetSelect";
 import { PageLayout } from "@/components/shared/PageLayout";
 import { useSelectDatasetPage } from "./useSelectDatasetPage";
 import { DatasetViewerTabs } from "./DatasetViewerTabs";
 import { DatasetPickerGrid } from "./DatasetPickerGrid";
 import { DatasetPendingBanner } from "./DatasetPendingBanner";
+import { UploadCSVModal } from "./upload/UploadCSVModal";
+import { Button } from "@/components/ui/button";
 
 export function SelectDatasetPage() {
   const page = useSelectDatasetPage();
@@ -17,10 +19,23 @@ export function SelectDatasetPage() {
     <PageLayout
       icon={<FileSpreadsheet className="h-8 w-8 text-primary" />}
       title="Select Dataset"
-      subtitle="Choose a dataset to begin the pipeline"
+      subtitle="Choose a benchmark dataset or upload your own CSV"
       actions={
-        <div className="w-full sm:w-48">
-          <DatasetSelect />
+        <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => page.setIsUploadModalOpen(true)}
+            className="h-9 gap-1.5 text-xs sm:text-sm font-medium"
+          >
+            <Upload className="h-4 w-4 text-primary" />
+            <span>Upload CSV</span>
+          </Button>
+          <div className="w-full sm:w-52">
+            <DatasetSelect
+              onOpenUpload={() => page.setIsUploadModalOpen(true)}
+            />
+          </div>
         </div>
       }
       primaryAction={primaryAction}
@@ -52,8 +67,17 @@ export function SelectDatasetPage() {
         <DatasetPickerGrid
           pendingDataset={page.pendingDataset}
           onSelect={page.onSelect}
+          onOpenUpload={() => page.setIsUploadModalOpen(true)}
+          customDatasets={page.customDatasets}
+          onDeleteCustom={page.onDeleteCustom}
         />
       )}
+
+      {/* Upload CSV Modal */}
+      <UploadCSVModal
+        open={page.isUploadModalOpen}
+        onOpenChange={page.setIsUploadModalOpen}
+      />
     </PageLayout>
   );
 }
