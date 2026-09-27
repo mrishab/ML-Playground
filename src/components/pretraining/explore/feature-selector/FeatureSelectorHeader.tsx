@@ -18,7 +18,7 @@ export function FeatureSelectorHeader({
           variant="ghost"
           size="sm"
           onClick={onClear}
-          className="h-7 text-xs text-muted-foreground"
+          className="h-7 text-xs text-muted-foreground hover:text-destructive transition-colors duration-150 ease-out"
         >
           Clear all
         </Button>

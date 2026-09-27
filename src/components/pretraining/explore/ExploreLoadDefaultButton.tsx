@@ -16,9 +16,9 @@ export function ExploreLoadDefaultButton({
       size="sm"
       onClick={onClick}
       disabled={isLoading}
-      className="text-xs sm:text-sm h-8"
+      className="group text-xs sm:text-sm h-8"
     >
-      <Download className="mr-1.5 h-3.5 w-3.5 sm:mr-2 sm:h-4 sm:w-4" />
+      <Download className="mr-1.5 h-3.5 w-3.5 sm:mr-2 sm:h-4 sm:w-4 transition-transform duration-150 ease-out group-hover:-translate-y-0.5" />
       {isLoading ? "Loading..." : "Load Default"}
     </Button>
   );

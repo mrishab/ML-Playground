@@ -19,8 +19,9 @@ export function DataTableColumnToggle<TData>({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="ml-auto">
-          Columns <ChevronDown className="ml-2 h-4 w-4" />
+        <Button variant="outline" className="ml-auto group">
+          Columns{" "}
+          <ChevronDown className="ml-2 h-4 w-4 transition-transform duration-200 ease-out group-data-[state=open]:rotate-180" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">

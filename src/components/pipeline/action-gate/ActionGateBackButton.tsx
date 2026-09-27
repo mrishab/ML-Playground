@@ -14,9 +14,14 @@ export function ActionGateBackButton({
   if (!prevStepRoute) return null;
 
   return (
-    <Button asChild variant="ghost" size="sm" className="text-xs px-2 sm:px-3">
+    <Button
+      asChild
+      variant="ghost"
+      size="sm"
+      className="group text-xs px-2 sm:px-3"
+    >
       <Link to={prevStepRoute}>
-        <ArrowLeft className="mr-1 h-3.5 w-3.5 sm:mr-1.5" />
+        <ArrowLeft className="mr-1 h-3.5 w-3.5 sm:mr-1.5 transition-transform duration-150 ease-out group-hover:-translate-x-1" />
         <span className="hidden sm:inline">Back: </span>
         <span className="truncate max-w-[80px] sm:max-w-none">
           {prevStepLabel || "Back"}

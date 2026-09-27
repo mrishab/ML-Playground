@@ -9,25 +9,25 @@ export function PrecisionRecallAverages({
 }) {
   return (
     <div className="space-y-2 sm:space-y-3">
-      <div className="flex flex-wrap items-center justify-between gap-2 rounded border p-2.5 sm:p-3">
+      <div className="flex flex-wrap items-center justify-between gap-2 rounded border p-2.5 sm:p-3 transition-[background-color,border-color] duration-150 ease-out hover:bg-muted/40">
         <span className="text-xs sm:text-sm">Macro Avg Precision</span>
         <Badge variant="secondary" className="shrink-0">
           {formatNumber(metrics.macroPrecision)}
         </Badge>
       </div>
-      <div className="flex flex-wrap items-center justify-between gap-2 rounded border p-2.5 sm:p-3">
+      <div className="flex flex-wrap items-center justify-between gap-2 rounded border p-2.5 sm:p-3 transition-[background-color,border-color] duration-150 ease-out hover:bg-muted/40">
         <span className="text-xs sm:text-sm">Macro Avg Recall</span>
         <Badge variant="secondary" className="shrink-0">
           {formatNumber(metrics.macroRecall)}
         </Badge>
       </div>
-      <div className="flex flex-wrap items-center justify-between gap-2 rounded border p-2.5 sm:p-3">
+      <div className="flex flex-wrap items-center justify-between gap-2 rounded border p-2.5 sm:p-3 transition-[background-color,border-color] duration-150 ease-out hover:bg-muted/40">
         <span className="text-xs sm:text-sm">Weighted Avg Precision</span>
         <Badge className="bg-purple-500 shrink-0">
           {formatNumber(metrics.weightedPrecision)}
         </Badge>
       </div>
-      <div className="flex flex-wrap items-center justify-between gap-2 rounded border p-2.5 sm:p-3">
+      <div className="flex flex-wrap items-center justify-between gap-2 rounded border p-2.5 sm:p-3 transition-[background-color,border-color] duration-150 ease-out hover:bg-muted/40">
         <span className="text-xs sm:text-sm">Weighted Avg Recall</span>
         <Badge className="bg-purple-500 shrink-0">
           {formatNumber(metrics.weightedRecall)}
