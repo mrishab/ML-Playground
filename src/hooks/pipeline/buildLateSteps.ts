@@ -12,10 +12,8 @@ export function buildLateSteps(
     isActive: id === 3,
     hasDataset: p.hasDataset,
     isSplitReady: p.isSplitReady,
-    hasTrainedModel: p.hasTrainedModel,
-    isDownstreamStale: p.isDownstreamStale,
-    defaultTrainRoute: p.defaultTrainRoute,
-    modelArtifactDesc: p.modelDesc,
+    isExploreDirty: p.isExploreDirty,
+    isDatasetDirty: p.isDatasetDirty,
   });
   const s4 = buildStep4({
     isActive: id === 4,
@@ -23,8 +21,8 @@ export function buildLateSteps(
     isSplitReady: p.isSplitReady,
     hasTrainedModel: p.hasTrainedModel,
     isDownstreamStale: p.isDownstreamStale,
-    defaultCompareRoute: p.defaultCompareRoute,
     defaultTrainRoute: p.defaultTrainRoute,
+    modelArtifactDesc: p.modelDesc,
   });
   const s5 = buildStep5({
     isActive: id === 5,
@@ -32,6 +30,7 @@ export function buildLateSteps(
     isSplitReady: p.isSplitReady,
     hasTrainedModel: p.hasTrainedModel,
     isDownstreamStale: p.isDownstreamStale,
+    defaultCompareRoute: p.defaultCompareRoute,
     defaultTrainRoute: p.defaultTrainRoute,
   });
   return [s3, s4, s5];

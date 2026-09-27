@@ -37,7 +37,7 @@ export function useExplorePrimaryAction({
 
     return {
       label: "Proceed to Feature Analysis",
-      linkTo: "/pretrain/analyze",
+      linkTo: "/analyze",
     };
   }, [isSplit, isExploreDirty, canSplit, performSplit]);
 }

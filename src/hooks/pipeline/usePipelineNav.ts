@@ -29,7 +29,8 @@ export function usePipelineNav({
   const canProceedToNext = useMemo(() => {
     if (currentStepId === 1) return hasDataset;
     if (currentStepId === 2) return isSplitReady;
-    if (currentStepId === 3 || currentStepId === 4) return hasTrainedModel;
+    if (currentStepId === 3) return isSplitReady;
+    if (currentStepId === 4) return hasTrainedModel;
     return false;
   }, [currentStepId, hasDataset, isSplitReady, hasTrainedModel]);
 

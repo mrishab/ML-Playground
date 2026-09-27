@@ -39,8 +39,8 @@ export function ClusterComparisonPage() {
       }
       nextStepProps={{
         message: "Clustering complete.",
-        linkTo: "/validation",
-        linkText: "View Validation",
+        linkTo: "/data/select",
+        linkText: "Start New Pipeline",
       }}
       onRun={pageState.runTraining}
       onReset={pageState.reset}

@@ -3,9 +3,9 @@ export const BREADCRUMB_MAP = {
   select: "Select Dataset",
   transform: "Transform",
   pretrain: "Pretraining",
-  explore: "Explore",
-  visualize: "Visualize",
-  analyze: "Analyze",
+  explore: "Explore & Split",
+  visualize: "Feature Analysis",
+  analyze: "Feature Analysis",
   train: "Training",
   linear: "Linear Regression",
   knn: "KNN",
@@ -15,7 +15,6 @@ export const BREADCRUMB_MAP = {
   classification: "Classification",
   regression: "Regression",
   clustering: "Clustering",
-  validation: "Validation & Results",
 } as const satisfies Record<string, string>;
 
 export type BreadcrumbSegment = keyof typeof BREADCRUMB_MAP;

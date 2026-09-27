@@ -27,11 +27,10 @@ export function useActionGateState({
   const totalSteps = pipeline.steps.length;
   const d1 = pipeline.hasDataset;
   const d2 = d1 && pipeline.isSplitReady;
-  const d3 = d2 && pipeline.hasTrainedModel;
-  const cId = pipeline.currentStepId;
-  const completedSteps = [d1, d2, d3, d3 && cId >= 4, d3 && cId === 5].filter(
-    Boolean,
-  ).length;
+  const d3 = d2;
+  const d4 = d2 && pipeline.hasTrainedModel;
+  const d5 = d4 && pipeline.currentStepId === 5;
+  const completedSteps = [d1, d2, d3, d4, d5].filter(Boolean).length;
 
   const handleNextClick = () => {
     if (primaryAction?.onClick) return primaryAction.onClick();

@@ -15,9 +15,9 @@ export function ClassificationComparisonPage() {
       defaultValue="accuracy"
       noModelsLinkTo="/train/knn"
       nextStep={{
-        message: "Comparison complete.",
-        linkTo: "/validation",
-        linkText: "View Validation",
+        message: "Pipeline complete.",
+        linkTo: "/data/select",
+        linkText: "Start New Pipeline",
       }}
       tabs={CLASSIFICATION_COMPARISON_TABS}
     />

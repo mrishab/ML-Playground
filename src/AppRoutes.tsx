@@ -11,7 +11,14 @@ import { LogisticRegressionPage } from "@/components/training/logistic-regressio
 import { ClassificationComparisonPage } from "@/components/comparison/classification/ClassificationComparisonPage";
 import { RegressionComparisonPage } from "@/components/comparison/regression/RegressionComparisonPage";
 import { ClusterComparisonPage } from "@/components/comparison/clustering/ClusterComparisonPage";
-import { ValidationResultsPage } from "@/components/pipeline/ValidationResultsPage";
+
+const REDIRECTS = [
+  { path: "pretrain", to: "/pretrain/explore" },
+  { path: "pretrain/visualize", to: "/analyze" },
+  { path: "pretrain/analyze", to: "/analyze" },
+  { path: "visualize", to: "/analyze" },
+  { path: "validation", to: "/data/select" },
+] as const;
 
 export function AppRoutes() {
   return (
@@ -21,8 +28,7 @@ export function AppRoutes() {
         <Route path="data/select" element={<SelectDatasetPage />} />
         <Route path="data/transform" element={<TransformPage />} />
         <Route path="pretrain/explore" element={<ExplorePage />} />
-        <Route path="pretrain/visualize" element={<VisualizePage />} />
-        <Route path="pretrain/analyze" element={<VisualizePage />} />
+        <Route path="analyze" element={<VisualizePage />} />
         <Route path="train/linear" element={<LinearRegressionPage />} />
         <Route path="train/knn" element={<KNNPage />} />
         <Route path="train/lda" element={<LDAPage />} />
@@ -40,7 +46,13 @@ export function AppRoutes() {
           path="comparison/clustering"
           element={<ClusterComparisonPage />}
         />
-        <Route path="validation" element={<ValidationResultsPage />} />
+        {REDIRECTS.map(({ path, to }) => (
+          <Route
+            key={path}
+            path={path}
+            element={<Navigate to={to} replace />}
+          />
+        ))}
       </Route>
     </Routes>
   );

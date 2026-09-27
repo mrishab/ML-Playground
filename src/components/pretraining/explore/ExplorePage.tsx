@@ -7,9 +7,7 @@ import { ExploreLeftColumn } from "./ExploreLeftColumn";
 import { ExploreRightColumn } from "./ExploreRightColumn";
 import { ExploreLoadDefaultButton } from "./ExploreLoadDefaultButton";
 import { ExploreWarningBanner } from "./ExploreWarningBanner";
-
 import { ExplorePrereqGate } from "./ExplorePrereqGate";
-import { PretrainSubNav } from "../shared/PretrainSubNav";
 
 export function ExplorePage() {
   const { steps, defaultTrainRoute } = usePipelineSteps();
@@ -26,18 +24,15 @@ export function ExplorePage() {
   return (
     <PageLayout
       icon={Search}
-      title="Explore & Split"
-      subtitle={`Features & split for ${explore.selectedDataset}`}
+      title="Pretrain & Split"
+      subtitle={`Features & train/test split for ${explore.selectedDataset}`}
       actions={
-        <div className="flex items-center gap-2">
-          {explore.hasDefaultConfig && (
-            <ExploreLoadDefaultButton
-              isLoading={explore.isLoadingConfig}
-              onClick={explore.loadDefaultConfig}
-            />
-          )}
-          <PretrainSubNav isSplit={explore.isSplit} />
-        </div>
+        explore.hasDefaultConfig ? (
+          <ExploreLoadDefaultButton
+            isLoading={explore.isLoadingConfig}
+            onClick={explore.loadDefaultConfig}
+          />
+        ) : undefined
       }
       primaryAction={primaryAction}
     >

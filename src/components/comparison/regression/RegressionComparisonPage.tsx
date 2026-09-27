@@ -17,9 +17,9 @@ export function RegressionComparisonPage() {
       defaultValue="mse"
       noModelsLinkTo="/train/linear"
       nextStep={{
-        message: "Comparison complete.",
-        linkTo: "/validation",
-        linkText: "View Validation",
+        message: "Pipeline complete.",
+        linkTo: "/data/select",
+        linkText: "Start New Pipeline",
       }}
       tabs={[
         {

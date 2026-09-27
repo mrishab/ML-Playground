@@ -1,16 +1,17 @@
 import type { PipelineStepInfo, StepStatus } from "@/stores/pipeline";
-import { getStep5Requirements } from "./requirements/step4And5Reqs";
+import { getStep5Requirements } from "./requirements/step5Reqs";
 
-interface StepValidationParams {
+interface Step5Params {
   isActive: boolean;
   hasDataset: boolean;
   isSplitReady: boolean;
   hasTrainedModel: boolean;
   isDownstreamStale: boolean;
+  defaultCompareRoute: string;
   defaultTrainRoute: string;
 }
 
-export function buildStep5(p: StepValidationParams): PipelineStepInfo {
+export function buildStep5(p: Step5Params): PipelineStepInfo {
   const isLocked = !p.hasDataset || !p.isSplitReady || !p.hasTrainedModel;
   const status: StepStatus = p.isActive
     ? "active"
@@ -28,14 +29,18 @@ export function buildStep5(p: StepValidationParams): PipelineStepInfo {
 
   return {
     id: 5,
-    key: "validation",
-    title: "5. Validation & Results",
-    shortTitle: "Results",
-    route: "/validation",
-    subRoutes: ["/validation"],
+    key: "comparison",
+    title: "5. Model Comparison",
+    shortTitle: "Comparison",
+    route: p.defaultCompareRoute,
+    subRoutes: [
+      "/comparison/regression",
+      "/comparison/classification",
+      "/comparison/clustering",
+    ],
     status,
     isStale: p.isDownstreamStale && p.hasTrainedModel,
-    artifactDescription: p.hasTrainedModel ? "Evaluation Ready" : null,
+    artifactDescription: p.hasTrainedModel ? "Comparison Ready" : null,
     requirements: reqs,
   };
 }

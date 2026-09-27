@@ -5,8 +5,10 @@ export function useStepId(): StepId {
   const { pathname } = useLocation();
   if (pathname.startsWith("/data")) return 1;
   if (pathname.startsWith("/pretrain")) return 2;
-  if (pathname.startsWith("/train")) return 3;
-  if (pathname.startsWith("/comparison")) return 4;
-  if (pathname.startsWith("/validation")) return 5;
+  if (pathname.startsWith("/analyze") || pathname.startsWith("/visualize")) {
+    return 3;
+  }
+  if (pathname.startsWith("/train")) return 4;
+  if (pathname.startsWith("/comparison")) return 5;
   return 1;
 }

@@ -11,7 +11,7 @@ export function ComparisonPageLayout<TMetrics>(
   props: ComparisonPageLayoutProps<TMetrics>,
 ) {
   const { steps, isDownstreamStale } = usePipelineSteps();
-  const step4 = steps[3];
+  const step5 = steps[4];
 
   if (!props.hasAnyTrained) {
     return (
@@ -20,14 +20,14 @@ export function ComparisonPageLayout<TMetrics>(
         title={props.title}
         subtitle={props.subtitle}
       >
-        <PrerequisiteGate step={step4} />
+        <PrerequisiteGate step={step5} />
       </PageLayout>
     );
   }
 
   const primaryAction = props.nextStep
     ? { label: props.nextStep.linkText, linkTo: props.nextStep.linkTo }
-    : { label: "Proceed to Final Validation", linkTo: "/validation" };
+    : { label: "Start New Pipeline", linkTo: "/data/select" };
 
   return (
     <PageLayout

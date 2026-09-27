@@ -5,43 +5,38 @@ interface Step3Params {
   isActive: boolean;
   hasDataset: boolean;
   isSplitReady: boolean;
-  hasTrainedModel: boolean;
-  isDownstreamStale: boolean;
-  defaultTrainRoute: string;
-  modelArtifactDesc: string | null;
+  isExploreDirty: boolean;
+  isDatasetDirty: boolean;
 }
 
 export function buildStep3(p: Step3Params): PipelineStepInfo {
   let status: StepStatus = "locked";
   if (p.isActive) status = "active";
   else if (!p.hasDataset || !p.isSplitReady) status = "locked";
-  else if (p.hasTrainedModel) {
-    status = p.isDownstreamStale ? "stale" : "completed";
-  } else status = "active";
+  else {
+    status = p.isExploreDirty || p.isDatasetDirty ? "stale" : "completed";
+  }
 
   const reqs = getStep3Requirements({
     hasDataset: p.hasDataset,
     isSplitReady: p.isSplitReady,
-    hasTrainedModel: p.hasTrainedModel,
-    defaultTrainRoute: p.defaultTrainRoute,
   });
 
   return {
     id: 3,
-    key: "train",
-    title: "3. Model Training",
-    shortTitle: "Training",
-    route: p.defaultTrainRoute,
+    key: "analyze",
+    title: "3. Feature Analysis",
+    shortTitle: "Analyze",
+    route: "/analyze",
     subRoutes: [
-      "/train/linear",
-      "/train/knn",
-      "/train/lda",
-      "/train/logistic",
-      "/train/clustering",
+      "/analyze",
+      "/pretrain/analyze",
+      "/pretrain/visualize",
+      "/visualize",
     ],
     status,
-    isStale: p.isDownstreamStale && p.hasTrainedModel,
-    artifactDescription: p.modelArtifactDesc,
+    isStale: p.isExploreDirty || p.isDatasetDirty,
+    artifactDescription: p.isSplitReady ? "Features Ready" : null,
     requirements: reqs,
   };
 }
