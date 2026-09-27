@@ -14,7 +14,7 @@ export function ActionGateDrawer({
   onClose,
 }: ActionGateDrawerProps) {
   return (
-    <div className="border-b bg-muted/40 p-4 animate-in slide-in-from-bottom-2 duration-200">
+    <div className="border-b bg-muted/40 p-4 animate-in slide-in-from-bottom-2 fade-in-0 duration-200 ease-out">
       <div className="mx-auto max-w-7xl">
         <div className="flex items-center justify-between pb-2">
           <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
@@ -23,7 +23,7 @@ export function ActionGateDrawer({
           <Button
             variant="ghost"
             size="sm"
-            className="h-6 text-xs"
+            className="h-6 text-xs transition-colors duration-150 ease-out active:scale-95"
             onClick={onClose}
           >
             Close

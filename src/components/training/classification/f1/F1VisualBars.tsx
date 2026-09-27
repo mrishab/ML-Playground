@@ -14,9 +14,9 @@ export function F1VisualBars({ perClass }: { perClass: PerClassMetrics[] }) {
           </div>
           <div className="h-2 overflow-hidden rounded-full bg-muted">
             <div
-              className="h-full bg-emerald-500 transition-[width] duration-300 ease-out"
+              className="h-full w-full origin-left bg-emerald-500 transition-transform duration-300 ease-out"
               style={{
-                width: `${Math.max(0, Math.min(100, cls.f1Score * 100))}%`,
+                transform: `scaleX(${Math.max(0, Math.min(1, cls.f1Score))})`,
               }}
             />
           </div>

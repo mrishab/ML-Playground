@@ -23,9 +23,9 @@ export function ROCContent({ metrics }: { metrics: ClassificationMetrics }) {
       </div>
       <div className="h-3 overflow-hidden rounded-full bg-muted">
         <div
-          className="h-full bg-violet-500 transition-[width] duration-300 ease-out"
+          className="h-full w-full origin-left bg-violet-500 transition-transform duration-300 ease-out"
           style={{
-            width: `${Math.max(0, Math.min(100, macroAUC * 100))}%`,
+            transform: `scaleX(${Math.max(0, Math.min(1, macroAUC))})`,
           }}
         />
       </div>

@@ -15,9 +15,9 @@ export function SelectDatasetActions({
         variant="outline"
         size="sm"
         onClick={onOpenUpload}
-        className="h-9 gap-1.5 text-xs sm:text-sm font-medium"
+        className="group h-9 gap-1.5 text-xs sm:text-sm font-medium"
       >
-        <Upload className="h-4 w-4 text-primary" />
+        <Upload className="h-4 w-4 text-primary transition-transform duration-150 ease-out group-hover:-translate-y-0.5" />
         <span>Upload CSV</span>
       </Button>
       <div className="w-full sm:w-52">

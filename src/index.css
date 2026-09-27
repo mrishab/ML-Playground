@@ -157,6 +157,12 @@
     -webkit-user-select: none;
     -webkit-touch-callout: none;
   }
+
+  a {
+    transition:
+      color 150ms cubic-bezier(0, 0, 0.2, 1),
+      opacity 150ms cubic-bezier(0, 0, 0.2, 1);
+  }
 }
 
 /* Scrollbar styling */
@@ -173,6 +179,7 @@
 ::-webkit-scrollbar-thumb {
   background: hsl(var(--muted-foreground) / 0.3);
   border-radius: 3px;
+  transition: background-color 150ms cubic-bezier(0, 0, 0.2, 1);
 }
 
 ::-webkit-scrollbar-thumb:hover {

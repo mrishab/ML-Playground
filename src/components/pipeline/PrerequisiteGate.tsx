@@ -26,9 +26,10 @@ export function PrerequisiteGate({ step }: { step: PipelineStepInfo }) {
               variant="outline"
               size="sm"
               onClick={() => navigate(-1)}
-              className="w-full sm:w-auto"
+              className="w-full sm:w-auto group"
             >
-              <ArrowLeft className="mr-1.5 h-4 w-4" /> Go Back
+              <ArrowLeft className="mr-1.5 h-4 w-4 transition-transform duration-150 ease-out group-hover:-translate-x-1" />{" "}
+              Go Back
             </Button>
             {unsatisfiedReq && (
               <Button

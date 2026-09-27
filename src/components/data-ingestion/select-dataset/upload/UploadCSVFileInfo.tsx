@@ -10,7 +10,7 @@ interface UploadCSVFileInfoProps {
 
 export function UploadCSVFileInfo({ parsed, onReset }: UploadCSVFileInfoProps) {
   return (
-    <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg border bg-muted/30 p-3 text-xs sm:text-sm">
+    <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg border bg-muted/30 p-3 text-xs sm:text-sm transition-[background-color,border-color] duration-150 ease-out">
       <div className="flex items-center gap-2 min-w-0">
         <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" />
         <span className="font-semibold truncate">{parsed.fileName}</span>
@@ -29,9 +29,9 @@ export function UploadCSVFileInfo({ parsed, onReset }: UploadCSVFileInfoProps) {
           variant="ghost"
           size="sm"
           onClick={onReset}
-          className="h-7 text-xs text-muted-foreground hover:text-foreground"
+          className="group h-7 text-xs text-muted-foreground hover:text-foreground transition-colors duration-150 ease-out"
         >
-          <RotateCcw className="mr-1 h-3 w-3" />
+          <RotateCcw className="mr-1 h-3 w-3 transition-transform duration-200 ease-out group-hover:-rotate-45" />
           Change File
         </Button>
       </div>

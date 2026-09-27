@@ -36,15 +36,15 @@ export function StaleWarningBanner({
             variant="outline"
             size="sm"
             onClick={onRevert}
-            className="h-8 text-xs border-amber-500/30 hover:bg-amber-500/15"
+            className="group h-8 text-xs border-amber-500/30 hover:bg-amber-500/15 transition-[background-color,border-color,color] duration-150 ease-out"
           >
-            <RotateCcw className="mr-1.5 h-3.5 w-3.5" />
+            <RotateCcw className="mr-1.5 h-3.5 w-3.5 transition-transform duration-200 ease-out group-hover:-rotate-45" />
             {revertLabel}
           </Button>
           <Button
             size="sm"
             onClick={onRecompute}
-            className="h-8 text-xs bg-amber-600 hover:bg-amber-700 text-white"
+            className="h-8 text-xs bg-amber-600 hover:bg-amber-700 text-white transition-[background-color,box-shadow,transform] duration-150 ease-out active:scale-95"
           >
             <Play className="mr-1.5 h-3.5 w-3.5 fill-current" />
             {recomputeLabel}

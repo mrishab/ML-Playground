@@ -29,14 +29,12 @@ export function ConfusionMatrixContent({
           </p>
         </div>
       </div>
-      <div className="flex h-3 overflow-hidden rounded-full">
+      <div className="relative h-3 overflow-hidden rounded-full bg-red-500">
         <div
-          className="bg-green-500 transition-[width] duration-300 ease-out"
-          style={{ width: `${correctPct}%` }}
-        />
-        <div
-          className="bg-red-500 transition-[width] duration-300 ease-out"
-          style={{ width: `${misclassifiedPct}%` }}
+          className="h-full w-full origin-left bg-green-500 transition-transform duration-300 ease-out"
+          style={{
+            transform: `scaleX(${Math.max(0, Math.min(1, correctPredictions / safeTotal))})`,
+          }}
         />
       </div>
       <p className="text-center text-xs text-muted-foreground">

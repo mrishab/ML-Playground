@@ -18,7 +18,7 @@ export function UploadCSVPreviewTable({
         </span>
         <span>{parsed.headers.length} columns detected</span>
       </div>
-      <div className="overflow-x-auto rounded-lg border bg-card max-h-48 text-xs">
+      <div className="overflow-x-auto rounded-lg border bg-card max-h-48 text-xs transition-[border-color,background-color] duration-150 ease-out">
         <table className="w-full border-collapse">
           <UploadCSVPreviewHeader
             headers={parsed.headers}
@@ -28,7 +28,7 @@ export function UploadCSVPreviewTable({
             {parsed.previewRows.map((row, idx) => (
               <tr
                 key={idx}
-                className="border-b last:border-0 hover:bg-muted/30 transition-colors"
+                className="border-b last:border-0 hover:bg-muted/30 transition-colors duration-150 ease-out"
               >
                 {parsed.headers.map((h) => (
                   <td

@@ -25,7 +25,7 @@ export function UploadCSVDropzone({
         onDragLeave={onDragLeave}
         onDrop={onDrop}
         onClick={() => fileInputRef.current?.click()}
-        className={`flex flex-col items-center justify-center rounded-xl border-2 border-dashed p-6 sm:p-10 text-center cursor-pointer transition-[border-color,background-color,transform] duration-150 ease-out ${
+        className={`group flex flex-col items-center justify-center rounded-xl border-2 border-dashed p-6 sm:p-10 text-center cursor-pointer transition-[border-color,background-color,transform] duration-150 ease-out active:scale-[0.99] ${
           isDragging
             ? "border-primary bg-primary/10 scale-[1.01]"
             : "border-muted-foreground/30 hover:border-primary/60 hover:bg-muted/30"
@@ -38,7 +38,7 @@ export function UploadCSVDropzone({
           onChange={onFileInputChange}
           className="hidden"
         />
-        <div className="rounded-full bg-primary/10 p-3 mb-3 text-primary">
+        <div className="rounded-full bg-primary/10 p-3 mb-3 text-primary transition-transform duration-150 ease-out group-hover:scale-105">
           <Upload className="h-6 w-6" />
         </div>
         <p className="text-sm sm:text-base font-semibold">

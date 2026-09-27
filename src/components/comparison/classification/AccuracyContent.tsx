@@ -17,9 +17,9 @@ export function AccuracyContent({
       </div>
       <div className="h-3 overflow-hidden rounded-full bg-muted">
         <div
-          className="h-full bg-blue-500 transition-[width] duration-300 ease-out"
+          className="h-full w-full origin-left bg-blue-500 transition-transform duration-300 ease-out"
           style={{
-            width: `${Math.max(0, Math.min(100, metrics.accuracy * 100))}%`,
+            transform: `scaleX(${Math.max(0, Math.min(1, metrics.accuracy))})`,
           }}
         />
       </div>
