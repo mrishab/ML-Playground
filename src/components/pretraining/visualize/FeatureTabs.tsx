@@ -1,5 +1,5 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import type { FeatureTabItem } from "./useFeatureTabs";
 
 type FeatureTabsProps = {
@@ -15,9 +15,9 @@ export function FeatureTabs({ tabs, defaultTab }: FeatureTabsProps) {
   const defaultValue = defaultTab ?? tabs[0].id;
 
   return (
-    <Tabs defaultValue={defaultValue} className="w-full">
-      <ScrollArea className="w-full">
-        <TabsList className="inline-flex w-max">
+    <Tabs defaultValue={defaultValue} className="w-full space-y-4">
+      <ScrollArea orientation="horizontal" className="w-full pb-3.5">
+        <TabsList className="inline-flex w-max mb-1">
           {tabs.map((tab) => (
             <TabsTrigger
               key={tab.id}
@@ -28,10 +28,9 @@ export function FeatureTabs({ tabs, defaultTab }: FeatureTabsProps) {
             </TabsTrigger>
           ))}
         </TabsList>
-        <ScrollBar orientation="horizontal" />
       </ScrollArea>
       {tabs.map((tab) => (
-        <TabsContent key={tab.id} value={tab.id}>
+        <TabsContent key={tab.id} value={tab.id} className="mt-0">
           {tab.content}
         </TabsContent>
       ))}
