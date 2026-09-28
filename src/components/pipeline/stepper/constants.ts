@@ -1,3 +1,3 @@
-import { Database, Search, BarChart3, Brain, Scale } from "lucide-react";
+import { Database, Search, BarChart3, Brain } from "lucide-react";
 
-export const STEP_ICONS = [Database, Search, BarChart3, Brain, Scale];
+export const STEP_ICONS = [Database, Search, BarChart3, Brain];

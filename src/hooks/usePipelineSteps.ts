@@ -23,7 +23,6 @@ export function usePipelineSteps() {
       isDatasetDirty: p.dirty.isDatasetDirty,
       isDownstreamStale: p.dirty.isDownstreamStale,
       defaultTrainRoute: p.routes.defaultTrainRoute,
-      defaultCompareRoute: p.routes.defaultCompareRoute,
     },
     currentStepId,
   );

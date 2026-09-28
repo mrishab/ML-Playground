@@ -1,13 +1,12 @@
 import type { PipelineStepInfo, StepId } from "@/stores/pipeline";
 import { buildStep3 } from "./step3Builder";
 import { buildStep4 } from "./step4Builder";
-import { buildStep5 } from "./step5Builder";
 import type { PipelineStepListParams } from "./stepListTypes";
 
 export function buildLateSteps(
   p: PipelineStepListParams,
   id: StepId,
-): [PipelineStepInfo, PipelineStepInfo, PipelineStepInfo] {
+): [PipelineStepInfo, PipelineStepInfo] {
   const s3 = buildStep3({
     isActive: id === 3,
     hasDataset: p.hasDataset,
@@ -24,14 +23,5 @@ export function buildLateSteps(
     defaultTrainRoute: p.defaultTrainRoute,
     modelArtifactDesc: p.modelDesc,
   });
-  const s5 = buildStep5({
-    isActive: id === 5,
-    hasDataset: p.hasDataset,
-    isSplitReady: p.isSplitReady,
-    hasTrainedModel: p.hasTrainedModel,
-    isDownstreamStale: p.isDownstreamStale,
-    defaultCompareRoute: p.defaultCompareRoute,
-    defaultTrainRoute: p.defaultTrainRoute,
-  });
-  return [s3, s4, s5];
+  return [s3, s4];
 }

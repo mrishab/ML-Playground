@@ -16,5 +16,4 @@ export interface PipelineStepListParams {
   isDatasetDirty: boolean;
   isDownstreamStale: boolean;
   defaultTrainRoute: string;
-  defaultCompareRoute: string;
 }

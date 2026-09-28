@@ -22,16 +22,11 @@ export function LDAPage() {
       summaryComponent={
         <ClassificationSummary metrics={metrics!} direction="vertical" />
       }
-      detailsComponent={
-        <ClassificationDetailsTabs
-          metrics={metrics!}
-          telemetry={pageState.lossTelemetry}
-        />
-      }
+      detailsComponent={<ClassificationDetailsTabs metrics={metrics!} />}
       nextStepProps={{
-        message: "Model trained.",
-        linkTo: "/comparison/classification",
-        linkText: "Compare Models",
+        message: "Model training complete.",
+        linkTo: "/data/select",
+        linkText: "Start New Pipeline",
       }}
       onRun={pageState.runTraining}
       onReset={pageState.reset}

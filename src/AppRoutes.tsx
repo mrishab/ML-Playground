@@ -8,9 +8,7 @@ import { LinearRegressionPage } from "@/components/training/linear-regression/Li
 import { KNNPage } from "@/components/training/knn/KNNPage";
 import { LDAPage } from "@/components/training/lda/LDAPage";
 import { LogisticRegressionPage } from "@/components/training/logistic-regression/LogisticRegressionPage";
-import { ClassificationComparisonPage } from "@/components/comparison/classification/ClassificationComparisonPage";
-import { RegressionComparisonPage } from "@/components/comparison/regression/RegressionComparisonPage";
-import { ClusterComparisonPage } from "@/components/comparison/clustering/ClusterComparisonPage";
+import { KMeansPage } from "@/components/training/kmeans/KMeansPage";
 
 const REDIRECTS = [
   { path: "pretrain", to: "/pretrain/explore" },
@@ -18,6 +16,10 @@ const REDIRECTS = [
   { path: "pretrain/analyze", to: "/analyze" },
   { path: "visualize", to: "/analyze" },
   { path: "validation", to: "/data/select" },
+  { path: "comparison", to: "/train/linear" },
+  { path: "comparison/classification", to: "/train/knn" },
+  { path: "comparison/regression", to: "/train/linear" },
+  { path: "comparison/clustering", to: "/train/clustering" },
 ] as const;
 
 export function AppRoutes() {
@@ -33,19 +35,7 @@ export function AppRoutes() {
         <Route path="train/knn" element={<KNNPage />} />
         <Route path="train/lda" element={<LDAPage />} />
         <Route path="train/logistic" element={<LogisticRegressionPage />} />
-        <Route path="train/clustering" element={<ClusterComparisonPage />} />
-        <Route
-          path="comparison/classification"
-          element={<ClassificationComparisonPage />}
-        />
-        <Route
-          path="comparison/regression"
-          element={<RegressionComparisonPage />}
-        />
-        <Route
-          path="comparison/clustering"
-          element={<ClusterComparisonPage />}
-        />
+        <Route path="train/clustering" element={<KMeansPage />} />
         {REDIRECTS.map(({ path, to }) => (
           <Route
             key={path}

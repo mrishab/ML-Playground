@@ -1,13 +1,13 @@
 import { CircleDot } from "lucide-react";
 import { TrainingPageLayout } from "@/components/shared/TrainingPageLayout";
-import { useKMeansPage } from "@/components/training/kmeans/useKMeansPage";
-import { KMeansConfigCard } from "@/components/training/kmeans/KMeansConfigCard";
-import { ClusterSummaryCards } from "@/components/training/kmeans/ClusterSummaryCards";
-import { ClusterDetailsTabs } from "@/components/training/kmeans/ClusterDetailsTabs";
+import { useKMeansPage } from "./useKMeansPage";
+import { KMeansConfigCard } from "./KMeansConfigCard";
+import { ClusterSummaryCards } from "./ClusterSummaryCards";
+import { ClusterDetailsTabs } from "./ClusterDetailsTabs";
 
-export function ClusterComparisonPage() {
+export function KMeansPage() {
   const pageState = useKMeansPage();
-  const { metrics, k, setK, trainingState, xTrain, lossTelemetry } = pageState;
+  const { metrics, k, setK, trainingState, xTrain } = pageState;
   const rawData = (xTrain?.values as number[][]) ?? [];
 
   return (
@@ -31,11 +31,7 @@ export function ClusterComparisonPage() {
       }
       summaryComponent={<ClusterSummaryCards metrics={metrics!} />}
       detailsComponent={
-        <ClusterDetailsTabs
-          data={rawData}
-          metrics={metrics!}
-          telemetry={lossTelemetry}
-        />
+        <ClusterDetailsTabs data={rawData} metrics={metrics!} />
       }
       nextStepProps={{
         message: "Clustering complete.",

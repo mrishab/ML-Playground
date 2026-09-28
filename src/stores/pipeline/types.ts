@@ -1,6 +1,6 @@
 import type { ProblemType, SelectedFeature } from "@/stores/mlConfig";
 
-export type StepId = 1 | 2 | 3 | 4 | 5;
+export type StepId = 1 | 2 | 3 | 4;
 
 export type StepStatus = "completed" | "active" | "locked" | "stale";
 

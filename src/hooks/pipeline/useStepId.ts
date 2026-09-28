@@ -9,6 +9,5 @@ export function useStepId(): StepId {
     return 3;
   }
   if (pathname.startsWith("/train")) return 4;
-  if (pathname.startsWith("/comparison")) return 5;
   return 1;
 }

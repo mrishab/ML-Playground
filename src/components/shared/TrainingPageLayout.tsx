@@ -31,8 +31,9 @@ export function TrainingPageLayout(props: TrainingPageLayoutProps) {
     props.nextStepProps,
     props.onRun,
   );
-  const showLiveLoss =
-    props.trainingState === "training" && props.lossTelemetry;
+  const showLiveLoss = Boolean(
+    props.lossTelemetry && props.lossTelemetry.history.length > 0,
+  );
 
   return (
     <PageLayout

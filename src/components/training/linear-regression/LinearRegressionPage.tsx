@@ -6,7 +6,7 @@ import { useLinearRegressionPage } from "./useLinearRegressionPage";
 
 export function LinearRegressionPage() {
   const pageState = useLinearRegressionPage();
-  const { metrics, lossTelemetry } = pageState;
+  const { metrics } = pageState;
 
   return (
     <TrainingPageLayout
@@ -19,16 +19,11 @@ export function LinearRegressionPage() {
       summaryComponent={
         <MetricsSummary metrics={metrics!} direction="vertical" />
       }
-      detailsComponent={
-        <LinearRegressionDetailsTabs
-          metrics={metrics!}
-          telemetry={lossTelemetry}
-        />
-      }
+      detailsComponent={<LinearRegressionDetailsTabs metrics={metrics!} />}
       nextStepProps={{
-        message: "Model trained.",
-        linkTo: "/comparison/regression",
-        linkText: "Compare Models",
+        message: "Model training complete.",
+        linkTo: "/data/select",
+        linkText: "Start New Pipeline",
       }}
       onRun={pageState.runTraining}
       onReset={pageState.reset}

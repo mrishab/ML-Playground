@@ -8,12 +8,5 @@ export function usePipelineRoutes(problemType: ProblemType) {
         ? "/train/clustering"
         : "/train/knn";
 
-  const defaultCompareRoute =
-    problemType === "regression"
-      ? "/comparison/regression"
-      : problemType === "clustering"
-        ? "/comparison/clustering"
-        : "/comparison/classification";
-
-  return { defaultTrainRoute, defaultCompareRoute };
+  return { defaultTrainRoute };
 }
