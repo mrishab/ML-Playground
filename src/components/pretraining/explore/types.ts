@@ -1,4 +1,4 @@
-import type { ProblemType } from "@/stores/mlConfig";
+import type { ProblemType, SelectedFeature } from "@/stores/mlConfig";
 
 export interface DataSplitSettingsCardProps {
   problemType: ProblemType;
@@ -7,7 +7,13 @@ export interface DataSplitSettingsCardProps {
   setShuffle: (s: boolean) => void;
   testSplitPercent: number;
   setTestSplitPercent: (p: number) => void;
+  isSplit: boolean;
+  isExploreDirty: boolean;
+  canSplit: boolean;
+  performSplit: () => void;
   targetColumn: string;
-  setTargetColumn: (c: string) => void;
-  columns: string[];
+  selectedFeatures: SelectedFeature[];
+  hasDefaultConfig?: boolean;
+  isLoadingConfig?: boolean;
+  loadDefaultConfig?: () => void;
 }

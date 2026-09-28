@@ -5,7 +5,6 @@ import { usePipelineSteps } from "@/hooks/usePipelineSteps";
 import { useExplorePrimaryAction } from "./useExplorePrimaryAction";
 import { ExploreLeftColumn } from "./ExploreLeftColumn";
 import { ExploreRightColumn } from "./ExploreRightColumn";
-import { ExploreLoadDefaultButton } from "./ExploreLoadDefaultButton";
 import { ExploreWarningBanner } from "./ExploreWarningBanner";
 import { ExplorePrereqGate } from "./ExplorePrereqGate";
 
@@ -26,14 +25,6 @@ export function ExplorePage() {
       icon={Search}
       title="Pretrain & Split"
       subtitle={`Features & train/test split for ${explore.selectedDataset}`}
-      actions={
-        explore.hasDefaultConfig ? (
-          <ExploreLoadDefaultButton
-            isLoading={explore.isLoadingConfig}
-            onClick={explore.loadDefaultConfig}
-          />
-        ) : undefined
-      }
       primaryAction={primaryAction}
     >
       {explore.isExploreDirty && (

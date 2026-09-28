@@ -1,6 +1,5 @@
-import { DataSplitSettingsCard } from "./DataSplitSettingsCard";
 import { FeatureSelectionCard } from "./FeatureSelectionCard";
-import { ExploreSplitButton } from "./ExploreSplitButton";
+import { DataSplitSettingsCard } from "./DataSplitSettingsCard";
 import { SplitResults } from "./SplitResults";
 import type { useExplorePage } from "./useExplorePage";
 
@@ -13,18 +12,10 @@ interface ExploreLeftColumnProps {
 export function ExploreLeftColumn({ explore }: ExploreLeftColumnProps) {
   return (
     <div className="space-y-4">
-      <DataSplitSettingsCard
-        problemType={explore.problemType}
-        setProblemType={explore.setProblemType}
-        shuffle={explore.shuffle}
-        setShuffle={explore.setShuffle}
-        testSplitPercent={explore.testSplitPercent}
-        setTestSplitPercent={explore.setTestSplitPercent}
+      <FeatureSelectionCard
         targetColumn={explore.targetColumn}
         setTargetColumn={explore.setTargetColumn}
         columns={explore.columns}
-      />
-      <FeatureSelectionCard
         numericColumns={explore.numericColumns}
         selectedFeatures={explore.selectedFeatures}
         availableInteractionColumns={explore.availableInteractionColumns}
@@ -33,13 +24,22 @@ export function ExploreLeftColumn({ explore }: ExploreLeftColumnProps) {
         updateFeatureTransformation={explore.updateFeatureTransformation}
         clearFeatures={explore.clearFeatures}
       />
-      <ExploreSplitButton
+      <DataSplitSettingsCard
+        problemType={explore.problemType}
+        setProblemType={explore.setProblemType}
+        shuffle={explore.shuffle}
+        setShuffle={explore.setShuffle}
+        testSplitPercent={explore.testSplitPercent}
+        setTestSplitPercent={explore.setTestSplitPercent}
         isSplit={explore.isSplit}
         isExploreDirty={explore.isExploreDirty}
         canSplit={explore.canSplit}
         performSplit={explore.performSplit}
         targetColumn={explore.targetColumn}
         selectedFeatures={explore.selectedFeatures}
+        hasDefaultConfig={explore.hasDefaultConfig}
+        isLoadingConfig={explore.isLoadingConfig}
+        loadDefaultConfig={explore.loadDefaultConfig}
       />
       <SplitResults
         stats={explore.splitStats}
