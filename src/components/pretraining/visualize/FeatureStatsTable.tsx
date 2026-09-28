@@ -33,7 +33,10 @@ export function FeatureStatsTable({ analysis }: Props) {
             </thead>
             <tbody>
               {rows.map((row) => (
-                <tr key={row.metric} className="border-b/50 hover:bg-muted/30">
+                <tr
+                  key={row.metric}
+                  className="border-b/50 transition-colors duration-150 ease-out hover:bg-muted/30"
+                >
                   <td className="py-1.5 font-medium">{row.metric}</td>
                   <td className="py-1.5 text-right font-mono">{row.x}</td>
                   <td className="py-1.5 text-right font-mono">{row.y}</td>

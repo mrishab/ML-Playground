@@ -15,7 +15,7 @@ export function FeatureSummaryRow({ item, rank }: Props) {
         : "secondary";
 
   return (
-    <tr className="border-b/50 hover:bg-muted/30">
+    <tr className="border-b/50 transition-colors duration-150 ease-out hover:bg-muted/30">
       <td className="py-2 font-mono text-muted-foreground">{rank}</td>
       <td className="py-2 font-medium">{item.feature}</td>
       <td className="py-2 text-right font-mono font-semibold">
