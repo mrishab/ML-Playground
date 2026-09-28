@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom";
 import { SiteHeader } from "./components/site-header";
 import { PipelineStepper } from "./components/pipeline/PipelineStepper";
 import { PrerequisitesModal } from "./components/pipeline/PrerequisitesModal";
+import { BugReportBubble } from "./components/feedback/BugReportBubble";
 
 export function AppShell() {
   return (
@@ -12,6 +13,7 @@ export function AppShell() {
         <Outlet />
       </main>
       <PrerequisitesModal />
+      <BugReportBubble />
     </div>
   );
 }
