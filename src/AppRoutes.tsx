@@ -10,6 +10,7 @@ import { LDAPage } from "@/components/training/lda/LDAPage";
 import { LogisticRegressionPage } from "@/components/training/logistic-regression/LogisticRegressionPage";
 import { KMeansPage } from "@/components/training/kmeans/KMeansPage";
 import { ModelsPage } from "@/components/models/ModelsPage";
+import { DatasetsPage } from "@/components/datasets/DatasetsPage";
 
 const REDIRECTS = [
   { path: "pretrain", to: "/pretrain/explore" },
@@ -23,6 +24,9 @@ const REDIRECTS = [
   { path: "comparison/clustering", to: "/train/clustering" },
   { path: "models/manage", to: "/models" },
   { path: "manage-models", to: "/models" },
+  { path: "datasets", to: "/data/manage" },
+  { path: "datasets/manage", to: "/data/manage" },
+  { path: "manage-datasets", to: "/data/manage" },
 ] as const;
 
 export function AppRoutes() {
@@ -31,6 +35,7 @@ export function AppRoutes() {
       <Route element={<AppShell />}>
         <Route index element={<Navigate to="/data/select" replace />} />
         <Route path="data/select" element={<SelectDatasetPage />} />
+        <Route path="data/manage" element={<DatasetsPage />} />
         <Route path="data/transform" element={<TransformPage />} />
         <Route path="pretrain/explore" element={<ExplorePage />} />
         <Route path="analyze" element={<VisualizePage />} />

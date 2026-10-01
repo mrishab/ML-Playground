@@ -4,6 +4,8 @@ import { useMLConfigStore } from "@/stores/mlConfig";
 import { useTrainingResultsStore } from "@/stores/trainingResults";
 import { loadStandardDataset } from "./loadStandardDataset";
 import { loadCustomDataset } from "./loadCustomDataset";
+import { loadSavedDataset } from "./loadSavedDataset";
+import { getSavedDatasets } from "@/lib/datasets/storage";
 
 export function useDatasetLoader() {
   const selectedDataset = useDatasetStore((s) => s.selectedDataset);
@@ -26,22 +28,16 @@ export function useDatasetLoader() {
 
     const custom = customDatasets.find((d) => d.name === selectedDataset);
     if (custom) {
-      loadCustomDataset({
-        custom,
-        setDf,
-        setLoading,
-        setError,
-        onReset: resetAll,
-      });
+      loadCustomDataset({ custom, setDf, setLoading, setError, onReset: resetAll });
       return;
     }
 
-    loadStandardDataset({
-      datasetName: selectedDataset,
-      setLoading,
-      setError,
-      setDf,
-      onReset: resetAll,
-    });
+    const saved = getSavedDatasets().find((d) => d.name === selectedDataset);
+    if (saved) {
+      loadSavedDataset({ saved, setDf, setLoading, setError, onReset: resetAll });
+      return;
+    }
+
+    loadStandardDataset({ datasetName: selectedDataset, setLoading, setError, setDf, onReset: resetAll });
   }, [selectedDataset, customDatasets]);
 }

@@ -23,7 +23,7 @@ export function CustomDatasetMenuItems({
   return (
     <>
       <DropdownMenuLabel className="text-[10px] text-muted-foreground">
-        Uploaded Datasets
+        Saved & Custom Datasets
       </DropdownMenuLabel>
       {customDatasets.map((dataset) => (
         <DropdownMenuItem

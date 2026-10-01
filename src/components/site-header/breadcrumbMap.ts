@@ -2,6 +2,8 @@ export const BREADCRUMB_MAP = {
   data: "Data Ingestion",
   select: "Select Dataset",
   transform: "Transform",
+  manage: "Manage Datasets",
+  datasets: "Saved Datasets",
   pretrain: "Pretraining",
   explore: "Explore & Split",
   visualize: "Feature Analysis",
