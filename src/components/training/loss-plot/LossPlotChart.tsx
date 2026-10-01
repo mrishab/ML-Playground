@@ -13,11 +13,7 @@ export function LossPlotChart({ telemetry }: { telemetry: LossTelemetry }) {
   const rawId = useId();
   const gradId = `loss-grad-${rawId.replace(/:/g, "")}`;
   const palette = COLOR_PALETTES[telemetry.kind];
-  const paths = buildLossPaths(
-    telemetry.history,
-    telemetry.totalSteps,
-    DEFAULT_DIM,
-  );
+  const paths = buildLossPaths(telemetry.history, telemetry.totalSteps, DEFAULT_DIM);
   const hover = useLossPlotHover(paths.points, DEFAULT_DIM.width);
 
   return (

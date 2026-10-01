@@ -29,6 +29,10 @@
 }
 
 @layer base {
+  :root {
+    color-scheme: light dark;
+  }
+
   :root,
   .light {
     color-scheme: light;

@@ -10,14 +10,7 @@ interface TracesProps {
   lastPoint?: ScaledPoint;
 }
 
-export function LossPlotTraces({
-  gradId,
-  palette,
-  areaPath,
-  linePath,
-  valLinePath,
-  lastPoint,
-}: TracesProps) {
+export function LossPlotTraces({ gradId, palette, areaPath, linePath, valLinePath, lastPoint }: TracesProps) {
   return (
     <>
       <defs>
@@ -28,39 +21,15 @@ export function LossPlotTraces({
       </defs>
       {areaPath && <path d={areaPath} fill={`url(#${gradId})`} />}
       {linePath && (
-        <path
-          d={linePath}
-          fill="none"
-          stroke={palette.primary}
-          strokeWidth={2.5}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
+        <path d={linePath} fill="none" stroke={palette.primary} strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" />
       )}
       {valLinePath && (
-        <path
-          d={valLinePath}
-          fill="none"
-          stroke={palette.val}
-          strokeWidth={1.8}
-          strokeDasharray="4 4"
-        />
+        <path d={valLinePath} fill="none" stroke={palette.val} strokeWidth={1.8} strokeDasharray="4 4" />
       )}
       {lastPoint && (
         <g>
-          <circle
-            cx={lastPoint.x}
-            cy={lastPoint.y}
-            r={6}
-            fill={palette.primary}
-            fillOpacity={0.25}
-          />
-          <circle
-            cx={lastPoint.x}
-            cy={lastPoint.y}
-            r={3.5}
-            fill={palette.primary}
-          />
+          <circle cx={lastPoint.x} cy={lastPoint.y} r={6} fill={palette.primary} fillOpacity={0.25} />
+          <circle cx={lastPoint.x} cy={lastPoint.y} r={3.5} fill={palette.primary} />
         </g>
       )}
     </>
