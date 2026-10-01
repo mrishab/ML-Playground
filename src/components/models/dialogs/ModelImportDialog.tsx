@@ -40,11 +40,15 @@ export function ModelImportDialog({ open, onClose, onImport }: ImportDialogProps
             Select a previously exported model JSON file to restore it to local storage.
           </DialogDescription>
         </DialogHeader>
-        <div className="flex flex-col items-center justify-center border-2 border-dashed border-border/80 rounded-lg p-6 hover:bg-muted/10 cursor-pointer" onClick={() => fileRef.current?.click()}>
+        <button
+          type="button"
+          className="flex flex-col items-center justify-center border-2 border-dashed border-border/80 rounded-lg p-6 hover:bg-muted/10 cursor-pointer w-full transition-[background-color] duration-150 ease-out"
+          onClick={() => fileRef.current?.click()}
+        >
           <Upload className="h-8 w-8 text-muted-foreground mb-2" />
           <p className="text-xs font-medium text-foreground">Click to upload JSON file</p>
           <input ref={fileRef} type="file" accept=".json" onChange={handleFileChange} className="hidden" />
-        </div>
+        </button>
         {error && <p className="text-xs text-destructive">{error}</p>}
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>Cancel</Button>

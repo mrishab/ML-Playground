@@ -1,4 +1,4 @@
-import { HardDrive, Layers, Database } from "lucide-react";
+import { HardDrive, Database } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import type { SavedModel } from "@/types/savedModel";
