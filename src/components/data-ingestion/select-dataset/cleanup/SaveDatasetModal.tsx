@@ -24,12 +24,12 @@ export function SaveDatasetModal({ open, onOpenChange }: SaveDatasetModalProps) 
         </DialogHeader>
         <div className="space-y-3 py-2">
           <div className="space-y-1.5">
-            <label className="text-xs font-medium text-foreground">Dataset Name</label>
-            <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. iris_cleaned" />
+            <label htmlFor="save-dataset-name" className="text-xs font-medium text-foreground">Dataset Name</label>
+            <Input id="save-dataset-name" value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. iris_cleaned" />
           </div>
           <div className="space-y-1.5">
-            <label className="text-xs font-medium text-foreground">Notes / Description (Optional)</label>
-            <Input value={description} onChange={(e) => setDescription(e.target.value)} placeholder="e.g. Imputed null ages, dropped outliers" />
+            <label htmlFor="save-dataset-desc" className="text-xs font-medium text-foreground">Notes / Description (Optional)</label>
+            <Input id="save-dataset-desc" value={description} onChange={(e) => setDescription(e.target.value)} placeholder="e.g. Imputed null ages, dropped outliers" />
           </div>
         </div>
         <DialogFooter className="flex sm:justify-between items-center gap-2">

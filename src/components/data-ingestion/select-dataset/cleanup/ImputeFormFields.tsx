@@ -17,9 +17,9 @@ export function ImputeFormFields(p: FormFieldsProps) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
       <div className="space-y-1.5">
-        <label className="text-xs font-medium text-muted-foreground">Target Column</label>
+        <label htmlFor="impute-target-col" className="text-xs font-medium text-muted-foreground">Target Column</label>
         <Select value={p.selectedCol} onValueChange={p.onSelectCol}>
-          <SelectTrigger className="h-9"><SelectValue placeholder="Select column" /></SelectTrigger>
+          <SelectTrigger id="impute-target-col" className="h-9"><SelectValue placeholder="Select column" /></SelectTrigger>
           <SelectContent>
             {p.columns.map((c) => {
               const m = p.missingSummary.byColumn.find((item) => item.column === c)?.missing ?? 0;
@@ -29,9 +29,9 @@ export function ImputeFormFields(p: FormFieldsProps) {
         </Select>
       </div>
       <div className="space-y-1.5">
-        <label className="text-xs font-medium text-muted-foreground">Strategy</label>
+        <label htmlFor="impute-strategy-select" className="text-xs font-medium text-muted-foreground">Strategy</label>
         <Select value={p.strategy} onValueChange={(v) => p.onStrategyChange(v as ImputationStrategy)}>
-          <SelectTrigger className="h-9"><SelectValue /></SelectTrigger>
+          <SelectTrigger id="impute-strategy-select" className="h-9"><SelectValue /></SelectTrigger>
           <SelectContent>
             <SelectItem value="mean">Mean (Average)</SelectItem>
             <SelectItem value="median">Median (Middle value)</SelectItem>
@@ -44,8 +44,8 @@ export function ImputeFormFields(p: FormFieldsProps) {
       </div>
       {p.strategy === "constant" && (
         <div className="space-y-1.5">
-          <label className="text-xs font-medium text-muted-foreground">Constant Value</label>
-          <Input className="h-9" placeholder="Enter value..." value={p.constantVal} onChange={(e) => p.onConstantChange(e.target.value)} />
+          <label htmlFor="impute-constant-val" className="text-xs font-medium text-muted-foreground">Constant Value</label>
+          <Input id="impute-constant-val" className="h-9" placeholder="Enter value..." value={p.constantVal} onChange={(e) => p.onConstantChange(e.target.value)} />
         </div>
       )}
     </div>

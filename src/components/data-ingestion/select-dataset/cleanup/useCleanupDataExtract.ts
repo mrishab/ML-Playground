@@ -25,7 +25,7 @@ export function useCleanupDataExtract(df: DataFrame | null) {
   );
 
   const numericColumns = useMemo(() => {
-    return columns.filter((col, idx) => {
+    return columns.filter((_col, idx) => {
       let numericHits = 0;
       let sampleHits = 0;
       for (let r = 0; r < Math.min(values.length, 30); r++) {
