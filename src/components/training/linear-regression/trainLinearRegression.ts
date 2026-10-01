@@ -41,7 +41,10 @@ export async function trainLinearRegression(
     const intc = (model as unknown as { intercept?: number | { arraySync?: () => number[] } }).intercept;
     const iArr = intc && typeof intc === "object" && intc.arraySync ? intc.arraySync() : intc;
     intercept = typeof iArr === "number" ? iArr : (Array.isArray(iArr) ? iArr[0] : 0);
-  } catch {}
+  } catch {
+    coefs = [];
+    intercept = 0;
+  }
 
   const predictions = toNumericArray(await model.predict(XTestData));
   const metrics = calculateMetrics(predictions, yTestData, { coefficients: coefs, intercept });
