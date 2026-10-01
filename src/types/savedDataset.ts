@@ -26,5 +26,3 @@ export type SavedDataset = {
   history?: CleanupHistoryEntry[];
   sizeBytes: number;
 };
-
-export type SavedDatasetSummary = Omit<SavedDataset, "data">;

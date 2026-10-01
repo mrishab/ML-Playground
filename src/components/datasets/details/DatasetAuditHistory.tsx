@@ -5,7 +5,9 @@ interface AuditHistoryProps {
   history?: CleanupHistoryEntry[];
 }
 
-export function DatasetAuditHistory({ history = [] }: AuditHistoryProps) {
+const DEFAULT_HISTORY: CleanupHistoryEntry[] = [];
+
+export function DatasetAuditHistory({ history = DEFAULT_HISTORY }: AuditHistoryProps) {
   if (history.length === 0) {
     return (
       <div className="py-8 text-center text-xs text-muted-foreground border border-dashed border-border rounded-md">

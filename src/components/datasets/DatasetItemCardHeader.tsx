@@ -1,4 +1,4 @@
-import { Database, Sparkles, UploadCloud, FileText } from "lucide-react";
+import { Database, Sparkles } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { formatFileSize } from "@/lib/csv-upload/formatFileSize";
 import type { SavedDataset } from "@/types/savedDataset";
