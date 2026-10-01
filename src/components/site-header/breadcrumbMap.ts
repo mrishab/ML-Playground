@@ -12,6 +12,7 @@ export const BREADCRUMB_MAP = {
   lda: "LDA",
   logistic: "Logistic Regression",
   clustering: "K-Means Clustering",
+  models: "Saved Models",
 } as const satisfies Record<string, string>;
 
 export type BreadcrumbSegment = keyof typeof BREADCRUMB_MAP;

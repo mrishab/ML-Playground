@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import { useTrainingData } from "@/components/training/shared/useTrainingData";
 import { createTelemetryUpdater } from "@/components/training/shared/createTelemetryUpdater";
+import { saveTrainedModel } from "@/lib/models/saveTrainedModel";
 import { trainLDA } from "./trainLDA";
 import { useLDAStore } from "./useLDAStore";
 
@@ -28,16 +29,15 @@ export function useLDAPage() {
       25,
     );
     try {
-      const results = await trainLDA(
-        xTrain,
-        yTrain,
-        xTest,
-        yTest,
-        targetColumn,
-        onStep,
-      );
+      const results = await trainLDA(xTrain, yTrain, xTest, yTest, targetColumn, onStep);
       setMetrics(results);
       setTrainingState("complete");
+      saveTrainedModel({
+        algorithm: "lda",
+        algorithmName: "Linear Discriminant Analysis",
+        hyperparameters: { covariance: "Pooled (shared)", priors: "Empirical" },
+        metrics: results,
+      });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Training failed");
       setTrainingState("error");

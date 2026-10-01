@@ -10,7 +10,7 @@ export function useStepList(
 ): PipelineStepInfo[] {
   return useMemo(() => {
     const [s1, s2] = buildEarlySteps(p, currentStepId);
-    const [s3, s4] = buildLateSteps(p, currentStepId);
-    return [s1, s2, s3, s4];
+    const [s3, s4, s5] = buildLateSteps(p, currentStepId);
+    return [s1, s2, s3, s4, s5];
   }, [p, currentStepId]);
 }

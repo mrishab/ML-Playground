@@ -23,6 +23,8 @@ export function usePipelineSteps() {
       isDatasetDirty: p.dirty.isDatasetDirty,
       isDownstreamStale: p.dirty.isDownstreamStale,
       defaultTrainRoute: p.routes.defaultTrainRoute,
+      hasSavedModels: p.hasSavedModels,
+      savedModelsCount: p.savedModelsCount,
     },
     currentStepId,
   );

@@ -5,6 +5,7 @@ import { ThemeToggle } from "@/components/shared/ThemeToggle";
 import { AuthorLink } from "./site-header/AuthorLink";
 import { SponsorButton } from "./site-header/SponsorButton";
 import { HeaderBreadcrumbs } from "./site-header/HeaderBreadcrumbs";
+import { ModelStorageStat } from "./site-header/ModelStorageStat";
 
 export function SiteHeader() {
   return (
@@ -22,6 +23,7 @@ export function SiteHeader() {
         <Separator orientation="vertical" className="hidden h-4 sm:block" />
         <HeaderBreadcrumbs />
         <div className="ml-auto flex items-center gap-1.5 sm:gap-2 shrink-0">
+          <ModelStorageStat />
           <AuthorLink />
           <SponsorButton />
           <ThemeToggle />

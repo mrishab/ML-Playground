@@ -14,6 +14,7 @@ export function usePipelineNav({
   currentStepId,
   hasDataset,
   isSplitReady,
+  hasTrainedModel,
 }: PipelineNavParams) {
   const prevStepRoute =
     currentStepId === 1 ? null : (steps[currentStepId - 2]?.route ?? null);
@@ -21,16 +22,17 @@ export function usePipelineNav({
     currentStepId === 1 ? null : (steps[currentStepId - 2]?.shortTitle ?? null);
 
   const nextStepRoute =
-    currentStepId === 4 ? null : (steps[currentStepId]?.route ?? null);
+    currentStepId === 5 ? null : (steps[currentStepId]?.route ?? null);
   const nextStepLabel =
-    currentStepId === 4 ? null : (steps[currentStepId]?.shortTitle ?? null);
+    currentStepId === 5 ? null : (steps[currentStepId]?.shortTitle ?? null);
 
   const canProceedToNext = useMemo(() => {
     if (currentStepId === 1) return hasDataset;
     if (currentStepId === 2) return isSplitReady;
     if (currentStepId === 3) return isSplitReady;
+    if (currentStepId === 4) return hasTrainedModel;
     return false;
-  }, [currentStepId, hasDataset, isSplitReady]);
+  }, [currentStepId, hasDataset, isSplitReady, hasTrainedModel]);
 
   return {
     prevStepRoute,

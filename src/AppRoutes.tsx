@@ -9,6 +9,7 @@ import { KNNPage } from "@/components/training/knn/KNNPage";
 import { LDAPage } from "@/components/training/lda/LDAPage";
 import { LogisticRegressionPage } from "@/components/training/logistic-regression/LogisticRegressionPage";
 import { KMeansPage } from "@/components/training/kmeans/KMeansPage";
+import { ModelsPage } from "@/components/models/ModelsPage";
 
 const REDIRECTS = [
   { path: "pretrain", to: "/pretrain/explore" },
@@ -20,6 +21,8 @@ const REDIRECTS = [
   { path: "comparison/classification", to: "/train/knn" },
   { path: "comparison/regression", to: "/train/linear" },
   { path: "comparison/clustering", to: "/train/clustering" },
+  { path: "models/manage", to: "/models" },
+  { path: "manage-models", to: "/models" },
 ] as const;
 
 export function AppRoutes() {
@@ -36,12 +39,9 @@ export function AppRoutes() {
         <Route path="train/lda" element={<LDAPage />} />
         <Route path="train/logistic" element={<LogisticRegressionPage />} />
         <Route path="train/clustering" element={<KMeansPage />} />
+        <Route path="models" element={<ModelsPage />} />
         {REDIRECTS.map(({ path, to }) => (
-          <Route
-            key={path}
-            path={path}
-            element={<Navigate to={to} replace />}
-          />
+          <Route key={path} path={path} element={<Navigate to={to} replace />} />
         ))}
       </Route>
     </Routes>

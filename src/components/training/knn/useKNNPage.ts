@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import { useTrainingData } from "@/components/training/shared/useTrainingData";
 import { createTelemetryUpdater } from "@/components/training/shared/createTelemetryUpdater";
+import { saveTrainedModel } from "@/lib/models/saveTrainedModel";
 import { trainKNN } from "./trainKNN";
 import { useKNNK } from "./useKNNK";
 import { useKNNStore } from "./useKNNStore";
@@ -30,17 +31,16 @@ export function useKNNPage() {
       25,
     );
     try {
-      const results = await trainKNN(
-        xTrain,
-        yTrain,
-        xTest,
-        yTest,
-        targetColumn,
-        k,
-        onStep,
-      );
+      const results = await trainKNN(xTrain, yTrain, xTest, yTest, targetColumn, k, onStep);
       setMetrics(results);
       setTrainingState("complete");
+      saveTrainedModel({
+        algorithm: "knn",
+        algorithmName: "K-Nearest Neighbors",
+        hyperparameters: { k, distanceMetric: "Euclidean" },
+        metrics: results,
+        k,
+      });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Training failed");
       setTrainingState("error");

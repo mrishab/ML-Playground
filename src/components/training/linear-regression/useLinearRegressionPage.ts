@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import { useTrainingData } from "@/components/training/shared/useTrainingData";
 import { createTelemetryUpdater } from "@/components/training/shared/createTelemetryUpdater";
+import { saveTrainedModel } from "@/lib/models/saveTrainedModel";
 import { trainLinearRegression } from "./trainLinearRegression";
 import { useLinearRegressionStore } from "./useLinearRegressionStore";
 
@@ -35,6 +36,12 @@ export function useLinearRegressionPage() {
       );
       setMetrics(results);
       setTrainingState("complete");
+      saveTrainedModel({
+        algorithm: "linear",
+        algorithmName: "Linear Regression (OLS)",
+        hyperparameters: { fitIntercept: true },
+        metrics: results,
+      });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Training failed");
       setTrainingState("error");

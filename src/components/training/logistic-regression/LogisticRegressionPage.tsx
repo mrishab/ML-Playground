@@ -26,8 +26,8 @@ export function LogisticRegressionPage() {
       detailsComponent={<ClassificationDetailsTabs metrics={metrics!} />}
       nextStepProps={{
         message: "Model training complete.",
-        linkTo: "/data/select",
-        linkText: "Start New Pipeline",
+        linkTo: "/models",
+        linkText: "Manage Saved Models",
       }}
       onRun={pageState.runTraining}
       onReset={pageState.reset}

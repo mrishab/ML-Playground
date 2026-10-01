@@ -15,4 +15,10 @@ export type RegressionMetrics = {
   // Predictions
   predictions: number[];
   actuals: number[];
+
+  // Learned parameters
+  weights?: {
+    coefficients: number[];
+    intercept: number;
+  };
 };

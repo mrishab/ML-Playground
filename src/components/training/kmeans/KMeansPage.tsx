@@ -35,8 +35,8 @@ export function KMeansPage() {
       }
       nextStepProps={{
         message: "Clustering complete.",
-        linkTo: "/data/select",
-        linkText: "Start New Pipeline",
+        linkTo: "/models",
+        linkText: "Manage Saved Models",
       }}
       onRun={pageState.runTraining}
       onReset={pageState.reset}

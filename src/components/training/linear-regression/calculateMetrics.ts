@@ -3,6 +3,7 @@ import type { RegressionMetrics } from "@/types/regression";
 export function calculateMetrics(
   predictions: number[],
   actuals: number[],
+  weights?: { coefficients: number[]; intercept: number },
 ): RegressionMetrics {
   const n = predictions.length;
   const yMean = actuals.reduce((sum, y) => sum + y, 0) / n;
@@ -27,5 +28,6 @@ export function calculateMetrics(
     n,
     predictions,
     actuals,
+    weights,
   };
 }

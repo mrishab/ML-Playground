@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import { useTrainingData } from "@/components/training/shared/useTrainingData";
 import { createKMeansTelemetry } from "./kmeansTelemetry";
+import { saveTrainedModel } from "@/lib/models/saveTrainedModel";
 import { trainKMeans } from "./trainKMeans";
 import { useKMeansStore } from "./useKMeansStore";
 
@@ -24,28 +25,21 @@ export function useKMeansPage() {
     setMetrics(null);
     const onStep = createKMeansTelemetry(setTelemetry);
     try {
-      const results = await trainKMeans(
-        rawData,
-        data.featureNames,
-        k,
-        25,
-        onStep,
-      );
+      const results = await trainKMeans(rawData, data.featureNames, k, 25, onStep);
       setMetrics(results);
       setTrainingState("complete");
+      saveTrainedModel({
+        algorithm: "clustering",
+        algorithmName: "K-Means Clustering",
+        hyperparameters: { k, maxIter: 25, initialization: "Random Partition" },
+        metrics: results,
+        k,
+      });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Clustering failed");
       setTrainingState("error");
     }
-  }, [
-    data.xTrain,
-    data.featureNames,
-    k,
-    setTrainingState,
-    setError,
-    setMetrics,
-    setTelemetry,
-  ]);
+  }, [data.xTrain, data.featureNames, k, setTrainingState, setError, setMetrics, setTelemetry]);
 
   return { ...data, ...store, runTraining };
 }

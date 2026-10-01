@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import { useTrainingData } from "@/components/training/shared/useTrainingData";
 import { createTelemetryUpdater } from "@/components/training/shared/createTelemetryUpdater";
+import { saveTrainedModel } from "@/lib/models/saveTrainedModel";
 import { trainLogisticRegression } from "./trainLogisticRegression";
 import { useLogisticRegressionStore } from "./useLogisticRegressionStore";
 
@@ -27,16 +28,15 @@ export function useLogisticRegressionPage() {
       "%",
     );
     try {
-      const results = await trainLogisticRegression(
-        xTrain,
-        yTrain,
-        xTest,
-        yTest,
-        targetColumn,
-        onStep,
-      );
+      const results = await trainLogisticRegression(xTrain, yTrain, xTest, yTest, targetColumn, onStep);
       setMetrics(results);
       setTrainingState("complete");
+      saveTrainedModel({
+        algorithm: "logistic",
+        algorithmName: "Logistic Regression",
+        hyperparameters: { penalty: "L2", optimizer: "Adam", loss: "Softmax Cross-Entropy" },
+        metrics: results,
+      });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Training failed");
       setTrainingState("error");

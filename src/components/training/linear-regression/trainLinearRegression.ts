@@ -32,17 +32,20 @@ export async function trainLinearRegression(
     trainPreds.reduce((acc, p, i) => acc + (yTrainData[i] - p) ** 2, 0) /
     yTrainData.length;
 
+  let coefs: number[] = [];
+  let intercept = 0;
+  try {
+    const c = (model as unknown as { coef?: { arraySync?: () => number[] } }).coef;
+    const arr = c?.arraySync ? c.arraySync() : c;
+    coefs = Array.isArray(arr) ? (arr as number[]).flat() : [];
+    const intc = (model as unknown as { intercept?: number | { arraySync?: () => number[] } }).intercept;
+    const iArr = intc && typeof intc === "object" && intc.arraySync ? intc.arraySync() : intc;
+    intercept = typeof iArr === "number" ? iArr : (Array.isArray(iArr) ? iArr[0] : 0);
+  } catch {}
+
   const predictions = toNumericArray(await model.predict(XTestData));
-  const metrics = calculateMetrics(predictions, yTestData);
+  const metrics = calculateMetrics(predictions, yTestData, { coefficients: coefs, intercept });
 
-  await simulateRegressionSteps(
-    initialTrainMSE,
-    finalTrainMSE,
-    initialValMSE,
-    metrics.mse,
-    30,
-    onStep,
-  );
-
+  await simulateRegressionSteps(initialTrainMSE, finalTrainMSE, initialValMSE, metrics.mse, 30, onStep);
   return metrics;
 }

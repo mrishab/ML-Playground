@@ -16,4 +16,6 @@ export interface PipelineStepListParams {
   isDatasetDirty: boolean;
   isDownstreamStale: boolean;
   defaultTrainRoute: string;
+  hasSavedModels?: boolean;
+  savedModelsCount?: number;
 }
