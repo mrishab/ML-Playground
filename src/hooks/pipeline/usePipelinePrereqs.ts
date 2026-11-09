@@ -16,13 +16,20 @@ export function usePipelinePrereqs() {
   const isSplitReady = Boolean(ml.isSplit && ml.xTrain && ml.xTest);
   const hasTrainedModel =
     ml.problemType === "regression"
-      ? res.linearRegression.metrics !== null
+      ? Boolean(
+          res.linearRegression.metrics ||
+            res.randomForest.regressionMetrics ||
+            res.xgboost.regressionMetrics,
+        )
       : ml.problemType === "clustering"
-        ? res.kmeans.metrics !== null
+        ? Boolean(res.kmeans.metrics || res.isolationForest.metrics)
         : Boolean(
             res.knn.metrics ||
               res.lda.metrics ||
-              res.logisticRegression.metrics,
+              res.logisticRegression.metrics ||
+              res.randomForest.classificationMetrics ||
+              res.xgboost.classificationMetrics ||
+              res.isolationForest.metrics,
           );
 
   const dirty = usePipelineDirtyState(isSplitReady);

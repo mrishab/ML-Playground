@@ -3,6 +3,8 @@ import type {
   LinearRegressionState,
   ClassificationModelState,
   KNNState,
+  EnsembleModelState,
+  IsolationForestState,
   TrainingResultsState,
 } from "./types";
 import type { KMeansState } from "@/types/kmeans";
@@ -37,10 +39,36 @@ export const initialKMeans: KMeansState = {
   metrics: null,
 };
 
+export const initialRandomForest: EnsembleModelState = {
+  ...initialBase,
+  classificationMetrics: null,
+  regressionMetrics: null,
+  nEstimators: 20,
+  maxDepth: 6,
+};
+
+export const initialXGBoost: EnsembleModelState = {
+  ...initialBase,
+  classificationMetrics: null,
+  regressionMetrics: null,
+  nEstimators: 25,
+  maxDepth: 4,
+};
+
+export const initialIsolationForest: IsolationForestState = {
+  ...initialBase,
+  metrics: null,
+  contamination: 0.1,
+  nEstimators: 50,
+};
+
 export const initialTrainingResultsState: TrainingResultsState = {
   linearRegression: initialLinearRegression,
   knn: initialKNN,
   lda: { ...initialClassification },
   logisticRegression: { ...initialClassification },
   kmeans: initialKMeans,
+  randomForest: initialRandomForest,
+  xgboost: initialXGBoost,
+  isolationForest: initialIsolationForest,
 };

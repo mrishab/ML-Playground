@@ -1,0 +1,17 @@
+export const REDIRECTS = [
+  { path: "pretrain", to: "/pretrain/explore" },
+  { path: "pretrain/visualize", to: "/analyze" },
+  { path: "pretrain/analyze", to: "/analyze" },
+  { path: "visualize", to: "/analyze" },
+  { path: "validation", to: "/data/select" },
+  { path: "comparison", to: "/train/linear" },
+  { path: "comparison/classification", to: "/train/knn" },
+  { path: "comparison/regression", to: "/train/linear" },
+  { path: "comparison/clustering", to: "/train/clustering" },
+  { path: "reinforcement-learning", to: "/rl" },
+  { path: "models/manage", to: "/models" },
+  { path: "manage-models", to: "/models" },
+  { path: "datasets", to: "/data/manage" },
+  { path: "datasets/manage", to: "/data/manage" },
+  { path: "manage-datasets", to: "/data/manage" },
+] as const;

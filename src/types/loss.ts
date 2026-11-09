@@ -1,4 +1,8 @@
-export type AlgorithmKind = "regression" | "classification" | "clustering";
+export type AlgorithmKind =
+  | "regression"
+  | "classification"
+  | "clustering"
+  | "anomaly";
 
 export type LossPoint = {
   step: number;

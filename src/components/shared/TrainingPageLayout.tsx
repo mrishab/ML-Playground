@@ -7,6 +7,7 @@ import { TrainingIdleCard } from "./training-layout/TrainingIdleCard";
 import { TrainingErrorCard } from "./training-layout/TrainingErrorCard";
 import { deriveTrainingAction } from "./training-layout/action";
 import { TrainingLossCard } from "@/components/training/loss-plot/TrainingLossCard";
+import { AlgorithmNav } from "./training-layout/AlgorithmNav";
 import type { TrainingPageLayoutProps } from "./training-layout/types";
 
 export type { TrainingPageLayoutProps };
@@ -42,6 +43,7 @@ export function TrainingPageLayout(props: TrainingPageLayoutProps) {
       subtitle={props.subtitle}
       primaryAction={action}
     >
+      <AlgorithmNav />
       <TrainingStaleBanner
         isStale={isDownstreamStale}
         hasMetrics={Boolean(props.metrics)}

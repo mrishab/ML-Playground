@@ -15,7 +15,13 @@ export function saveTrainedModel(opts: BuildModelOptions): SavedModel {
           ? results.lda.lossTelemetry
           : opts.algorithm === "logistic"
             ? results.logisticRegression.lossTelemetry
-            : results.kmeans.lossTelemetry;
+            : opts.algorithm === "clustering"
+              ? results.kmeans.lossTelemetry
+              : opts.algorithm === "random-forest"
+                ? results.randomForest.lossTelemetry
+                : opts.algorithm === "xgboost"
+                  ? results.xgboost.lossTelemetry
+                  : results.isolationForest.lossTelemetry;
 
   if (telemetry && telemetry.history.length > 0) {
     model.lossHistory = telemetry.history;

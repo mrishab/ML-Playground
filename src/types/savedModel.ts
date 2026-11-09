@@ -2,6 +2,7 @@ import type { ProblemType, SelectedFeature } from "@/stores/mlConfig";
 import type { RegressionMetrics } from "./regression";
 import type { ClassificationMetrics } from "./classification";
 import type { KMeansMetrics } from "./kmeans";
+import type { IsolationForestMetrics } from "./isolationForest";
 import type { LossPoint } from "./loss";
 
 export type AlgorithmType =
@@ -9,7 +10,10 @@ export type AlgorithmType =
   | "knn"
   | "lda"
   | "logistic"
-  | "clustering";
+  | "clustering"
+  | "random-forest"
+  | "xgboost"
+  | "isolation-forest";
 
 export type HyperparameterValue = string | number | boolean;
 export type ModelHyperparameters = Record<string, HyperparameterValue>;
@@ -55,6 +59,7 @@ export type SavedModel = {
   regressionMetrics?: RegressionMetrics;
   classificationMetrics?: ClassificationMetrics;
   kmeansMetrics?: KMeansMetrics;
+  isolationForestMetrics?: IsolationForestMetrics;
   featureAnalysis?: FeatureStatSummary[];
   modelArtifacts?: ModelArtifactDetails;
   lossHistory?: LossPoint[];
@@ -65,7 +70,11 @@ export type BuildModelOptions = {
   algorithm: AlgorithmType;
   algorithmName: string;
   hyperparameters: ModelHyperparameters;
-  metrics: RegressionMetrics | ClassificationMetrics | KMeansMetrics;
+  metrics:
+    | RegressionMetrics
+    | ClassificationMetrics
+    | KMeansMetrics
+    | IsolationForestMetrics;
   k?: number;
   customName?: string;
 };

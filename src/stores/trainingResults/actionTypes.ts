@@ -3,6 +3,7 @@ import type { ClassificationMetrics } from "@/types/classification";
 import type { TrainingState } from "@/types/training";
 import type { LossTelemetry } from "@/types/loss";
 import type { KMeansMetrics } from "@/types/kmeans";
+import type { IsolationForestMetrics } from "@/types/isolationForest";
 
 export type TrainingResultsActions = {
   setLinearRegressionState: (state: TrainingState) => void;
@@ -36,6 +37,42 @@ export type TrainingResultsActions = {
   setKMeansK: (k: number) => void;
   setKMeansTelemetry: (telemetry: LossTelemetry | null) => void;
   resetKMeans: () => void;
+
+  setRandomForestState: (state: TrainingState) => void;
+  setRandomForestClassificationMetrics: (
+    metrics: ClassificationMetrics | null,
+  ) => void;
+  setRandomForestRegressionMetrics: (metrics: RegressionMetrics | null) => void;
+  setRandomForestError: (error: string | null) => void;
+  setRandomForestTelemetry: (telemetry: LossTelemetry | null) => void;
+  setRandomForestParams: (params: {
+    nEstimators?: number;
+    maxDepth?: number;
+  }) => void;
+  resetRandomForest: () => void;
+
+  setXGBoostState: (state: TrainingState) => void;
+  setXGBoostClassificationMetrics: (
+    metrics: ClassificationMetrics | null,
+  ) => void;
+  setXGBoostRegressionMetrics: (metrics: RegressionMetrics | null) => void;
+  setXGBoostError: (error: string | null) => void;
+  setXGBoostTelemetry: (telemetry: LossTelemetry | null) => void;
+  setXGBoostParams: (params: {
+    nEstimators?: number;
+    maxDepth?: number;
+  }) => void;
+  resetXGBoost: () => void;
+
+  setIsolationForestState: (state: TrainingState) => void;
+  setIsolationForestMetrics: (metrics: IsolationForestMetrics | null) => void;
+  setIsolationForestError: (error: string | null) => void;
+  setIsolationForestTelemetry: (telemetry: LossTelemetry | null) => void;
+  setIsolationForestParams: (params: {
+    contamination?: number;
+    nEstimators?: number;
+  }) => void;
+  resetIsolationForest: () => void;
 
   resetAll: () => void;
 };

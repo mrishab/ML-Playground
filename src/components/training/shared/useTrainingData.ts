@@ -8,6 +8,7 @@ export function useTrainingData() {
   const yTest = useMLConfigStore((state) => state.yTest);
   const targetColumn = useMLConfigStore((state) => state.targetColumn);
   const isSplit = useMLConfigStore((state) => state.isSplit);
+  const problemType = useMLConfigStore((state) => state.problemType);
 
   const featureNames = useMemo(() => {
     if (!xTrain) return [];
@@ -27,6 +28,7 @@ export function useTrainingData() {
     yTest,
     targetColumn,
     isSplit,
+    problemType,
     featureNames,
     canTrain,
   };

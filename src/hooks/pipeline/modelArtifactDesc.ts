@@ -5,9 +5,34 @@ export function getModelArtifactDesc(
   results: TrainingResultsStore,
   problemType: ProblemType,
 ): string | null {
-  const { linearRegression, knn, lda, logisticRegression } = results;
-  if (problemType === "regression" && linearRegression.metrics) {
-    return `Linear (R²: ${linearRegression.metrics.rSquared.toFixed(2)})`;
+  const {
+    linearRegression,
+    knn,
+    lda,
+    logisticRegression,
+    randomForest,
+    xgboost,
+    isolationForest,
+    kmeans,
+  } = results;
+
+  if (problemType === "regression") {
+    if (linearRegression.metrics) {
+      return `Linear (R²: ${linearRegression.metrics.rSquared.toFixed(2)})`;
+    }
+    if (randomForest.regressionMetrics) {
+      return `RF (R²: ${randomForest.regressionMetrics.rSquared.toFixed(2)})`;
+    }
+    if (xgboost.regressionMetrics) {
+      return `XGB (R²: ${xgboost.regressionMetrics.rSquared.toFixed(2)})`;
+    }
+  }
+
+  if (randomForest.classificationMetrics) {
+    return `RF (${(randomForest.classificationMetrics.accuracy * 100).toFixed(0)}%)`;
+  }
+  if (xgboost.classificationMetrics) {
+    return `XGB (${(xgboost.classificationMetrics.accuracy * 100).toFixed(0)}%)`;
   }
   if (knn.metrics) {
     return `KNN (${(knn.metrics.accuracy * 100).toFixed(0)}%)`;
@@ -18,8 +43,11 @@ export function getModelArtifactDesc(
   if (logisticRegression.metrics) {
     return `Logistic (${(logisticRegression.metrics.accuracy * 100).toFixed(0)}%)`;
   }
-  if (problemType === "clustering" && results.kmeans.metrics) {
-    return `K-Means (k=${results.kmeans.metrics.k})`;
+  if (isolationForest.metrics) {
+    return `IsoForest (${isolationForest.metrics.anomalyCount} anomalies)`;
+  }
+  if (problemType === "clustering" && kmeans.metrics) {
+    return `K-Means (k=${kmeans.metrics.k})`;
   }
   return null;
 }

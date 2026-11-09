@@ -26,4 +26,10 @@ export const COLOR_PALETTES = {
     secondary: "#14b8a6",
     val: "#8b5cf6",
   },
+  anomaly: {
+    primary: "#8b5cf6",
+    fill: "rgba(139, 92, 246, 0.12)",
+    secondary: "#a855f7",
+    val: "#f59e0b",
+  },
 } as const satisfies Record<AlgorithmKind, Palette>;

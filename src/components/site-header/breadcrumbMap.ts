@@ -14,6 +14,10 @@ export const BREADCRUMB_MAP = {
   lda: "LDA",
   logistic: "Logistic Regression",
   clustering: "K-Means Clustering",
+  "random-forest": "Random Forest",
+  xgboost: "XGBoost",
+  "isolation-forest": "Isolation Forest",
+  rl: "Reinforcement Learning",
   models: "Saved Models",
 } as const satisfies Record<string, string>;
 

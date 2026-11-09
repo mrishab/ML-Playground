@@ -9,25 +9,13 @@ import { KNNPage } from "@/components/training/knn/KNNPage";
 import { LDAPage } from "@/components/training/lda/LDAPage";
 import { LogisticRegressionPage } from "@/components/training/logistic-regression/LogisticRegressionPage";
 import { KMeansPage } from "@/components/training/kmeans/KMeansPage";
+import { RandomForestPage } from "@/components/training/random-forest/RandomForestPage";
+import { XGBoostPage } from "@/components/training/xgboost/XGBoostPage";
+import { IsolationForestPage } from "@/components/training/isolation-forest/IsolationForestPage";
+import { RLPage } from "@/components/rl/RLPage";
 import { ModelsPage } from "@/components/models/ModelsPage";
 import { DatasetsPage } from "@/components/datasets/DatasetsPage";
-
-const REDIRECTS = [
-  { path: "pretrain", to: "/pretrain/explore" },
-  { path: "pretrain/visualize", to: "/analyze" },
-  { path: "pretrain/analyze", to: "/analyze" },
-  { path: "visualize", to: "/analyze" },
-  { path: "validation", to: "/data/select" },
-  { path: "comparison", to: "/train/linear" },
-  { path: "comparison/classification", to: "/train/knn" },
-  { path: "comparison/regression", to: "/train/linear" },
-  { path: "comparison/clustering", to: "/train/clustering" },
-  { path: "models/manage", to: "/models" },
-  { path: "manage-models", to: "/models" },
-  { path: "datasets", to: "/data/manage" },
-  { path: "datasets/manage", to: "/data/manage" },
-  { path: "manage-datasets", to: "/data/manage" },
-] as const;
+import { REDIRECTS } from "./routeRedirects";
 
 export function AppRoutes() {
   return (
@@ -44,6 +32,10 @@ export function AppRoutes() {
         <Route path="train/lda" element={<LDAPage />} />
         <Route path="train/logistic" element={<LogisticRegressionPage />} />
         <Route path="train/clustering" element={<KMeansPage />} />
+        <Route path="train/random-forest" element={<RandomForestPage />} />
+        <Route path="train/xgboost" element={<XGBoostPage />} />
+        <Route path="train/isolation-forest" element={<IsolationForestPage />} />
+        <Route path="rl" element={<RLPage />} />
         <Route path="models" element={<ModelsPage />} />
         {REDIRECTS.map(({ path, to }) => (
           <Route key={path} path={path} element={<Navigate to={to} replace />} />
