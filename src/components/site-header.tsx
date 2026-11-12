@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { Bot } from "lucide-react";
 import { Logo } from "@/components/shared/Logo";
 import { Separator } from "@/components/ui/separator";
 import { ThemeToggle } from "@/components/shared/ThemeToggle";
@@ -25,14 +24,6 @@ export function SiteHeader() {
         <Separator orientation="vertical" className="hidden h-4 sm:block" />
         <HeaderBreadcrumbs />
         <div className="ml-auto flex items-center gap-1.5 sm:gap-2 shrink-0">
-          <Link
-            to="/rl"
-            className="flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-md border border-border/70 hover:bg-muted text-muted-foreground hover:text-foreground transition-all duration-150"
-            title="Reinforcement Learning Sandbox"
-          >
-            <Bot className="h-3.5 w-3.5 text-primary" />
-            <span className="hidden sm:inline">RL Sandbox</span>
-          </Link>
           <DatasetStorageStat />
           <ModelStorageStat />
           <AuthorLink />

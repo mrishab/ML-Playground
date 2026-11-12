@@ -12,7 +12,6 @@ import { KMeansPage } from "@/components/training/kmeans/KMeansPage";
 import { RandomForestPage } from "@/components/training/random-forest/RandomForestPage";
 import { XGBoostPage } from "@/components/training/xgboost/XGBoostPage";
 import { IsolationForestPage } from "@/components/training/isolation-forest/IsolationForestPage";
-import { RLPage } from "@/components/rl/RLPage";
 import { ModelsPage } from "@/components/models/ModelsPage";
 import { DatasetsPage } from "@/components/datasets/DatasetsPage";
 import { REDIRECTS } from "./routeRedirects";
@@ -35,7 +34,6 @@ export function AppRoutes() {
         <Route path="train/random-forest" element={<RandomForestPage />} />
         <Route path="train/xgboost" element={<XGBoostPage />} />
         <Route path="train/isolation-forest" element={<IsolationForestPage />} />
-        <Route path="rl" element={<RLPage />} />
         <Route path="models" element={<ModelsPage />} />
         {REDIRECTS.map(({ path, to }) => (
           <Route key={path} path={path} element={<Navigate to={to} replace />} />

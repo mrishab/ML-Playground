@@ -17,7 +17,6 @@ export const BREADCRUMB_MAP = {
   "random-forest": "Random Forest",
   xgboost: "XGBoost",
   "isolation-forest": "Isolation Forest",
-  rl: "Reinforcement Learning",
   models: "Saved Models",
 } as const satisfies Record<string, string>;
 

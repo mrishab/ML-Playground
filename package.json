@@ -7,7 +7,6 @@
     "node": ">=20.17.0 <25"
   },
   "scripts": {
-    "test": "jiti tests/rl.test.ts",
     "dev": "vite",
     "build": "tsc -b && vite build",
     "doctor": "NODE_OPTIONS=\"--experimental-require-module\" react-doctor . -y --verbose",
